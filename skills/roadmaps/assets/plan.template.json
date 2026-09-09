@@ -1,7 +1,14 @@
 {
-  "_comment": "plan.json — roadmap'in tek veri kaynagi. roadmap.md, sunum, gorseller ve kapasite hesabi bundan turer. Iki kitleye birden hitap eder: 'customer_*' alanlari musteriye, digerleri teknik ekibe. 'business_case', 'deadline', 'competitive_analysis' ve 'cost_estimate' opsiyoneldir; girilirse sunumda otomatik birer slayt/gorsel acilir.",
+  "_comment": "plan.json — roadmap'in tek veri kaynagi. roadmap.md, sunum, gorseller ve kapasite hesabi bundan turer. Iki kitleye birden hitap eder: 'customer_*' alanlari musteriye, digerleri teknik ekibe. 'business_case', 'competitive_analysis', 'cost_estimate', 'deadline', 'growth_projection' ve 'slogan' teknik olarak opsiyoneldir ama pitch deck'te varsayilan olarak beklenir — discovery sirasinda aktif olarak arastirilip doldurulmalidir, sadece gercekten imkansizsa atlanir.",
   "project": "Cok kiracili SaaS gecisi",
   "goal": "Kurumsal musterilere ayri kurulum yapmadan satabilmek",
+  "slogan": {
+    "chosen": "Kurumsal musteriler icin: haftalar degil, gunler",
+    "alternatives": [
+      "Bir tik, tum kurumsal musteriler",
+      "Kurulumu bekletmeyen SaaS"
+    ]
+  },
   "business_case": {
     "problem": "Kurumsal musteriler ayri kurulum istiyor; 3 haftalik devreye alma bekleyisi sirasinda adaylarin bir kismi vazgeciyor",
     "opportunity": "Satis pipeline'inda 8 kurumsal aday var, ortalama sozlesme degeri yilda 40.000$",
@@ -37,6 +44,15 @@
     "days_available": 70,
     "driver": "Q3 sonunda imzalanacak ilk kurumsal musteri sozlesmesi",
     "customer_text": "Q3 sonuna kadar ilk kurumsal musteri sorunsuz canlida olmali"
+  },
+  "growth_projection": {
+    "currency": "USD",
+    "milestones": [
+      {"months_after_launch": 3, "customers": 15, "revenue": 45000},
+      {"months_after_launch": 6, "customers": 40, "revenue": 120000},
+      {"months_after_launch": 12, "customers": 90, "revenue": 320000}
+    ],
+    "notes": "Varsayim: pipeline'daki 8 adayin yarisi ilk ceyrekte kapanir, sonraki ceyreklerde referansla buyume hizlanir"
   },
   "cost_estimate": {
     "currency": "USD",

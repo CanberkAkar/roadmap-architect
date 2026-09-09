@@ -69,9 +69,9 @@ Sabit tarih varsa **bugünden o tarihe kaç iş günü kaldığını** say — b
 
 Rakam yoksa tahmin etme — "bilinmiyor" yaz ve bunu bir açık varsayım olarak kaydet. Sahte kesinlik, gerçek belirsizlikten daha kötüdür.
 
-## Rakip analizi ve işletme gideri
+## Rakip analizi ve işletme gideri — varsayılan olarak doldur
 
-Müşteri genelde "neden size, neden şimdi bu parayı vereyim" sorusunu içinden sorar ama nadiren yüksek sesle sorar. İki bölüm bu soruyu önceden cevaplar:
+Müşteri genelde "neden size, neden şimdi bu parayı vereyim" sorusunu içinden sorar ama nadiren yüksek sesle sorar. Aşağıdaki bölümler teknik olarak opsiyonel alanlardır ama pitch deck'te **varsayılan olarak beklenir** — "veri yoksa atlanır" istisnası, "sormaya üşendim" değildir. Discovery'de bunları aktif olarak araştır/tahmin et; sadece gerçekten hiçbir dayanak bulunamıyorsa alanı boş bırak.
 
 **Rakip analizi** — 1-3 benzer çözümü (rakip ürün, mevcut süreç, "hiçbir şey yapmamak" dahil) kısaca değerlendir: neyi iyi yapıyor, neyi yapamıyor. Sonra kendi farkını yaz — iddia değil, somut fark ("2 gün vs 3 hafta", "mevcut kimlik sağlayıcıyla entegre"). Rakibi kötüleme, kendi farkını göster.
 
@@ -95,7 +95,38 @@ Müşteri genelde "neden size, neden şimdi bu parayı vereyim" sorusunu içinde
 }
 ```
 
-`amount` alanlarına tahmin bile olsa somut bir sayı yaz — `plan_capacity.py` bunları toplayıp aylık/yıllık toplamı ve `cost.svg` grafiğini otomatik üretir; elle toplama yapma.
+`amount` alanlarına tahmin bile olsa somut bir sayı yaz — `plan_capacity.py` bunları toplayıp aylık/yıllık toplamı ve `cost.svg` (pasta grafik) görselini otomatik üretir; elle toplama yapma.
+
+## Büyüme projeksiyonu — varsayılan olarak doldur
+
+Hayata geçtikten sonra 3/6/12 ay içinde ne kadar müşteri ve gelire ulaşılacağı, aynı `business_case.opportunity` (pipeline büyüklüğü) ve `cost_estimate` (reklam/satış gideri) rakamlarından türetilir — kafadan atma, dayandığın varsayımı `notes`'a yaz. Rakamlar **birikmiş (cumulative)** toplamdır: "6. ayda toplam 40 müşteri", o ay içinde kazanılan değil.
+
+```json
+"growth_projection": {
+  "currency": "USD",
+  "milestones": [
+    {"months_after_launch": 3, "customers": <sayı>, "revenue": <sayı>},
+    {"months_after_launch": 6, "customers": <sayı>, "revenue": <sayı>},
+    {"months_after_launch": 12, "customers": <sayı>, "revenue": <sayı>}
+  ],
+  "notes": "<varsayım — nereden geldi bu sayılar>"
+}
+```
+
+`plan_capacity.py` dönemler arası net artışı (`customers_added`, `revenue_added`) otomatik hesaplar; `render_visuals.py` bunu `growth.svg` (iki panelli sütun grafik) olarak çizer.
+
+## Slogan — birkaç öneriyle gel
+
+Kapak slaydı için kısa, cesur bir slogan gerekir — "ne yaptığımız" değil, "ne değiştiği" hissini versin. Her zaman **birden fazla öneri** üret (en az 2-3), birini `chosen` olarak seç, kalanını `alternatives`'ta bırak; müşteri/ekip başka birini tercih edebilir.
+
+```json
+"slogan": {
+  "chosen": "<seçilen, kapak slaydında görünen>",
+  "alternatives": ["<öneri 2>", "<öneri 3>"]
+}
+```
+
+İyi bir slogan somut bir farkı ya da sonucu ima eder ("Haftalar değil, günler"), soyut bir vaat değil ("En iyi çözüm").
 
 ## Kapsam dışını da yaz
 
@@ -125,6 +156,13 @@ Roadmap'in en çok tartışma çıkaran kısmı içine alınanlar değil, alınm
 
 ## İşletme gideri (aylık)
 - <kalem> → <tahmini tutar> | <varsayım>
+
+## Büyüme projeksiyonu (birikmiş)
+- 3. ay: <müşteri> müşteri, <gelir> | 6. ay: <...> | 12. ay: <...>
+
+## Slogan
+- Seçilen: <...>
+- Alternatifler: <...>, <...>
 
 ## Kısıtlar
 - <kısıt> → roadmap'e etkisi: <...>

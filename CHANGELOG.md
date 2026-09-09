@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.6.0
+
+- **Rakip analizi ve işletme gideri artık varsayılan olarak beklenir** — teknik olarak
+  hâlâ opsiyonel alanlardır ama discovery sırasında aktif olarak araştırılıp
+  doldurulmaları beklenir; sadece gerçekten imkansızsa atlanır.
+- **Büyüme projeksiyonu (`growth_projection`)** — yeni alan: hayata geçtikten sonra
+  3/6/12 ayda birikmiş müşteri sayısı ve gelir. `plan_capacity.py` dönemler arası net
+  artışı hesaplar; `render_visuals.py` bunu `growth.svg` (çift panelli **sütun grafik**)
+  olarak çizer. Yeni "Büyüme projeksiyonu" slaydı, `cost_estimate`'ten sonra.
+- **Slogan (`slogan`)** — yeni alan: kapak slaydı için seçilen slogan + alternatif
+  öneriler. Kapak slaydında proje adının altında öne çıkan bir başlık olarak gösterilir;
+  alternatifler `roadmap.md`'de referans olarak durur.
+- **`cost.svg` pasta (donut) grafiğe çevrildi** — eskiden yatay çubuklardı, artık
+  kalemlerin yüzdesel dağılımını merkezde toplam tutarla birlikte gösteren bir donut.
+- **Tasarım sadeleştirmesi** — `journey.svg`, `riskmatrix.svg`, `deadline.svg`
+  içindeki başlıklar Marp slaytının kendi başlığıyla çakıştığı için kaldırıldı, o alan
+  grafiğe verildi (daha büyük, daha net görseller). İçerik slaytlarına köşe aksanı
+  eklendi (boş alanı dolduran hafif dairesel vurgu). KPI kartları ve callout'lar
+  büyütüldü, ince gölge eklendi.
+- Risk slaydındaki görsel+callout kombinasyonunun taşma yaptığı düzeltildi — callout
+  kaldırıldı (grafik zaten her risk için azaltma bilgisini taşıyor), risk matrisi
+  daraltıldı.
+- `references/discovery.md`, `references/deck.md`, `references/audience.md`,
+  `SKILL.md`, `README.md` yeni alanlara ve varsayılan bekleme kuralına göre güncellendi.
+
 ## 0.5.0
 
 - **Deck felsefesi değişti: toplantı dokümanından pitch'e.** Müşteriye/yatırımcıya sunulan

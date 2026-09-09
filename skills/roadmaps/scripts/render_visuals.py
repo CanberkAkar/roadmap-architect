@@ -10,8 +10,11 @@ Uretilenler (docs/assets/ altina):
   capacity.svg   Faz bazinda paralellik ve onerilen agent sayisi
   deadline.svg   Teslim guvenilirligi (kritik yol vs deadline) — plan.json'da
                  "deadline" alani varsa uretilir, yoksa atlanir
-  cost.svg       Isletme gideri dokumu (aylik) — plan.json'da "cost_estimate"
-                 alani varsa uretilir, yoksa atlanir
+  cost.svg       Isletme gideri dokumu, pasta (donut) grafik — plan.json'da
+                 "cost_estimate" alani varsa uretilir, yoksa atlanir
+  growth.svg     Hayata gectikten sonra 3/6/12 aylik birikmis musteri ve gelir,
+                 sutun grafik — plan.json'da "growth_projection" alani varsa
+                 uretilir, yoksa atlanir
 
 Kullanim:
     python3 render_visuals.py plan.json --out docs/assets
@@ -134,10 +137,9 @@ def render_journey(plan, result, out_dir):
     pad, gap = 20, 18
     arrow = 22
     bw = (W - 2 * pad - (n - 1) * (gap + arrow)) / n
-    top, bh = 54, 278
+    top, bh = 28, 304
 
     s = [svg_open(W, H, "Faz yolculuğu")]
-    s.append(text_el(pad, 30, "Ürün hangi aşamalardan geçiyor", 17, "700"))
 
     by_phase = {p["phase"]: p for p in result["phases"]}
 
@@ -406,17 +408,15 @@ def collect_risks(plan, items):
 
 def render_riskmatrix(plan, items, out_dir):
     risks = collect_risks(plan, items)
-    W, H = 1240, 520
+    W, H = 1240, 460
     pad = 20
     cell = 116
-    ox, oy = pad + 92, 78
+    ox, oy = pad + 92, 58
 
     s = [svg_open(W, H, "Risk matrisi")]
-    s.append(text_el(pad, 26, "Neyin ters gidebileceği ve ne zaman anlarız",
-                     17, "700"))
-    s.append(text_el(pad, 47, "Sağ üstteki riskler bilerek en başa alındı — "
-                              "erken öğrenmek geç öğrenmekten ucuzdur",
-                     11.5, "400", MUTED))
+    s.append(text_el(pad, 26, "Etki × olasılık — sağ üstteki riskler bilerek en "
+                              "başa alındı, her birinin bir azaltma planı var",
+                     12.5, "600", MUTED))
 
     tint = [["#f1f6f2", "#fbf6ec", "#fbeeec"],
             ["#fbf6ec", "#fbeeec", "#f7e0dd"],
@@ -465,7 +465,7 @@ def render_riskmatrix(plan, items, out_dir):
                              "#ffffff", anchor="middle"))
 
     lx = ox + 3 * cell + 34
-    s.append(text_el(lx, oy + 4, "Ne zaman öğreniriz", 11.5, "700", MUTED))
+    s.append(text_el(lx, oy + 4, "Nasıl yönetiyoruz", 11.5, "700", MUTED))
     ly = oy + 26
     for r in risks[:7]:
         col = CRIT if r["impact"] == 2 else WARN if r["impact"] == 1 else OK
@@ -473,9 +473,12 @@ def render_riskmatrix(plan, items, out_dir):
         s.append(text_el(lx + 9, ly - 0.5, r["id"], 9, "700", "#ffffff",
                          anchor="middle"))
         s.append(text_el(lx + 26, ly, clip(r["text"], 62), 12, "600"))
-        detail = " · ".join(x for x in [r.get("when"), r.get("mitigation")] if x)
-        if detail:
-            s.append(text_el(lx + 26, ly + 15, clip(detail, 76), 10.5,
+        if r.get("mitigation"):
+            s.append(text_el(lx + 26, ly + 15,
+                             clip("Azaltma: " + r["mitigation"], 74), 10.5,
+                             "600", OK))
+        elif r.get("when"):
+            s.append(text_el(lx + 26, ly + 15, clip(r["when"], 76), 10.5,
                              "400", MUTED))
         if r.get("decision"):
             s.append(text_el(lx + 26, ly + 30, "→ " + clip(r["decision"], 72),
@@ -557,15 +560,14 @@ def render_deadline(result, out_dir):
     if not d:
         return None
 
-    W, H = 1240, 190
+    W, H = 1240, 170
     pad = 24
-    bar_x, bar_y, bar_w, bar_h = pad, 92, W - pad * 2, 30
+    bar_x, bar_y, bar_w, bar_h = pad, 68, W - pad * 2, 34
 
     s = [svg_open(W, H, "Teslim güvenilirliği")]
-    s.append(text_el(pad, 28, "Teslim güvenilirliği", 17, "700"))
-    s.append(text_el(pad, 49,
-                     "Kritik yolun elinizdeki süreye sığıp sığmadığını gösterir. "
-                     "Tampon büyüdükçe gecikme riski düşer.", 11.5, "400", MUTED))
+    s.append(text_el(pad, 28,
+                     "Kritik yolun elinizdeki süreye sığıp sığmadığını gösterir — "
+                     "tampon büyüdükçe gecikme riski düşer.", 12.5, "600", MUTED))
 
     color = DEADLINE_STATUS_COLOR[d["status"]]
     total = max(d["days_available"], d["critical_path_days"], 1)
@@ -597,8 +599,28 @@ def render_deadline(result, out_dir):
     return write(out_dir, "deadline.svg", "".join(s))
 
 
+PIE_COLORS = [ACCENT, OK, WARN, "#8b5cf6", "#0e7490", "#be185d", "#65a30d"]
+
+
+def _polar(cx, cy, r, angle_deg):
+    rad = math.radians(angle_deg - 90)
+    return cx + r * math.cos(rad), cy + r * math.sin(rad)
+
+
+def _donut_slice(cx, cy, r_out, r_in, start, end):
+    x1o, y1o = _polar(cx, cy, r_out, start)
+    x2o, y2o = _polar(cx, cy, r_out, end)
+    x1i, y1i = _polar(cx, cy, r_in, end)
+    x2i, y2i = _polar(cx, cy, r_in, start)
+    large = 1 if (end - start) > 180 else 0
+    return (f'M {x1o:.2f} {y1o:.2f} '
+            f'A {r_out:.2f} {r_out:.2f} 0 {large} 1 {x2o:.2f} {y2o:.2f} '
+            f'L {x1i:.2f} {y1i:.2f} '
+            f'A {r_in:.2f} {r_in:.2f} 0 {large} 0 {x2i:.2f} {y2i:.2f} Z')
+
+
 def render_cost(result, out_dir):
-    """Aylik isletme giderinin kalem kalem cubuk grafigi.
+    """Aylik isletme giderinin kalem dagilimini pasta (donut) grafik olarak cizer.
 
     result['cost'] yoksa (plan.json'da 'cost_estimate' alani girilmemis)
     hicbir dosya yazmadan None doner — bu gorsel opsiyoneldir.
@@ -607,42 +629,116 @@ def render_cost(result, out_dir):
     if not c:
         return None
 
-    items = c["recurring_items"]
     cur = c["currency"]
-    W = 1240
-    pad = 24
-    label_w = 300
-    bar_x = pad + label_w
-    bar_w = W - bar_x - 200
-    H = 100 + max(len(items), 1) * 46 + 40
+    items = [it for it in c["recurring_items"]
+             if float(it.get("amount", 0) or 0) > 0]
+    W, H = 1240, 420
 
-    s = [svg_open(W, H, "İşletme gideri")]
-    s.append(text_el(pad, 28, "İşletme gideri (aylık)", 17, "700"))
     header = f"Aylık toplam: {c['monthly_total']:g} {cur}"
     if c["one_time_total"]:
         header += f" · Kurulum (tek seferlik): {c['one_time_total']:g} {cur}"
-    s.append(text_el(pad, 49, header, 12, "600", MUTED))
 
-    peak = max([float(i.get("amount", 0) or 0) for i in items] + [1])
-    y = 78
-    for it in items:
+    s = [svg_open(W, H, "İşletme gideri")]
+    s.append(text_el(24, 28, header, 13, "600", MUTED))
+
+    if not items:
+        s.append(text_el(W / 2, H / 2, "Aylık tekrarlayan gider yok",
+                         16, "700", MUTED, anchor="middle"))
+        return write(out_dir, "cost.svg", "".join(s))
+
+    cx, cy, r_out, r_in = 230, 240, 148, 90
+    total = sum(float(it.get("amount", 0) or 0) for it in items)
+
+    angle = 0.0
+    colors = []
+    for i, it in enumerate(items):
         amt = float(it.get("amount", 0) or 0)
-        s.append(text_el(pad, y + 15, clip(it.get("item", ""), 38), 12.5, "700"))
-        if it.get("note"):
-            s.append(text_el(pad, y + 31, clip(it["note"], 52), 10.5, "400", MUTED))
+        sweep = (amt / total * 360) if total else 0
+        color = PIE_COLORS[i % len(PIE_COLORS)]
+        colors.append(color)
+        if sweep >= 359.98:
+            s.append(f'<circle cx="{cx}" cy="{cy}" r="{(r_out + r_in) / 2:.1f}" '
+                     f'fill="none" stroke="{color}" stroke-width="{r_out - r_in}"/>')
+        else:
+            s.append(f'<path d="{_donut_slice(cx, cy, r_out, r_in, angle, angle + sweep)}" '
+                     f'fill="{color}"/>')
+        angle += sweep
 
-        s.append(f'<rect x="{bar_x}" y="{y + 2}" width="{bar_w}" height="18" '
-                 f'rx="9" fill="{BG_SOFT}"/>')
-        w = bar_w * amt / peak
-        s.append(f'<rect x="{bar_x}" y="{y + 2}" width="{w:.1f}" height="18" '
-                 f'rx="9" fill="{ACCENT}"/>')
-        s.append(text_el(bar_x + bar_w + 12, y + 16, f"{amt:g} {cur}/ay", 12, "700", ACCENT))
-        y += 46
+    s.append(text_el(cx, cy - 4, f"{c['monthly_total']:g}", 32, "700", INK, anchor="middle"))
+    s.append(text_el(cx, cy + 22, f"{cur}/ay", 13, "600", MUTED, anchor="middle"))
+
+    lx, ly = 470, 84
+    for i, it in enumerate(items):
+        amt = float(it.get("amount", 0) or 0)
+        pct = round(amt / total * 100) if total else 0
+        color = colors[i]
+        s.append(f'<rect x="{lx}" y="{ly - 15}" width="16" height="16" rx="4" fill="{color}"/>')
+        s.append(text_el(lx + 26, ly - 2, clip(it.get("item", ""), 34), 14.5, "700"))
+        if it.get("note"):
+            s.append(text_el(lx + 26, ly + 16, clip(it["note"], 58), 10.5, "400", MUTED))
+        s.append(text_el(W - 24, ly - 2, f"{amt:g} {cur}/ay · %{pct}",
+                         13.5, "700", color, anchor="end"))
+        ly += 60
 
     if c.get("notes"):
-        s.append(text_el(pad, H - 14, clip(c["notes"], 130), 11, "400", MUTED))
+        s.append(text_el(24, H - 14, clip(c["notes"], 140), 11, "400", MUTED))
 
     return write(out_dir, "cost.svg", "".join(s))
+
+
+def render_growth(result, out_dir):
+    """Hayata gectikten sonra birikmis musteri ve gelir buyumesini iki panelde,
+    sutun (dikey cubuk) grafik olarak cizer.
+
+    result['growth'] yoksa (plan.json'da 'growth_projection' alani girilmemis)
+    hicbir dosya yazmadan None doner — bu gorsel opsiyoneldir.
+    """
+    g = result.get("growth")
+    if not g:
+        return None
+
+    ms = g["milestones"]
+    cur = g["currency"]
+    W, H = 1240, 430
+    pad = 24
+    panel_w = (W - pad * 3) / 2
+    chart_h = 230
+    base_y = 100 + chart_h
+
+    s = [svg_open(W, H, "Büyüme projeksiyonu")]
+    s.append(text_el(pad, 28,
+                     "Hayata geçtikten sonra birikmiş müşteri sayısı ve gelir",
+                     13, "600", MUTED))
+
+    def panel(x0, title, values, suffix, color):
+        peak = max(values + [1])
+        bw = 76
+        n = max(len(values), 1)
+        slot = panel_w / n
+        s.append(text_el(x0, 62, title, 15, "700"))
+        s.append(f'<line x1="{x0}" y1="{base_y}" x2="{x0 + panel_w:.1f}" '
+                 f'y2="{base_y}" stroke="{LINE}"/>')
+        for i, (m, v) in enumerate(zip(ms, values)):
+            bx = x0 + slot * i + (slot - bw) / 2
+            bh = chart_h * (v / peak) if peak else 0
+            by = base_y - bh
+            s.append(f'<rect x="{bx:.1f}" y="{by:.1f}" width="{bw}" height="{bh:.1f}" '
+                     f'rx="8" fill="{color}"/>')
+            s.append(text_el(bx + bw / 2, by - 12, f"{v:g}{suffix}", 13.5, "700",
+                             color, anchor="middle"))
+            s.append(text_el(bx + bw / 2, base_y + 24,
+                             f"{m['months_after_launch']:g}. ay", 12, "600",
+                             MUTED, anchor="middle"))
+
+    panel(pad, "Müşteri sayısı (birikmiş)",
+          [m["customers"] for m in ms], "", ACCENT)
+    panel(pad * 2 + panel_w, f"Gelir (birikmiş, {cur})",
+          [m["revenue"] for m in ms], "", OK)
+
+    if g.get("notes"):
+        s.append(text_el(pad, H - 14, clip(g["notes"], 140), 11, "400", MUTED))
+
+    return write(out_dir, "growth.svg", "".join(s))
 
 
 # --------------------------------------------------------------------------
@@ -683,6 +779,7 @@ def main():
         render_capacity(result, args.out),
         render_deadline(result, args.out),
         render_cost(result, args.out),
+        render_growth(result, args.out),
     ]
     for p in made:
         if p:

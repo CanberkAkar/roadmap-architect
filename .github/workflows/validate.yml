@@ -52,7 +52,7 @@ jobs:
             python3 skills/roadmaps/scripts/render_visuals.py \
               skills/roadmaps/assets/plan.template.json --out /tmp/vis-$a --audience $a
           done
-          test $(ls /tmp/vis-customer/*.svg | wc -l) -eq 7
+          test $(ls /tmp/vis-customer/*.svg | wc -l) -eq 8
 
       - name: Bozuk plan reddediliyor mu
         run: |

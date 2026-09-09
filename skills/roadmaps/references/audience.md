@@ -99,25 +99,28 @@ Bu, "daha fazla kaynak verin" pazarlığını "şu darboğazı birlikte kaldıra
 
 Pitch bu sırayla ilerlemeli — bir argüman kurar, karar istemeden ikna eder (`references/deck.md`):
 
-1. **Hedef ve başarı kriteri** → aynı şeyi mi konuşuyoruz?
+1. **Hedef ve başarı kriteri** (kapakta slogan) → aynı şeyi mi konuşuyoruz?
 2. **Fırsat** (varsa) → bu neden şimdi, büyüklüğü ne
 3. **Neden biz** (varsa) → alternatiflere karşı somut fark
 4. **Çözüm yol haritası** → müşteri ne zaman ne alıyor
 5. **Yatırım ve getiri** (varsa) → maliyet ve beklenen getiri yan yana, şeffaf
-6. **Riskler ve yönetimi** → ne biliniyor, nasıl kontrol ediliyor — endişe değil güven
-7. **Teslim güvenilirliği** (varsa) → bu tarihe yetişir mi, tampon ne kadar
-8. **Sonraki adım** → vizyonu tekrar bağla, kapanış
+6. **Büyüme projeksiyonu** (varsa) → 3/6/12 ayda iş ne kadar büyüyor
+7. **Riskler ve yönetimi** → ne biliniyor, nasıl kontrol ediliyor — endişe değil güven
+8. **Teslim güvenilirliği** (varsa) → bu tarihe yetişir mi, tampon ne kadar
+9. **Sonraki adım** → vizyonu ve sloganı tekrar bağla, kapanış
 
 Kapanışta karar/onay listesi yok — bu bir onay toplama seansı değil, bir ikna anıdır. Soru ve itirazlar doğal olarak gelir; cevapları `roadmap.md`'dedir, ayrı bir slaytları yoktur.
 
-## Fırsat ve teslim güvenilirliği dili
+## Fırsat, getiri ve teslim güvenilirliği dili
 
-`business_case`, `competitive_analysis`, `deadline` ve `cost_estimate`, `plan.json`'a girildiğinde otomatik birer slayt/görsel açar — girilmezse o slaytlar sessizce atlanır, boş bırakılmaz.
+`business_case`, `competitive_analysis`, `cost_estimate`, `growth_projection` ve `deadline`, `plan.json`'a girildiğinde otomatik birer slayt/görsel açar — girilmezse o slaytlar sessizce atlanır, boş bırakılmaz. Bunlar teknik olarak opsiyonel ama pitch'te varsayılan olarak beklenir (`references/discovery.md`).
 
 - **Fırsat** slaydı zaten müşterinin kendi işiyle ilgili olduğu için ayrıca "müşteri diline çevrilmez" — doğrudan onun terimleriyle yazılır (gelir, aday sayısı, pazar). Rakam yoksa slayttan o kartı çıkar; "bilinmiyor" yazma, icat etme.
 - **Teslim güvenilirliği** için "tampon" kelimesini bir kez tanımla: **"kritik yol bittiğinde elinizde kalan boş gün — büyüdükçe gecikme riski düşer"**. Durumu üç kelimeden fazla açıklama: Rahat / Sıkışık / Riskli. "Riskli" çıkarsa hemen ardından seçenek sun (kapsamı daralt / tarihi ertele / kaynak ekle) — sadece "riskli" deyip bırakmak güven kırar.
 - **Neden biz** slaydında rakibi kötüleme, iddiadan uzak dur. "En iyisi biziz" değil, ölçülebilir fark: "2 gün vs 3 hafta", "ekstra lisans yok". Fark yazamıyorsan slaydı sil, icat etme.
 - **Yatırım ve getiri** rakamlarını tahmin olarak sun ama sayı ver — "değişken" veya "duruma göre" gibi kaçamak ifadeler güven kırar. Tahminin dayandığı varsayımı yaz (kaç kullanıcı, hangi bulut sağlayıcı): rakam değişirse müşteri nedenini görsün.
+- **Büyüme projeksiyonu** birikmiş (cumulative) rakamlardır, dönemlik değil — "12. ayda 90 müşteri" demek "12 ay içinde toplam 90 müşteri kazandık" demektir, "12. ayda 90 yeni müşteri" değil. İkisini karıştırma, dinleyici anlık hızla toplamı ayırt edemez.
+- **Slogan** somut bir sonucu ima etsin, soyut bir vaat değil. "En iyi çözüm" değil, "haftalar değil, günler". Her zaman birden fazla öneriyle gel; seçilen tek slogan kapak slaydında görünür, diğerleri `roadmap.md`'de referans olarak durur.
 
 ## Revizyonda ortak dil
 

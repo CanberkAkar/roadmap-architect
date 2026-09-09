@@ -4,6 +4,9 @@
 > Kaynak veri: `plan.json` · Son güncelleme: {{tarih}} · Durum: {{Taslak / Onaylandı / Yürürlükte}}
 > Müşteri sunumu: `docs/roadmap-deck.pdf` — aynı `plan.json`'dan üretilir, elle düzenlenmez.
 
+<!-- slogan plan.json'da doluysa bu satır kalır, degilse tamamen sil -->
+**Slogan:** {{slogan.chosen}} — alternatifler: {{slogan.alternatives, virgülle}}
+
 ## Hedef
 
 {{Tek cümlelik business hedefi.}}
@@ -40,6 +43,17 @@
 
 **Aylık toplam:** {{730}} {{USD}} · **Yıllık toplam:** {{8.760}} {{USD}}
 {{Tek seferlik kurulum maliyeti varsa buraya bir satır ekle}}
+
+<!-- growth_projection plan.json'da doluysa bu bölüm kalır, degilse tamamen sil -->
+## Büyüme projeksiyonu (hayata geçtikten sonra, birikmiş)
+
+| Ay | Müşteri | Yeni müşteri | Gelir | Yeni gelir |
+|---|---|---|---|---|
+| {{3}} | {{15}} | {{+15}} | {{45.000}} {{USD}} | {{+45.000}} |
+| {{6}} | {{40}} | {{+25}} | {{120.000}} {{USD}} | {{+75.000}} |
+| {{12}} | {{90}} | {{+50}} | {{320.000}} {{USD}} | {{+200.000}} |
+
+**Varsayım:** {{growth_projection.notes}}
 
 ## Kısıtlar
 

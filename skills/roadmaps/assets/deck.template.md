@@ -13,7 +13,9 @@ footer: '{{Proje adı}} · {{tarih}}'
 
 # {{Proje adı}}
 
-## {{Müşterinin diliyle tek cümlelik hedef}}
+## {{Slogan — slogan.chosen, cesur ve kısa}}
+
+<span class="muted">{{Müşterinin diliyle tek cümlelik hedef}}</span>
 
 <span class="muted">{{tarih}} · sürüm {{n}}</span>
 
@@ -98,14 +100,19 @@ footer: '{{Proje adı}} · {{tarih}}'
 ---
 
 <!-- _class: visual -->
+<!-- growth_projection doluysa bu slayt kalır, degilse tamamen sil -->
+
+## Büyüme projeksiyonu
+
+![](assets/growth.svg)
+
+---
+
+<!-- _class: visual -->
 
 ## Riskler ve yönetimi
 
 ![](assets/riskmatrix.svg)
-
-<div class="callout">
-{{En kritik riski ve onu nasıl azalttığımızı tek cümlede özetle — kontrol altında olduğu net olsun}}
-</div>
 
 ---
 

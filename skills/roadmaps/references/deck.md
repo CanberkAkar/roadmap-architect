@@ -32,14 +32,17 @@ npx --yes @marp-team/marp-cli@latest docs/roadmap-deck.md \
 
 `render_visuals.py` `plan.json`'dan üretir. Elle çizme, elle düzenleme — plan değişince yeniden üretilebilir kalmalı. Deck'e giren görseller sadece şunlardır — `timeline.svg`, `depgraph.svg` ve `capacity.svg` de üretilir ama bunlar yürütme/kapasite detayıdır, pitch'e değil `roadmap.md`'ye ve ekip içi çalışmaya hizmet eder, deck'te kullanılmaz:
 
-| Dosya | Ne anlatır | Hangi soruya cevap |
-|---|---|---|
-| `journey.svg` | Faz yolculuğu, her aşamanın müşteri çıktısı ve kanıtı | "Ne zaman ne alıyorum?" |
-| `riskmatrix.svg` | Etki × olasılık, azaltma planıyla | "Riskleri nasıl yönetiyorsunuz?" |
-| `deadline.svg` | Kritik yol vs elinizdeki süre, tampon | "Bu tarihe yetişir mi?" |
-| `cost.svg` | Aylık işletme gideri, kalem kalem | "Yatırım ve işletme maliyeti ne?" |
+| Dosya | Grafik türü | Ne anlatır | Hangi soruya cevap |
+|---|---|---|---|
+| `journey.svg` | Kart dizisi | Faz yolculuğu, her aşamanın müşteri çıktısı ve kanıtı | "Ne zaman ne alıyorum?" |
+| `riskmatrix.svg` | Matris + liste | Etki × olasılık, azaltma planıyla | "Riskleri nasıl yönetiyorsunuz?" |
+| `deadline.svg` | Gauge (tek çubuk) | Kritik yol vs elinizdeki süre, tampon | "Bu tarihe yetişir mi?" |
+| `cost.svg` | **Pasta (donut)** | Aylık işletme gideri, kalem kalem, yüzde | "Yatırım ve işletme maliyeti ne?" |
+| `growth.svg` | **Sütun (çift panel)** | Hayata geçtikten sonra 3/6/12 ay birikmiş müşteri ve gelir | "Bu iş büyür mü, ne kadar?" |
 
-`deadline.svg` yalnızca `plan.json`'da `deadline.days_available`, `cost.svg` yalnızca `cost_estimate.recurring_monthly` doluysa üretilir; yoksa sessizce atlanır ve deck'teki karşılık gelen slayt tamamen silinir.
+Grafik türleri kasıtlı olarak çeşitli tutulur (kart, matris, gauge, pasta, sütun) — art arda aynı çubuk grafiği tekrarlamak sunumu monoton gösterir.
+
+`deadline.svg` yalnızca `deadline.days_available`, `cost.svg` yalnızca `cost_estimate.recurring_monthly`, `growth.svg` yalnızca `growth_projection.milestones` doluysa üretilir; yoksa sessizce atlanır ve deck'teki karşılık gelen slayt tamamen silinir. Bu üçü ve `competitive_analysis` teknik olarak opsiyoneldir ama **varsayılan olarak beklenir** — discovery'de aktif olarak doldurulmalı, sadece gerçekten imkansızsa atlanır (`references/discovery.md`).
 
 `--audience delivery` ile teknik adları kullanan ikinci bir set üretilir; ekip içi çalışma için (timeline/depgraph/capacity dahil tüm görseller).
 
@@ -47,22 +50,23 @@ Görsellerin okunabilirliği `plan.json`'daki metin uzunluklarına bağlı. Faz 
 
 ## Slayt yapısı
 
-Ölçeğe göre 8–13 slayt. Sıra bir argüman kurar — fırsat, çözüm, güven, kapanış:
+Ölçeğe göre 9–14 slayt. Sıra bir argüman kurar — fırsat, çözüm, getiri, güven, kapanış:
 
 | # | Slayt | Neden burada |
 |---|---|---|
-| 1 | Kapak + tek cümlelik hedef | Aynı şeyi mi konuşuyoruz |
+| 1 | Kapak — proje adı, **slogan**, tek cümlelik hedef | Aynı şeyi mi konuşuyoruz, akılda kalıcı aç |
 | 2 | Neden bu proje (metrik kartları) | Problemi rakamla sabitle |
 | 2b | **Fırsat** (`business_case` varsa) | Fırsatın büyüklüğünü ve zamanlamasını rakamla göster |
 | 2c | **Neden biz** (`competitive_analysis` varsa) | Alternatiflere karşı somut farkı göster |
 | 3 | Çözüm yol haritası (`journey.svg`) | Müşteri ne zaman ne alıyor |
 | 4..n | Faz detayları, faz başına bir slayt | Somutlaştır, güven ver |
 | n+1 | **Yatırım ve getiri** (`cost.svg`, `cost_estimate` varsa) | Maliyeti şeffaf koy, beklenen getiriyle yan yana göster |
-| n+2 | Riskler ve yönetimi (`riskmatrix.svg`) | Riskleri gizlemeden, kontrol altında olduğunu göster |
-| n+3 | **Teslim güvenilirliği** (`deadline.svg`, `deadline` varsa) | Bu tarihe yetişir mi, tamponu ne kadar |
-| n+4 | Sonraki adım | Kapanış — vizyonu tekrar bağla |
+| n+2 | **Büyüme projeksiyonu** (`growth.svg`, `growth_projection` varsa) | 3/6/12 ayda iş ne kadar büyüyor |
+| n+3 | Riskler ve yönetimi (`riskmatrix.svg`) | Riskleri gizlemeden, kontrol altında olduğunu göster |
+| n+4 | **Teslim güvenilirliği** (`deadline.svg`, `deadline` varsa) | Bu tarihe yetişir mi, tamponu ne kadar |
+| n+5 | Sonraki adım | Kapanış — vizyonu ve sloganı tekrar bağla |
 
-1, 2, 3, n+2 ve son slayt zorunlu. 2b, 2c, n+1 ve n+3 opsiyonel — sırasıyla `plan.json`'da `business_case`, `competitive_analysis`, `cost_estimate` ve `deadline` alanları doluysa eklenir, boşsa slayt tamamen silinir (yarım doldurulmuş slayt göstermek boş slayttan kötüdür).
+1, 2, 3, n+3 ve son slayt zorunlu. 2b, 2c, n+1, n+2 ve n+4 opsiyonel — sırasıyla `plan.json`'da `business_case`, `competitive_analysis`, `cost_estimate`, `growth_projection` ve `deadline` alanları doluysa eklenir, boşsa slayt tamamen silinir (yarım doldurulmuş slayt göstermek boş slayttan kötüdür). Ama bu dördü **varsayılan olarak doldurulması beklenen** alanlardır — "opsiyonel" demek "atla" demek değildir, discovery'de aktif olarak araştır.
 
 Bu deck'te **olmaması gerekenler**: "Bu planda YOK" (kapsam dışı listesi), "Sizden beklenenler" (müşteriden istenen işler listesi), "Bugün karar verilecekler" (karar/onay listesi). Bunların hiçbiri pitch'in işi değil — üçü de `roadmap.md`'de tam olarak durur ve toplantıda soru gelirse oradan sözlü cevaplanır. Deck'e bunlardan birini eklemek istersen önce kendine sor: bu bir onay/itiraz toplama slaytı mı? Öyleyse `roadmap.md`'ye yaz, deck'e koyma.
 
@@ -83,6 +87,7 @@ Bu deck'te **olmaması gerekenler**: "Bu planda YOK" (kapsam dışı listesi), "
 - Riski gizleme ama **çözümsüz** bırakma: her risk cümlesinin yanında nasıl yönetildiği/azaltıldığı olsun — "X olabilir" değil, "X olabilir, bunun için Y yapıyoruz".
 - `.callout` bloğunu slayt başına en fazla bir kez kullan; her yerde varsa hiçbir yerde vurgu kalmaz.
 - Ton cesur ve net olsun — soru sorarak değil, iddia ederek yaz. "Sizce nasıl olur?" yerine "Bu şekilde çalışıyor."
+- Görsel kendi başına yeterince yoğunsa (örn. `riskmatrix.svg` — matris + azaltma listesi) altına ayrıca `.callout` ekleme; slayt yüksekliğini taşırır ve alt bilgiyle çakışır. `journey.svg`, `cost.svg`, `deadline.svg` gibi daha sade görsellerin altına tek callout/muted satır güvenle sığar.
 
 ## Tema
 
@@ -111,6 +116,8 @@ Renkleri değiştirmen gerekirse `theme.css` içindeki `:root` değişkenlerini 
 | Risk | Tam tablo | En kritik 2–3, azaltma planıyla |
 | Belirsizlik ("bilinmiyor") | Açıkça yazılır | Gösterilmez, o kart/satır silinir |
 | Kapsam dışı / Sizden beklenenler / Kararlar | Tam liste | Yok |
+| Slogan | Seçilen + alternatifler | Sadece seçilen, kapak slaydında |
+| Büyüme projeksiyonu | Tablo, varsayımlarla | `growth.svg`, tek slayt |
 | Changelog | Var | Yok |
 
 Sunumu `roadmap.md`'nin kısaltılmış hâli olarak üretme. Farklı işe hizmet ediyorlar: biri kanıt, biri ikna.

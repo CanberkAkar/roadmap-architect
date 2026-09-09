@@ -385,6 +385,44 @@ def cost_summary(plan):
 
 
 # --------------------------------------------------------------------------
+# Buyume projeksiyonu
+# --------------------------------------------------------------------------
+
+def growth_summary(plan):
+    """plan.json'daki 'growth_projection' alanindan donem bazli artisi hesaplar.
+
+    plan.json'da growth_projection yoksa None doner — bu alan opsiyoneldir.
+    Milestone'lar birikmis (cumulative) toplam olarak yorumlanir; donemler
+    arasi net artis (customers_added / revenue_added) buradan turetilir.
+    """
+    gp = plan.get("growth_projection")
+    if not gp or not gp.get("milestones"):
+        return None
+
+    milestones = sorted(gp["milestones"],
+                         key=lambda m: m.get("months_after_launch", 0))
+    out = []
+    prev_c, prev_r = 0.0, 0.0
+    for m in milestones:
+        c = float(m.get("customers", 0) or 0)
+        r = float(m.get("revenue", 0) or 0)
+        out.append({
+            "months_after_launch": m.get("months_after_launch"),
+            "customers": c,
+            "revenue": r,
+            "customers_added": round(c - prev_c, 1),
+            "revenue_added": round(r - prev_r, 1),
+        })
+        prev_c, prev_r = c, r
+
+    return {
+        "currency": gp.get("currency", ""),
+        "milestones": out,
+        "notes": gp.get("notes"),
+    }
+
+
+# --------------------------------------------------------------------------
 # Ana hesap
 # --------------------------------------------------------------------------
 
@@ -470,6 +508,7 @@ def analyse(plan, estimate):
         "warnings": problems,
         "deadline": deadline,
         "cost": cost_summary(plan),
+        "growth": growth_summary(plan),
     }
 
 
@@ -539,6 +578,16 @@ def render(r, items_lookup):
         for it in c["recurring_items"]:
             amt = float(it.get("amount", 0) or 0)
             L.append(f"    - {it.get('item', ''):<32s} {amt:>10g} {cur}/ay")
+        L.append("")
+
+    if r.get("growth"):
+        g = r["growth"]
+        cur = g["currency"]
+        L.append("## Büyüme projeksiyonu (hayata geçtikten sonra, birikmiş)")
+        for m in g["milestones"]:
+            L.append(f"    {m['months_after_launch']:>2g}. ay : "
+                     f"{m['customers']:g} müşteri (+{m['customers_added']:g}) · "
+                     f"{m['revenue']:g} {cur} (+{m['revenue_added']:g} {cur})")
         L.append("")
 
     L.append("## Agent önerisi")
