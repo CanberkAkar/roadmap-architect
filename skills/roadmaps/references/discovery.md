@@ -99,7 +99,7 @@ Müşteri genelde "neden size, neden şimdi bu parayı vereyim" sorusunu içinde
 
 ## Kapsam dışını da yaz
 
-Roadmap'in en çok tartışma çıkaran kısmı içine alınanlar değil, alınmayanlardır. Discovery çıktısında açık bir **"bu roadmap'te yok"** listesi tut. Ekip sunumunda buna ayrı slayt ver.
+Roadmap'in en çok tartışma çıkaran kısmı içine alınanlar değil, alınmayanlardır. Discovery çıktısında açık bir **"bu roadmap'te yok"** listesi tut. Bu liste `roadmap.md`'de tam kalır; müşteriye/yatırımcıya sunulan pitch deck'te ayrı bir slayt olarak gösterilmez (`references/deck.md`) — soru gelirse oradan sözlü cevaplanır.
 
 ## Discovery çıktı formatı
 

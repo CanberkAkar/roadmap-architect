@@ -47,17 +47,19 @@ Her müşteri-yönlü satırı okuduktan sonra "ee, yani?" diye sor. Cevap verem
 
 Sprint kelimesi kalabilir — çoğu müşteri artık biliyor — ama ilk kullanımda bir kez açıkla: "iki haftalık çalışma dilimi".
 
-## Gizlenmeyecek şeyler
+## Gizlenmeyecek şeyler (roadmap.md'de)
 
-Sadeleştirme, saklama değildir. Aşağıdakiler müşteri görünümünde **aynen** durmalı:
+Sadeleştirme, saklama değildir. Aşağıdakiler `roadmap.md`'de **her zaman aynen** durur:
 
-- **Riskler** — en yüksek üç risk ve kötü senaryodaki etkisi
-- **Belirsizlik** — effort aralık olarak verilir; tek sayı sahte kesinliktir
+- **Riskler** — tam liste, etki/olasılık/azaltma
+- **Belirsizlik** — effort aralık olarak verilir; "bilinmiyor" olduğu yerde öyle yazılır
 - **Müşteriden beklenenler** — SSO bilgisi, test kullanıcısı, onay, içerik. Gecikirse planın nasıl kayacağıyla birlikte.
 - **Kapsam dışı** — en çok tartışma çıkaran ve en çok atlanan bölüm
-- **Karar noktaları** — "X çıkarsa plan Y olur". Müşteri sürprizi değil, önceden anlatılmış olasılığı kabul eder.
+- **Karar noktaları** — "X çıkarsa plan Y olur"
 
-Riskleri gizleyen bir plan, ilk aksilikte tüm güvenilirliğini kaybeder. Riski önceden söylemiş olmak, gerçekleştiğinde tartışmayı "neden olmadı"dan "hangi seçeneği seçiyoruz"a çevirir.
+Pitch deck'te bunlardan sadece **riskler** görünür — "ters giderse ne olur" endişesiyle değil, "bunu biliyoruz ve yönetiyoruz" güveniyle: her riskin yanında azaltma planı olur (`references/deck.md`). Diğer dördü müşteriye/yatırımcıya sunulan PDF'te slayt olmaz; soru gelirse `roadmap.md`'den sözlü cevaplanır.
+
+Riski `roadmap.md`'den bile gizlemek, ilk aksilikte tüm güvenilirliği kaybettirir. Deck'te göstermemek gizlemek değildir — deck zaten farklı bir işe hizmet eder (ikna), varlığı inkar edilmez, sadece slayt formatına taşınmaz.
 
 ## Müşteriden beklenenleri işe dönüştür
 
@@ -82,43 +84,40 @@ Böylece kritik yol hesabına dahil olurlar ve zaman şeridinde görünürler. M
 
 - Müşteriye **"iş günü"** de, adam/gün veya story point deme
 - Takvim tarihi verme, **sprint numarası** ver — tarihe çevirmek müşteriyle birlikte alınacak bir karardır
-- Aralık ver: "18–26 iş günü". Aralığın genişliği, belirsizliğin dürüst ölçüsüdür.
+- Aralık ver: "18–26 iş günü". Aralığın genişliği, belirsizliğin dürüst ölçüsüdür. Pitch deck'te yer kısıtlı olduğu için aralık tek bir yuvarlak sayıya inebilir ("~20 iş günü") — bu bir taahhüt değil büyüklük hissi vermek içindir; `roadmap.md`'de aralık tam kalır.
 - "Kritik yol" terimini kullanabilirsin ama bir kez tanımla: **"sırayla yapılması zorunlu işler zinciri — bu zincir kısalmadan proje daha hızlı bitmez"**
 
-## Agent ve ekip sayısını müşteriye anlatmak
+## Agent ve ekip sayısını anlatmak (roadmap.md ve sözlü)
 
-Müşteri "kaç agent" ile ilgilenmez, "neden daha hızlı olmuyor" ile ilgilenir. Üçlü cümleyi bu dile çevir:
+Pitch deck'te bunun için ayrı bir slayt yok (`capacity.svg` deck'e girmez) — bu bir yürütme detayı, ikna malzemesi değil. Ama soru gelirse ("neden daha hızlı olmuyor") ya da `roadmap.md`'de teknik ekiple konuşurken üçlü cümleyi bu dile çevir:
 
 > Bu aşamada birbirinden bağımsız yürüyebilecek **5** iş var. Ama aynı anda **3** tanesini yürütebiliyoruz, çünkü hepsi aynı bölüme dokunuyor ve tek bir kişi kontrol ediyor. Dördüncüye çıkmak için kontrol tarafına bir kişi daha gerekiyor.
 
 Bu, "daha fazla kaynak verin" pazarlığını "şu darboğazı birlikte kaldıralım" konuşmasına çevirir.
 
-## Toplantı sırası
+## Sunum akışı
 
-Sunum bu sırayla ilerlemeli — bir argüman kurar:
+Pitch bu sırayla ilerlemeli — bir argüman kurar, karar istemeden ikna eder (`references/deck.md`):
 
 1. **Hedef ve başarı kriteri** → aynı şeyi mi konuşuyoruz?
-2. **İş değeri** (varsa) → bu neden şimdi, yapılmazsa bedeli ne
+2. **Fırsat** (varsa) → bu neden şimdi, büyüklüğü ne
 3. **Neden biz** (varsa) → alternatiflere karşı somut fark
-4. **İşletme gideri** (varsa) → projeden sonraki aylık maliyet, şeffaf
-5. **Kapsam dışı** → itirazlar burada toplanır, sonra pahalıya mal olur
-6. **Faz yolculuğu** → müşteri ne zaman ne alıyor
-7. **Kritik yol** → neden bu sırayla, neden daha hızlı olmuyor
-8. **Teslim güvenilirliği** (varsa) → bu tarihe yetişir mi, tampon ne kadar
-9. **Riskler ve karar noktaları** → ters giderse ne yapacağız
-10. **Müşteriden beklenenler** → kim ne zaman ne verecek
-11. **Karar talebi** → toplantıdan ne çıkacak
+4. **Çözüm yol haritası** → müşteri ne zaman ne alıyor
+5. **Yatırım ve getiri** (varsa) → maliyet ve beklenen getiri yan yana, şeffaf
+6. **Riskler ve yönetimi** → ne biliniyor, nasıl kontrol ediliyor — endişe değil güven
+7. **Teslim güvenilirliği** (varsa) → bu tarihe yetişir mi, tampon ne kadar
+8. **Sonraki adım** → vizyonu tekrar bağla, kapanış
 
-Son madde olmadan toplantı bitmez, sadece durur.
+Kapanışta karar/onay listesi yok — bu bir onay toplama seansı değil, bir ikna anıdır. Soru ve itirazlar doğal olarak gelir; cevapları `roadmap.md`'dedir, ayrı bir slaytları yoktur.
 
-## İş değeri ve teslim güvenilirliği dili
+## Fırsat ve teslim güvenilirliği dili
 
-`business_case` ve `deadline`, `plan.json`'a girildiğinde otomatik birer slayt/görsel açar — girilmezse o slaytlar sessizce atlanır, boş bırakılmaz.
+`business_case`, `competitive_analysis`, `deadline` ve `cost_estimate`, `plan.json`'a girildiğinde otomatik birer slayt/görsel açar — girilmezse o slaytlar sessizce atlanır, boş bırakılmaz.
 
-- **İş değeri** zaten müşterinin kendi işiyle ilgili olduğu için ayrıca "müşteri diline çevrilmez" — doğrudan onun terimleriyle yazılır (gelir, aday sayısı, pazar). Rakam yoksa "tahmini" ya da "bilinmiyor" de, icat etme.
+- **Fırsat** slaydı zaten müşterinin kendi işiyle ilgili olduğu için ayrıca "müşteri diline çevrilmez" — doğrudan onun terimleriyle yazılır (gelir, aday sayısı, pazar). Rakam yoksa slayttan o kartı çıkar; "bilinmiyor" yazma, icat etme.
 - **Teslim güvenilirliği** için "tampon" kelimesini bir kez tanımla: **"kritik yol bittiğinde elinizde kalan boş gün — büyüdükçe gecikme riski düşer"**. Durumu üç kelimeden fazla açıklama: Rahat / Sıkışık / Riskli. "Riskli" çıkarsa hemen ardından seçenek sun (kapsamı daralt / tarihi ertele / kaynak ekle) — sadece "riskli" deyip bırakmak güven kırar.
-- **Neden biz** slaydında rakibi kötüleme, iddiadan uzak dur. "En iyisi biziz" değil, ölçülebilir fark: "2 gün vs 3 hafta", "ekstra lisans yok". Fark yazamıyorsan slaydı boş bırak, icat etme.
-- **İşletme gideri** rakamlarını tahmin olarak sun ama sayı ver — "değişken" veya "duruma göre" gibi kaçamak ifadeler güven kırar. Tahminin dayandığı varsayımı yaz (kaç kullanıcı, hangi bulut sağlayıcı): rakam değişirse müşteri nedenini görsün.
+- **Neden biz** slaydında rakibi kötüleme, iddiadan uzak dur. "En iyisi biziz" değil, ölçülebilir fark: "2 gün vs 3 hafta", "ekstra lisans yok". Fark yazamıyorsan slaydı sil, icat etme.
+- **Yatırım ve getiri** rakamlarını tahmin olarak sun ama sayı ver — "değişken" veya "duruma göre" gibi kaçamak ifadeler güven kırar. Tahminin dayandığı varsayımı yaz (kaç kullanıcı, hangi bulut sağlayıcı): rakam değişirse müşteri nedenini görsün.
 
 ## Revizyonda ortak dil
 

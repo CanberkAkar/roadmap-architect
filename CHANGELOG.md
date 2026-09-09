@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.5.0
+
+- **Deck felsefesi değişti: toplantı dokümanından pitch'e.** Müşteriye/yatırımcıya sunulan
+  PDF artık tek yönlü, ikna edici bir sunumdur — bir onay/karar toplama toplantısı dokümanı
+  değil. Kaldırılanlar: "Bu planda YOK" (kapsam dışı), "Sizden beklenenler" (müşteriden
+  istenen işler), "Bugün karar verilecekler" (karar/onay listesi). Bu içeriğin tamamı
+  `roadmap.md`'de tam olarak kalıyor, sadece deck'ten çıktı.
+- **Yeni "Yatırım ve getiri" slaydı** — `cost.svg` ile `business_case.expected_impact`'i
+  yan yana gösterir; eskiden ayrı duran "İşletme gideri" slaydının yerini aldı.
+- **"İş değeri" → "Fırsat"**, **"Neyin ters gidebileceği" → "Riskler ve yönetimi"** olarak
+  yeniden adlandırıldı — endişe değil güven çerçevesi.
+- Deck'ten `timeline.svg`, `depgraph.svg`, `capacity.svg` ve bunlara bağlı slaytlar
+  ("Zaman şeridi", "Neyin neyi beklediği", "Neden daha hızlı olmuyor", "Ekip ve hız")
+  çıkarıldı — bunlar yürütme/kapasite detayıdır, artık sadece `roadmap.md`'de ve
+  `--audience delivery` görsel setinde yaşıyor.
+- **Belirsizlik deck'te gösterilmiyor** — `success_metric.baseline` veya opsiyonel alanlar
+  "bilinmiyor"/boşsa ilgili KPI kartı veya slayt tamamen çıkarılıyor, sahte bir değerle
+  doldurulmuyor. `roadmap.md` belirsizliği hep tam gösteriyor.
+- `references/deck.md`, `references/audience.md`, `references/discovery.md`,
+  `commands/deck.md` bu felsefeye göre güncellendi.
+
 ## 0.4.0
 
 - **Rakip analizi (`competitive_analysis`)** — opsiyonel alan: benzer ürünler/alternatifler

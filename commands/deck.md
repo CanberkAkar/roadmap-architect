@@ -14,7 +14,7 @@ Kitle: $ARGUMENTS (belirtilmemişse `customer`)
    python3 ${CLAUDE_PLUGIN_ROOT}/skills/roadmaps/scripts/plan_capacity.py plan.json
    python3 ${CLAUDE_PLUGIN_ROOT}/skills/roadmaps/scripts/render_visuals.py plan.json --out docs/assets --audience customer
    ```
-4. `docs/roadmap-deck.md` yaz — `assets/deck.template.md` şablonundan, slayt sırasını bozmadan. "Bu planda YOK", "Sizden beklenenler" ve "Bugün karar verilecekler" slaytları zorunlu.
+4. `docs/roadmap-deck.md` yaz — `assets/deck.template.md` şablonundan, slayt sırasını bozmadan. Bu bir pitch'tir (müşteriye/yatırımcıya ikna sunumu), toplantı/karar dokümanı değil: "Bu planda YOK", "Sizden beklenenler" ve "Bugün karar verilecekler" gibi slaytlar **eklenmez**. Veri yoksa (`business_case`, `competitive_analysis`, `deadline`, `cost_estimate` boşsa) ilgili opsiyonel slayt tamamen silinir — boş bırakılmaz.
 5. PDF:
    ```bash
    npx --yes @marp-team/marp-cli@latest docs/roadmap-deck.md \
@@ -23,4 +23,4 @@ Kitle: $ARGUMENTS (belirtilmemişse `customer`)
    ```
    Tarayıcı yoksa `--html` ile üret ve kullanıcıya tarayıcıdan "PDF olarak yazdır" demesini söyle.
 
-Bitirince sohbette sunumun kaç slayt olduğunu ve hangi üç kararın talep edildiğini yaz.
+Bitirince sohbette sunumun kaç slayt olduğunu ve hangi opsiyonel slaytların (fırsat/neden biz/yatırım-getiri/teslim güvenilirliği) dahil edildiğini yaz.

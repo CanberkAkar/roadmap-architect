@@ -16,7 +16,7 @@ Roadmap bir task listesi değildir. Ürünün hangi aşamalardan geçerek busine
 | **Discovery** | Hedef net değil, roadmap yok | `references/discovery.md` |
 | **Planla** | Hedef net, faz/milestone çıkarılacak | `references/phasing-and-risk.md` |
 | **Sprint'e dök** | Roadmap var, icra planı isteniyor | `references/sprint-planning.md` |
-| **Sun** | Müşteri/ekip toplantısı için PDF | `references/deck.md` |
+| **Sun** | Müşteriye/yatırımcıya ikna edici pitch PDF'i | `references/deck.md` |
 | **Güncelle** | Roadmap var, gerçeklik değişti | `references/revision.md` |
 
 Ölçeklendirme ve agent sayısı her modda devreye girer: `references/agent-sizing.md`.
@@ -96,7 +96,7 @@ Her zaman üçü birden:
 
 **a) `docs/roadmap.md`** — `assets/roadmap.template.md`. Referans doküman, repo'da versiyonlanır. Tabloları tek satırda tut, diff'lenebilir kalsın.
 
-**b) `docs/roadmap-deck.md`** — `assets/deck.template.md` (Marp). Görselleri gömer.
+**b) `docs/roadmap-deck.md`** — `assets/deck.template.md` (Marp). Görselleri gömer. Bu bir pitch'tir — toplantı/karar dokümanı değil; "Bu planda YOK", "Sizden beklenenler", "Bugün karar verilecekler" gibi slaytlar içermez. O içerik `roadmap.md`'de tam kalır.
 
 **c) `docs/roadmap-deck.pdf`** — sunum PDF'i:
 
@@ -129,7 +129,8 @@ Projenin boyutuna göre ne kadar yapı kuracağını ayarla. Yanlış ölçek pl
 ## Sık yapılan hatalar
 
 - **İki ayrı doküman üretmek** — müşteri sunumu ve teknik plan ayrılırsa biri güncellenir diğeri unutulur, iki taraf farklı gerçekliklerde yaşamaya başlar. Tek `plan.json`, iki görünüm.
-- **Sadeleştirmeyi saklamakla karıştırmak** — riskler, belirsizlik ve müşteriden beklenenler müşteri görünümünde aynen durur. Riski önceden söylemiş olmak, gerçekleştiğinde tartışmayı "neden olmadı"dan "hangi seçeneği seçiyoruz"a çevirir.
+- **Riskleri roadmap.md'den de gizlemek** — riskler, belirsizlik ve müşteriden beklenenler `roadmap.md`'de aynen durur, pitch deck'te sadece riskler (azaltma planıyla) görünür. Riski önceden söylemiş olmak, gerçekleştiğinde tartışmayı "neden olmadı"dan "hangi seçeneği seçiyoruz"a çevirir.
+- **Pitch deck'i toplantı dokümanına çevirmek** — "Bu planda YOK", "Sizden beklenenler", "Bugün karar verilecekler" gibi slaytlar eklemek. Deck ikna içindir, onay toplama değil; bu içerik `roadmap.md`'de kalır (`references/deck.md`).
 - **Faz yerine katman bölmek** — "Faz 1: veritabanı, Faz 2: API, Faz 3: UI". Hiçbiri tek başına hedefe yaklaştırmaz ve risk son fazda toplanır. Dikey dilimlere böl.
 - **Effort'u tek sayı vermek** — belirsizliği gizler. Aralık ver; aralığın genişliği zaten risk sinyalidir.
 - **Dependency'yi sadece iç işler arasında aramak** — dış ekip onayı, satın alma, yasal inceleme, müşteriden gelecek bilgi çoğu zaman gerçek kritik yoldur.

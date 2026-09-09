@@ -4,7 +4,7 @@ theme: roadmap
 paginate: true
 size: 16:9
 header: ''
-footer: '{{Proje adı}} · yol haritası · {{tarih}}'
+footer: '{{Proje adı}} · {{tarih}}'
 ---
 
 <!-- _class: lead -->
@@ -15,7 +15,7 @@ footer: '{{Proje adı}} · yol haritası · {{tarih}}'
 
 ## {{Müşterinin diliyle tek cümlelik hedef}}
 
-<span class="muted">{{tarih}} · sürüm {{n}} · Bu bir tartışma dokümanıdır — onay ve itiraz için</span>
+<span class="muted">{{tarih}} · sürüm {{n}}</span>
 
 ---
 
@@ -33,13 +33,9 @@ footer: '{{Proje adı}} · yol haritası · {{tarih}}'
 
 ---
 
-## İş değeri: neden şimdi
+## Fırsat
 
 <!-- business_case doluysa bu slayt kalır, degilse tamamen sil -->
-
-<div class="callout">
-{{Problem — bugün ne oluyor ve somut maliyeti ne, tek paragraf}}
-</div>
 
 <div class="kpi">
 <div><div class="n">{{8 aday}}</div><div class="l">{{Fırsatın büyüklüğü}}</div></div>
@@ -47,7 +43,9 @@ footer: '{{Proje adı}} · yol haritası · {{tarih}}'
 <div><div class="n">{{Bu çeyrek}}</div><div class="l">{{Ne zamana kadar}}</div></div>
 </div>
 
-<span class="muted">{{Yapılmazsa: tek cümle}}</span>
+<div class="callout">
+{{Fırsat neden büyük ve neden şimdi — tek paragraf, cesur ve net}}
+</div>
 
 ---
 
@@ -67,32 +65,8 @@ footer: '{{Proje adı}} · yol haritası · {{tarih}}'
 ---
 
 <!-- _class: visual -->
-<!-- cost_estimate doluysa bu slayt kalır, degilse tamamen sil -->
 
-## İşletme gideri
-
-![](assets/cost.svg)
-
-<span class="muted">{{Tek seferlik kurulum maliyeti varsa bir cümlede belirt}}</span>
-
----
-
-## Bu planda YOK
-
-| Kapsam dışı | Neden |
-|---|---|
-| {{madde}} | {{gerekçe}} |
-| {{madde}} | {{gerekçe}} |
-
-<div class="callout ask">
-İtirazınız varsa bu slaytta söyleyin. Sonraki aşamalarda kapsam eklemek planı en çok geciktiren şeydir.
-</div>
-
----
-
-<!-- _class: visual -->
-
-## Ürün hangi aşamalardan geçiyor
+## Çözüm yol haritası
 
 ![](assets/journey.svg)
 
@@ -106,41 +80,32 @@ footer: '{{Proje adı}} · yol haritası · {{tarih}}'
 ### Nasıl görürüz
 {{Demo, ölçüm veya rapor — somut kanıt}}
 
-| | |
-|---|---|
-| Süre | {{18–26}} iş günü |
-| Sizden gereken | {{şey ve ne zaman — yoksa "yok"}} |
-| Ana risk | <span class="risk">{{risk, müşteri diliyle}}</span> |
+<span class="muted">Süre: {{18–26}} iş günü</span>
 
 ---
 
 <!-- _class: visual -->
+<!-- cost_estimate doluysa bu slayt kalır, degilse tamamen sil -->
 
-## Zaman şeridi
+## Yatırım ve getiri
 
-![](assets/timeline.svg)
-
----
-
-<!-- _class: visual -->
-
-## Neyin neyi beklediği
-
-![](assets/depgraph.svg)
-
----
-
-## Neden daha hızlı olmuyor
+![](assets/cost.svg)
 
 <div class="callout">
-Kırmızı zincir <strong>kritik yol</strong>: sırayla yapılması zorunlu işler.
-Toplam <strong>{{40}} iş günü</strong>. Bu zincir kısalmadan proje daha hızlı bitmez —
-ekibe kişi eklemek de kısaltmaz.
+<strong>Beklenen getiri:</strong> {{business_case.expected_impact — rakamlı, varsa}}
 </div>
 
-### Zinciri kısaltmanın yolları
-- {{somut seçenek 1 — kazanç ve bedeliyle}}
-- {{somut seçenek 2}}
+---
+
+<!-- _class: visual -->
+
+## Riskler ve yönetimi
+
+![](assets/riskmatrix.svg)
+
+<div class="callout">
+{{En kritik riski ve onu nasıl azalttığımızı tek cümlede özetle — kontrol altında olduğu net olsun}}
+</div>
 
 ---
 
@@ -151,57 +116,18 @@ ekibe kişi eklemek de kısaltmaz.
 
 ![](assets/deadline.svg)
 
----
-
-<!-- _class: visual -->
-
-## Neyin ters gidebileceği
-
-![](assets/riskmatrix.svg)
+<span class="muted">{{Tampon neden yeterli/sıkı — tek cümle}}</span>
 
 ---
 
-<!-- _class: visual -->
+## Sonraki adım
 
-## Aynı anda kaç iş yürüyebilir
-
-![](assets/capacity.svg)
-
----
-
-## Ekip ve hız
-
-<div class="callout">
-Bu aşamada birbirinden bağımsız yürüyebilecek <strong>{{5}}</strong> iş var.
-Aynı anda <strong>{{3}}</strong> tanesini yürütüyoruz, çünkü {{darboğaz — sade dille}}.
-Dördüncüye çıkmak için {{gereken somut şey}}.
+<div class="kpi">
+<div><div class="n">{{4}}</div><div class="l">Aşama sayısı</div></div>
+<div><div class="n">{{18–26}}</div><div class="l">İlk somut çıktıya kadar iş günü</div></div>
+<div><div class="n">{{200.000$}}</div><div class="l">Beklenen etki</div></div>
 </div>
 
-| Aşama | Paralel iş | Yürütülen | Sınırlayan |
-|---|---|---|---|
-| {{Aşama 1}} | {{1.8}} | {{2}} | {{işin sırası}} |
-| {{Aşama 3}} | {{3.1}} | {{3}} | {{ekip sayısı}} |
-
----
-
-## Sizden beklenenler
-
-| Ne | Ne zaman | Gecikirse |
-|---|---|---|
-| {{şey}} | Sprint {{n}} | {{plan ne kadar kayar}} |
-| {{şey}} | Sprint {{n}} | {{...}} |
-
-<span class="muted">Bu maddeler kritik yol hesabına dahildir — gecikmeleri doğrudan teslim tarihine yansır.</span>
-
----
-
-## Bugün karar verilecekler
-
-1. **{{Karar}}** — kim: {{rol}}
-2. **{{Onay}}** — kim: {{rol}}
-3. **{{Aksiyon}}** — kim: {{rol}}, ne zaman: {{Sprint 1}}
-
-<div class="callout ask">
-Yol haritası her iki haftada bir güncellenir. Değişiklikler üç satırlık özetle paylaşılır:
-ne değişti · plana etkisi · sizden gereken.
+<div class="callout">
+{{Vizyonu ve neden şimdi başlanması gerektiğini birleştiren tek cesur cümle}}
 </div>
