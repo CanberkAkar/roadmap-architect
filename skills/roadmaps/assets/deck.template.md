@@ -51,6 +51,32 @@ footer: '{{Proje adı}} · yol haritası · {{tarih}}'
 
 ---
 
+## Neden biz
+
+<!-- competitive_analysis doluysa bu slayt kalır, degilse tamamen sil -->
+
+| Alternatif | İyi yaptığı | Yapamadığı |
+|---|---|---|
+| {{Rakip A}} | {{...}} | {{...}} |
+| {{Rakip B}} | {{...}} | {{...}} |
+
+<div class="callout">
+<strong>Bizim farkımız:</strong> {{somut fark 1}} · {{somut fark 2}} · {{somut fark 3}}
+</div>
+
+---
+
+<!-- _class: visual -->
+<!-- cost_estimate doluysa bu slayt kalır, degilse tamamen sil -->
+
+## İşletme gideri
+
+![](assets/cost.svg)
+
+<span class="muted">{{Tek seferlik kurulum maliyeti varsa bir cümlede belirt}}</span>
+
+---
+
 ## Bu planda YOK
 
 | Kapsam dışı | Neden |

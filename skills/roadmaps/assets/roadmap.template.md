@@ -22,6 +22,25 @@
 **Beklenen etki:** {{ölçülebilir, mümkünse rakamlı}}
 **Yapılmazsa:** {{maliyet}}
 
+<!-- competitive_analysis plan.json'da doluysa bu bölüm kalır, degilse tamamen sil -->
+## Rakip analizi
+
+| Alternatif | İyi yaptığı | Yapamadığı |
+|---|---|---|
+| {{Rakip A}} | {{...}} | {{...}} |
+
+**Bizim farkımız:** {{somut fark 1}} · {{somut fark 2}}
+
+<!-- cost_estimate plan.json'da doluysa bu bölüm kalır, degilse tamamen sil -->
+## İşletme gideri
+
+| Kalem | Tutar | Not |
+|---|---|---|
+| {{Sunucu / hosting}} | {{150}} {{USD}}/ay | {{varsayım}} |
+
+**Aylık toplam:** {{730}} {{USD}} · **Yıllık toplam:** {{8.760}} {{USD}}
+{{Tek seferlik kurulum maliyeti varsa buraya bir satır ekle}}
+
 ## Kısıtlar
 
 - {{kısıt}} → roadmap'e etkisi: {{...}}

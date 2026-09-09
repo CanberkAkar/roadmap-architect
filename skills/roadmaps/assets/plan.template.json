@@ -1,5 +1,5 @@
 {
-  "_comment": "plan.json — roadmap'in tek veri kaynagi. roadmap.md, sunum, gorseller ve kapasite hesabi bundan turer. Iki kitleye birden hitap eder: 'customer_*' alanlari musteriye, digerleri teknik ekibe. 'business_case' ve 'deadline' opsiyoneldir; girilirse sunumda otomatik birer slayt/gorsel acilir.",
+  "_comment": "plan.json — roadmap'in tek veri kaynagi. roadmap.md, sunum, gorseller ve kapasite hesabi bundan turer. Iki kitleye birden hitap eder: 'customer_*' alanlari musteriye, digerleri teknik ekibe. 'business_case', 'deadline', 'competitive_analysis' ve 'cost_estimate' opsiyoneldir; girilirse sunumda otomatik birer slayt/gorsel acilir.",
   "project": "Cok kiracili SaaS gecisi",
   "goal": "Kurumsal musterilere ayri kurulum yapmadan satabilmek",
   "business_case": {
@@ -7,6 +7,25 @@
     "opportunity": "Satis pipeline'inda 8 kurumsal aday var, ortalama sozlesme degeri yilda 40.000$",
     "expected_impact": "Devreye alma suresi 2 gune inerse bu ceyrekte en az 5 sozlesme kapanabilir hale gelir (~200.000$ yillik gelir)",
     "cost_of_inaction": "Yapilmazsa pipeline'daki adaylar daha hizli devreye giren rakip cozumlere kayabilir"
+  },
+  "competitive_analysis": {
+    "competitors": [
+      {
+        "name": "Rakip A",
+        "strengths": "Pazarda en bilinen isim, guclu marka bilinirligi",
+        "weaknesses": "Kurumsal devreye alma 3 hafta suruyor, ozel entegrasyon desteklemiyor"
+      },
+      {
+        "name": "Rakip B",
+        "strengths": "Giris seviyesi fiyat",
+        "weaknesses": "SSO/SCIM desteklemiyor, destek yanit suresi yavas"
+      }
+    ],
+    "our_advantages": [
+      "Devreye alma 2 gun — rakiplerde 3 hafta",
+      "Musterinin mevcut kimlik saglayicisiyla dogrudan entegre, ekstra lisans gerekmiyor",
+      "Ozel entegrasyon ve raporlama esnekligi"
+    ]
   },
   "success_metric": {
     "name": "Yeni kurumsal musteri devreye alma suresi",
@@ -18,6 +37,22 @@
     "days_available": 70,
     "driver": "Q3 sonunda imzalanacak ilk kurumsal musteri sozlesmesi",
     "customer_text": "Q3 sonuna kadar ilk kurumsal musteri sorunsuz canlida olmali"
+  },
+  "cost_estimate": {
+    "currency": "USD",
+    "one_time": [
+      {
+        "item": "Gelistirme (bu roadmap)",
+        "amount": 42000,
+        "note": "Toplam effort x gunluk ucret — plan_capacity.py'daki toplam effordan turetilir"
+      }
+    ],
+    "recurring_monthly": [
+      {"item": "Sunucu / hosting", "amount": 150, "note": "Orta olcek bulut, ~500 aktif kullanici"},
+      {"item": "Ucuncu parti servisler", "amount": 80, "note": "E-posta, SMS, izleme/monitoring"},
+      {"item": "Reklam / pazarlama", "amount": 500, "note": "Lansman kampanyasi, ilk 3 ay"}
+    ],
+    "notes": "Kaba tahmindir; kesin teklif tedarikci gorusmeleri sonrasi netlesir"
   },
   "sprint_length_days": 10,
   "team": {

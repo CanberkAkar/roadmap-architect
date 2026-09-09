@@ -40,8 +40,9 @@ npx --yes @marp-team/marp-cli@latest docs/roadmap-deck.md \
 | `riskmatrix.svg` | Etki × olasılık, karar noktalarıyla | "Ters giderse ne olur?" |
 | `capacity.svg` | Faz bazında paralellik ve darboğaz | "Neden daha hızlı olmuyor?" |
 | `deadline.svg` | Kritik yol vs elinizdeki süre, tampon | "Bu tarihe yetişir mi?" |
+| `cost.svg` | Aylık işletme gideri, kalem kalem | "Bu sistemin işletme gideri ne?" |
 
-`deadline.svg` yalnızca `plan.json`'da `deadline.days_available` doluysa üretilir; yoksa sessizce atlanır — deck'e eklenmesi de o zaman zorunlu değildir.
+`deadline.svg` yalnızca `plan.json`'da `deadline.days_available`, `cost.svg` yalnızca `cost_estimate.recurring_monthly` doluysa üretilir; yoksa sessizce atlanır — deck'e eklenmesi de o zaman zorunlu değildir.
 
 `--audience delivery` ile teknik adları kullanan ikinci bir set üretilir; ekip içi toplantı için.
 
@@ -56,6 +57,8 @@ Görsellerin okunabilirliği `plan.json`'daki metin uzunluklarına bağlı. Faz 
 | 1 | Kapak + tek cümlelik hedef | Aynı şeyi mi konuşuyoruz |
 | 2 | Neden bu proje (metrik kartları) | Problemi rakamla sabitle |
 | 2b | **İş değeri: neden şimdi** (`business_case` varsa) | Fırsatı ve bedelini rakamla göster |
+| 2c | **Neden biz** (`competitive_analysis` varsa) | Alternatiflere karşı somut farkı göster |
+| 2d | **İşletme gideri** (`cost.svg`, `cost_estimate` varsa) | Projeden sonraki aylık maliyeti şeffaf koy |
 | 3 | **Bu planda YOK** | İtirazlar burada toplanır, sonra pahalı |
 | 4 | Faz yolculuğu (`journey.svg`) | Müşteri ne zaman ne alıyor |
 | 5..n | Faz detayları, faz başına bir slayt | Somutlaştır |
@@ -68,7 +71,7 @@ Görsellerin okunabilirliği `plan.json`'daki metin uzunluklarına bağlı. Faz 
 | n+6 | **Sizden beklenenler** | Müşteri tarafındaki kritik yol |
 | n+7 | **Bugün karar verilecekler** | Toplantıyı bitiren slayt |
 
-3, n+6 ve n+7 zorunlu. 2b ve n+3b opsiyonel — sırasıyla `plan.json`'da `business_case` ve `deadline` alanları doluysa eklenir, boşsa slayt tamamen atlanır (yarım doldurulmuş slayt göstermek boş slayttan kötüdür). Karar talebi olmayan sunum toplantıyı bitirmez, sadece durdurur.
+3, n+6 ve n+7 zorunlu. 2b, 2c, 2d ve n+3b opsiyonel — sırasıyla `plan.json`'da `business_case`, `competitive_analysis`, `cost_estimate` ve `deadline` alanları doluysa eklenir, boşsa slayt tamamen atlanır (yarım doldurulmuş slayt göstermek boş slayttan kötüdür). Karar talebi olmayan sunum toplantıyı bitirmez, sadece durdurur.
 
 ## Slayt yazım kuralları
 

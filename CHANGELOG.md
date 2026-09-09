@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.4.0
+
+- **Rakip analizi (`competitive_analysis`)** — opsiyonel alan: benzer ürünler/alternatifler
+  (güçlü/zayıf yanları) ve bizim somut farkımız. Doldurulursa sunumda "Neden biz" slaydı ve
+  `roadmap.md`'de karşılık bölümü otomatik açılır.
+- **İşletme gideri (`cost_estimate`)** — opsiyonel alan: tek seferlik kurulum maliyeti ve
+  aylık işletme gideri (sunucu/hosting, üçüncü parti servisler, reklam/pazarlama vb.).
+  `plan_capacity.py` kalemleri toplayıp aylık/yıllık toplamı hesaplar; `render_visuals.py`
+  bunu `cost.svg` olarak kalem kalem çizer.
+- İkisi de girilmezse ilgili slayt/bölüm/görsel sessizce atlanır, mevcut planlar değişmeden
+  çalışır.
+- Discovery akışına "Rakip analizi ve işletme gideri" adımı eklendi. `references/discovery.md`
+- Toplantı ve slayt sırası güncellendi: Neden biz ve İşletme gideri, İş değerinden sonra
+  eklendi. `references/audience.md`, `references/deck.md`
+
 ## 0.3.0
 
 - **İş değeri (`business_case`)** — opsiyonel alan: problem, fırsat, beklenen etki, yapılmazsa.

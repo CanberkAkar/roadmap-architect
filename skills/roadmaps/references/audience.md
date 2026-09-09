@@ -99,13 +99,15 @@ Sunum bu sırayla ilerlemeli — bir argüman kurar:
 
 1. **Hedef ve başarı kriteri** → aynı şeyi mi konuşuyoruz?
 2. **İş değeri** (varsa) → bu neden şimdi, yapılmazsa bedeli ne
-3. **Kapsam dışı** → itirazlar burada toplanır, sonra pahalıya mal olur
-4. **Faz yolculuğu** → müşteri ne zaman ne alıyor
-5. **Kritik yol** → neden bu sırayla, neden daha hızlı olmuyor
-6. **Teslim güvenilirliği** (varsa) → bu tarihe yetişir mi, tampon ne kadar
-7. **Riskler ve karar noktaları** → ters giderse ne yapacağız
-8. **Müşteriden beklenenler** → kim ne zaman ne verecek
-9. **Karar talebi** → toplantıdan ne çıkacak
+3. **Neden biz** (varsa) → alternatiflere karşı somut fark
+4. **İşletme gideri** (varsa) → projeden sonraki aylık maliyet, şeffaf
+5. **Kapsam dışı** → itirazlar burada toplanır, sonra pahalıya mal olur
+6. **Faz yolculuğu** → müşteri ne zaman ne alıyor
+7. **Kritik yol** → neden bu sırayla, neden daha hızlı olmuyor
+8. **Teslim güvenilirliği** (varsa) → bu tarihe yetişir mi, tampon ne kadar
+9. **Riskler ve karar noktaları** → ters giderse ne yapacağız
+10. **Müşteriden beklenenler** → kim ne zaman ne verecek
+11. **Karar talebi** → toplantıdan ne çıkacak
 
 Son madde olmadan toplantı bitmez, sadece durur.
 
@@ -115,6 +117,8 @@ Son madde olmadan toplantı bitmez, sadece durur.
 
 - **İş değeri** zaten müşterinin kendi işiyle ilgili olduğu için ayrıca "müşteri diline çevrilmez" — doğrudan onun terimleriyle yazılır (gelir, aday sayısı, pazar). Rakam yoksa "tahmini" ya da "bilinmiyor" de, icat etme.
 - **Teslim güvenilirliği** için "tampon" kelimesini bir kez tanımla: **"kritik yol bittiğinde elinizde kalan boş gün — büyüdükçe gecikme riski düşer"**. Durumu üç kelimeden fazla açıklama: Rahat / Sıkışık / Riskli. "Riskli" çıkarsa hemen ardından seçenek sun (kapsamı daralt / tarihi ertele / kaynak ekle) — sadece "riskli" deyip bırakmak güven kırar.
+- **Neden biz** slaydında rakibi kötüleme, iddiadan uzak dur. "En iyisi biziz" değil, ölçülebilir fark: "2 gün vs 3 hafta", "ekstra lisans yok". Fark yazamıyorsan slaydı boş bırak, icat etme.
+- **İşletme gideri** rakamlarını tahmin olarak sun ama sayı ver — "değişken" veya "duruma göre" gibi kaçamak ifadeler güven kırar. Tahminin dayandığı varsayımı yaz (kaç kullanıcı, hangi bulut sağlayıcı): rakam değişirse müşteri nedenini görsün.
 
 ## Revizyonda ortak dil
 

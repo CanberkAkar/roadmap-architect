@@ -10,6 +10,8 @@ Uretilenler (docs/assets/ altina):
   capacity.svg   Faz bazinda paralellik ve onerilen agent sayisi
   deadline.svg   Teslim guvenilirligi (kritik yol vs deadline) — plan.json'da
                  "deadline" alani varsa uretilir, yoksa atlanir
+  cost.svg       Isletme gideri dokumu (aylik) — plan.json'da "cost_estimate"
+                 alani varsa uretilir, yoksa atlanir
 
 Kullanim:
     python3 render_visuals.py plan.json --out docs/assets
@@ -595,6 +597,54 @@ def render_deadline(result, out_dir):
     return write(out_dir, "deadline.svg", "".join(s))
 
 
+def render_cost(result, out_dir):
+    """Aylik isletme giderinin kalem kalem cubuk grafigi.
+
+    result['cost'] yoksa (plan.json'da 'cost_estimate' alani girilmemis)
+    hicbir dosya yazmadan None doner — bu gorsel opsiyoneldir.
+    """
+    c = result.get("cost")
+    if not c:
+        return None
+
+    items = c["recurring_items"]
+    cur = c["currency"]
+    W = 1240
+    pad = 24
+    label_w = 300
+    bar_x = pad + label_w
+    bar_w = W - bar_x - 200
+    H = 100 + max(len(items), 1) * 46 + 40
+
+    s = [svg_open(W, H, "İşletme gideri")]
+    s.append(text_el(pad, 28, "İşletme gideri (aylık)", 17, "700"))
+    header = f"Aylık toplam: {c['monthly_total']:g} {cur}"
+    if c["one_time_total"]:
+        header += f" · Kurulum (tek seferlik): {c['one_time_total']:g} {cur}"
+    s.append(text_el(pad, 49, header, 12, "600", MUTED))
+
+    peak = max([float(i.get("amount", 0) or 0) for i in items] + [1])
+    y = 78
+    for it in items:
+        amt = float(it.get("amount", 0) or 0)
+        s.append(text_el(pad, y + 15, clip(it.get("item", ""), 38), 12.5, "700"))
+        if it.get("note"):
+            s.append(text_el(pad, y + 31, clip(it["note"], 52), 10.5, "400", MUTED))
+
+        s.append(f'<rect x="{bar_x}" y="{y + 2}" width="{bar_w}" height="18" '
+                 f'rx="9" fill="{BG_SOFT}"/>')
+        w = bar_w * amt / peak
+        s.append(f'<rect x="{bar_x}" y="{y + 2}" width="{w:.1f}" height="18" '
+                 f'rx="9" fill="{ACCENT}"/>')
+        s.append(text_el(bar_x + bar_w + 12, y + 16, f"{amt:g} {cur}/ay", 12, "700", ACCENT))
+        y += 46
+
+    if c.get("notes"):
+        s.append(text_el(pad, H - 14, clip(c["notes"], 130), 11, "400", MUTED))
+
+    return write(out_dir, "cost.svg", "".join(s))
+
+
 # --------------------------------------------------------------------------
 
 def main():
@@ -632,6 +682,7 @@ def main():
         render_riskmatrix(plan, items, args.out),
         render_capacity(result, args.out),
         render_deadline(result, args.out),
+        render_cost(result, args.out),
     ]
     for p in made:
         if p:

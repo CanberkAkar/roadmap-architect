@@ -44,7 +44,7 @@ Komut kullanmadan da çalışır — "şu projeyi nasıl planlarız", "bu işi k
 | `docs/roadmap.md` | Referans doküman, changelog'lu, diff'lenebilir |
 | `docs/roadmap-deck.md` | Sunum kaynağı (Marp) |
 | `docs/roadmap-deck.pdf` | Müşteri sunumu, görselli |
-| `docs/assets/*.svg` | Otomatik üretilen beş görsel (+ opsiyonel `deadline.svg`) |
+| `docs/assets/*.svg` | Otomatik üretilen beş görsel (+ opsiyonel `deadline.svg`, `cost.svg`) |
 | `docs/sprints.md` | Sprint kartları |
 
 ```bash
@@ -70,12 +70,19 @@ npx --yes @marp-team/marp-cli@latest docs/roadmap-deck.md \
 
 Sadeleştirme saklamak değildir: riskler, effort belirsizliği, müşteriden beklenenler ve kapsam dışı listesi müşteri görünümünde de aynen durur. Kurallar ve teknik terim → müşteri dili çeviri tablosu `references/audience.md` içinde.
 
-## İş değeri ve teslim güvenilirliği
+## İş değeri, rakip analizi, deadline ve maliyet
 
-`plan.json`'a opsiyonel `business_case` (problem, fırsat, beklenen etki, yapılmazsa) ve `deadline` (elinizdeki süre, neden bu tarih) alanları eklenirse sunumda ve `roadmap.md`'de otomatik birer bölüm/slayt açılır — talebi rakamla, deadline'ı kritik yolla karşılaştırarak anlatır. İkisi de boş bırakılabilir; o zaman ilgili slayt/görsel sessizce atlanır.
+`plan.json`'a dört opsiyonel alan eklenirse sunumda ve `roadmap.md`'de otomatik birer bölüm/slayt açılır — hiçbiri boşsa ilgili slayt/görsel sessizce atlanır:
+
+| Alan | Ne anlatır | Otomatik çıktı |
+|---|---|---|
+| `business_case` | Problem, fırsat, beklenen etki, yapılmazsa | "İş değeri" slaydı/bölümü |
+| `competitive_analysis` | Benzer ürünler/alternatifler + bizim farkımız | "Neden biz" slaydı/bölümü |
+| `deadline` | Elinizdeki süre, neden bu tarih | `deadline.svg` + teslim güvenilirliği hesabı |
+| `cost_estimate` | Kurulum + aylık işletme gideri (sunucu, reklam, vb.) | `cost.svg` + toplam hesabı |
 
 ```bash
-python3 skills/roadmaps/scripts/plan_capacity.py plan.json   # "## Teslim güvenilirliği" bölümünü de basar
+python3 skills/roadmaps/scripts/plan_capacity.py plan.json   # "## Teslim güvenilirliği" ve "## İşletme gideri" bölümlerini de basar
 ```
 
 ## Görseller
@@ -90,6 +97,7 @@ python3 skills/roadmaps/scripts/plan_capacity.py plan.json   # "## Teslim güven
 | `riskmatrix.svg` | Ters giderse ne olur? |
 | `capacity.svg` | Neden daha hızlı olmuyor? |
 | `deadline.svg` | Bu tarihe yetişir mi? (opsiyonel, `deadline` alanı girilirse) |
+| `cost.svg` | Bu sistemin işletme gideri ne? (opsiyonel, `cost_estimate` alanı girilirse) |
 
 ## Kapasite hesabı
 

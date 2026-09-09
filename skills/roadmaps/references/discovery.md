@@ -69,6 +69,34 @@ Sabit tarih varsa **bugünden o tarihe kaç iş günü kaldığını** say — b
 
 Rakam yoksa tahmin etme — "bilinmiyor" yaz ve bunu bir açık varsayım olarak kaydet. Sahte kesinlik, gerçek belirsizlikten daha kötüdür.
 
+## Rakip analizi ve işletme gideri
+
+Müşteri genelde "neden size, neden şimdi bu parayı vereyim" sorusunu içinden sorar ama nadiren yüksek sesle sorar. İki bölüm bu soruyu önceden cevaplar:
+
+**Rakip analizi** — 1-3 benzer çözümü (rakip ürün, mevcut süreç, "hiçbir şey yapmamak" dahil) kısaca değerlendir: neyi iyi yapıyor, neyi yapamıyor. Sonra kendi farkını yaz — iddia değil, somut fark ("2 gün vs 3 hafta", "mevcut kimlik sağlayıcıyla entegre"). Rakibi kötüleme, kendi farkını göster.
+
+```json
+"competitive_analysis": {
+  "competitors": [
+    {"name": "<rakip/alternatif>", "strengths": "<iyi yaptığı>", "weaknesses": "<yapamadığı>"}
+  ],
+  "our_advantages": ["<somut fark 1>", "<somut fark 2>"]
+}
+```
+
+**İşletme gideri** — proje bittikten sonra sistemin **çalışır tutulmasının** aylık maliyeti: sunucu/hosting, üçüncü parti servisler (e-posta, SMS, izleme), reklam/pazarlama, lisans ücretleri. Tek seferlik kurulum maliyeti ayrı bir kalemdir (`one_time`), aylık işletme gideri ayrı (`recurring_monthly`). Kaba tahmindir demekten çekinme — rakam vermemekten daha güvenilirdir.
+
+```json
+"cost_estimate": {
+  "currency": "USD",
+  "one_time": [{"item": "<kurulum/geliştirme>", "amount": <sayı>, "note": "<nereden geldi>"}],
+  "recurring_monthly": [{"item": "<sunucu/reklam/vb>", "amount": <sayı>, "note": "<varsayım>"}],
+  "notes": "<tahminin ne kadar kaba olduğu>"
+}
+```
+
+`amount` alanlarına tahmin bile olsa somut bir sayı yaz — `plan_capacity.py` bunları toplayıp aylık/yıllık toplamı ve `cost.svg` grafiğini otomatik üretir; elle toplama yapma.
+
 ## Kapsam dışını da yaz
 
 Roadmap'in en çok tartışma çıkaran kısmı içine alınanlar değil, alınmayanlardır. Discovery çıktısında açık bir **"bu roadmap'te yok"** listesi tut. Ekip sunumunda buna ayrı slayt ver.
@@ -90,6 +118,13 @@ Roadmap'in en çok tartışma çıkaran kısmı içine alınanlar değil, alınm
 
 ## Deadline
 - Elinizdeki süre: <gün veya "bilinmiyor"> | Neden bu tarih: <...>
+
+## Rakip analizi
+- <rakip/alternatif> → iyi yaptığı: <...> | yapamadığı: <...>
+- Bizim farkımız: <somut, iddia değil>
+
+## İşletme gideri (aylık)
+- <kalem> → <tahmini tutar> | <varsayım>
 
 ## Kısıtlar
 - <kısıt> → roadmap'e etkisi: <...>

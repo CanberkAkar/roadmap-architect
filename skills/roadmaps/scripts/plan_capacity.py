@@ -356,6 +356,35 @@ def deadline_confidence(plan, critical_path_days):
 
 
 # --------------------------------------------------------------------------
+# Isletme gideri
+# --------------------------------------------------------------------------
+
+def cost_summary(plan):
+    """plan.json'daki 'cost_estimate' alanindan toplamlari hesaplar.
+
+    plan.json'da cost_estimate yoksa None doner — bu alan opsiyoneldir.
+    """
+    ce = plan.get("cost_estimate")
+    if not ce:
+        return None
+
+    one_time = ce.get("one_time", []) or []
+    recurring = ce.get("recurring_monthly", []) or []
+    one_time_total = sum(float(i.get("amount", 0) or 0) for i in one_time)
+    monthly_total = sum(float(i.get("amount", 0) or 0) for i in recurring)
+
+    return {
+        "currency": ce.get("currency", ""),
+        "one_time_items": one_time,
+        "recurring_items": recurring,
+        "one_time_total": round(one_time_total, 2),
+        "monthly_total": round(monthly_total, 2),
+        "annual_total": round(monthly_total * 12, 2),
+        "notes": ce.get("notes"),
+    }
+
+
+# --------------------------------------------------------------------------
 # Ana hesap
 # --------------------------------------------------------------------------
 
@@ -440,6 +469,7 @@ def analyse(plan, estimate):
         "unplaced_items": unplaced,
         "warnings": problems,
         "deadline": deadline,
+        "cost": cost_summary(plan),
     }
 
 
@@ -496,6 +526,19 @@ def render(r, items_lookup):
                  f"(%{d['buffer_pct']:g}) → {DEADLINE_STATUS_LABEL[d['status']]}")
         if d["status"] == "riskli":
             L.append("  ! Kritik yol deadline'ı aşıyor — kapsam, tarih veya kaynak değişmeli")
+        L.append("")
+
+    if r.get("cost"):
+        c = r["cost"]
+        cur = c["currency"]
+        L.append("## İşletme gideri")
+        if c["one_time_items"]:
+            L.append(f"  Kurulum (tek seferlik)  : {c['one_time_total']:g} {cur}")
+        L.append(f"  Aylık toplam            : {c['monthly_total']:g} {cur}")
+        L.append(f"  Yıllık toplam           : {c['annual_total']:g} {cur}")
+        for it in c["recurring_items"]:
+            amt = float(it.get("amount", 0) or 0)
+            L.append(f"    - {it.get('item', ''):<32s} {amt:>10g} {cur}/ay")
         L.append("")
 
     L.append("## Agent önerisi")

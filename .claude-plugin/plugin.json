@@ -1,6 +1,6 @@
 {
   "name": "roadmap-architect",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Musteri ve teknik ekibin ayni masada baktigi yasayan bir yol haritasi uretir: hedeften fazlara, sprint planina ve agent olceklendirmesine kadar. Tek plan.json'dan hem repo'da versiyonlanan Markdown hem gorsel PDF sunum.",
   "author": {
     "name": "roadmap-architect"
