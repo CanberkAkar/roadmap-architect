@@ -28,11 +28,13 @@
 <!-- competitive_analysis plan.json'da doluysa bu bölüm kalır, degilse tamamen sil -->
 ## Rakip analizi
 
-| Alternatif | İyi yaptığı | Yapamadığı |
-|---|---|---|
-| {{Rakip A}} | {{...}} | {{...}} |
+| Alternatif | Fiyat | Pazar konumu | İyi yaptığı | Yapamadığı |
+|---|---|---|---|---|
+| {{Rakip A}} | {{499$/ay}} | {{kurumsal segment}} | {{...}} | {{...}} |
+| {{Rakip B}} | {{99$/ay}} | {{KOBİ/startup}} | {{...}} | {{...}} |
+| {{Statüko / hiçbir şey yapmamak}} | {{...}} | — | {{...}} | {{...}} |
 
-**Bizim farkımız:** {{somut fark 1}} · {{somut fark 2}}
+**Bizim farkımız:** {{somut fark 1}} · {{somut fark 2}} · {{somut fark 3}}
 
 <!-- cost_estimate plan.json'da doluysa bu bölüm kalır, degilse tamamen sil -->
 ## İşletme gideri

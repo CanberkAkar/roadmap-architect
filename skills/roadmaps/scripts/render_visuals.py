@@ -131,19 +131,43 @@ def write(out_dir, name, body):
 # --------------------------------------------------------------------------
 
 def render_journey(plan, result, out_dir):
+    """Faz kartlarini cizer. Kart yuksekligi, en uzun metne gore hesaplanir —
+    sabit y-koordinatlari degisken sayida sarilmis satirla catisip metinleri
+    ust uste bindirmesin diye (BU AŞAMA BİTİNCE / NASIL GÖRÜRÜZ)."""
     phases = plan.get("phases", [])
     n = max(1, len(phases))
-    W, H = 1240, 372
-    pad, gap = 20, 18
-    arrow = 22
+    W = 1240
+    pad, gap, arrow = 20, 18, 22
     bw = (W - 2 * pad - (n - 1) * (gap + arrow)) / n
-    top, bh = 28, 304
+    top = 28
 
-    s = [svg_open(W, H, "Faz yolculuğu")]
+    name_chars = max(8, int(bw / 9.6))
+    body_chars = max(10, int(bw / 6.4))
 
     by_phase = {p["phase"]: p for p in result["phases"]}
 
-    for i, ph in enumerate(phases):
+    specs = []
+    for ph in phases:
+        name_lines = wrap(ph.get("name", ph.get("id", "")), name_chars, 2)
+        outcome = ph.get("customer_outcome") or ph.get("purpose") or "—"
+        outcome_lines = wrap(outcome, body_chars, 4)
+        proof = ph.get("milestone")
+        proof_lines = wrap(proof, body_chars, 2) if proof else []
+        specs.append((name_lines, outcome_lines, proof_lines))
+
+    def content_height(name_lines, outcome_lines, proof_lines):
+        y = 32 + 23 + len(name_lines) * 18 + 12
+        y += 18 + len(outcome_lines) * 16
+        if proof_lines:
+            y += 8 + 18 + len(proof_lines) * 15
+        return y + 46  # alt cizgi + effort satiri icin sabit pay
+
+    bh = max(max(content_height(*sp) for sp in specs), 200) + 14
+    H = top + bh + 20
+
+    s = [svg_open(W, H, "Faz yolculuğu")]
+
+    for i, (ph, (name_lines, outcome_lines, proof_lines)) in enumerate(zip(phases, specs)):
         x = pad + i * (bw + gap + arrow)
         pid = ph.get("id") or ph.get("name")
         meta = by_phase.get(pid, {})
@@ -155,30 +179,37 @@ def render_journey(plan, result, out_dir):
                  f'rx="2.5" fill="{accent}"/>')
 
         cx = x + 18
-        s.append(text_el(cx, top + 32, f"AŞAMA {i + 1}", 11, "700", accent))
-        for j, ln in enumerate(wrap(ph.get("name", pid), int(bw / 9.6), 2)):
-            s.append(text_el(cx, top + 55 + j * 18, ln, 14.5, "700"))
+        cy = top + 32
+        s.append(text_el(cx, cy, f"AŞAMA {i + 1}", 11, "700", accent))
+        cy += 23
+        for ln in name_lines:
+            s.append(text_el(cx, cy, ln, 14.5, "700"))
+            cy += 18
+        cy += 12
 
-        outcome = (ph.get("customer_outcome") or ph.get("purpose")
-                   or "—")
-        s.append(text_el(cx, top + 108, "BU AŞAMA BİTİNCE", 9.5, "700", MUTED))
-        for j, ln in enumerate(wrap(outcome, int(bw / 6.4), 4)):
-            s.append(text_el(cx, top + 126 + j * 16, ln, 12, "400", INK))
+        s.append(text_el(cx, cy, "BU AŞAMA BİTİNCE", 9.5, "700", MUTED))
+        cy += 18
+        for ln in outcome_lines:
+            s.append(text_el(cx, cy, ln, 12, "400", INK))
+            cy += 16
 
-        proof = ph.get("milestone")
-        if proof:
-            s.append(text_el(cx, top + 168, "NASIL GÖRÜRÜZ", 9.5, "700", MUTED))
-            for j, ln in enumerate(wrap(proof, int(bw / 6.4), 2)):
-                s.append(text_el(cx, top + 186 + j * 15, ln, 11.5, "400", INK))
+        if proof_lines:
+            cy += 8
+            s.append(text_el(cx, cy, "NASIL GÖRÜRÜZ", 9.5, "700", MUTED))
+            cy += 18
+            for ln in proof_lines:
+                s.append(text_el(cx, cy, ln, 11.5, "400", INK))
+                cy += 15
 
-        s.append(f'<line x1="{cx}" y1="{top + 230}" x2="{x + bw - 18:.1f}" '
-                 f'y2="{top + 230}" stroke="{LINE}"/>')
+        foot_y = top + bh - 22
+        s.append(f'<line x1="{cx}" y1="{foot_y - 20}" x2="{x + bw - 18:.1f}" '
+                 f'y2="{foot_y - 20}" stroke="{LINE}"/>')
         eff = meta.get("effort")
-        s.append(text_el(cx, top + 252, f"{eff:g} iş günü" if eff else "—",
+        s.append(text_el(cx, foot_y, f"{eff:g} iş günü" if eff else "—",
                          12, "700", MUTED))
         prio = ph.get("priority")
         if prio:
-            s.append(text_el(x + bw - 18, top + 252, prio, 11, "700",
+            s.append(text_el(x + bw - 18, foot_y, prio, 11, "700",
                              accent, anchor="end"))
 
         if i < n - 1:

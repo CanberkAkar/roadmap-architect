@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.7.0
+
+- **journey.svg metin taşması düzeltildi** — faz kartlarındaki sabit y-koordinatları
+  değişken satır sayısıyla çakışıp "BU AŞAMA BİTİNCE" ile "NASIL GÖRÜRÜZ" bloklarının
+  üst üste binmesine yol açıyordu. Kart yüksekliği artık içerikteki en uzun metne göre
+  dinamik hesaplanıyor; uzun aşama adı/açıklaması olan planlarda da taşma olmuyor.
+- **Kapak tasarımı yenilendi** — koyu lacivert degrade zemin, büyük beyaz başlık,
+  parlak mavi slogan, köşelerde yumuşak ışık aksanları. Daha çarpıcı ilk izlenim.
+- **"Sonraki adım" slaydına slogan eklendi** — kapanışta slogan tekrar vurgulanıyor
+  (`.tagline` sınıfı, kapak ve kapanışta ortak kullanılıyor), sunum kendi içinde
+  slogan ile açılıp slogan ile kapanıyor.
+- **Rakip analizi derinleştirildi** — her rakibe `pricing` (fiyatlandırma) ve
+  `positioning` (pazar konumu) alanları eklendi; "Neden biz" tablosuna Fiyat sütunu,
+  örnek plana üçüncü bir alternatif ("hiçbir şey yapmamak") eklendi.
+- **Gerçek pazar araştırması zorunlu kılındı** — discovery'ye "Dış dünyayı da araştır"
+  adımı eklendi: gerçek bir ürün/şirket/sektör söz konusuysa `business_case` ve
+  `competitive_analysis` WebSearch ile araştırılan bilgiye dayanmalı, uydurulmamalı.
+
 ## 0.6.0
 
 - **Rakip analizi ve işletme gideri artık varsayılan olarak beklenir** — teknik olarak

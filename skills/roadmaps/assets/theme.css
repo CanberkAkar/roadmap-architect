@@ -81,13 +81,66 @@ ul { margin-top: 10px; }
 li { margin-bottom: 8px; }
 strong { font-weight: 700; }
 
-/* --- kapak --- */
+/* --- kapak: koyu zemin, buyuk kontrast — carpici ilk izlenim --- */
 section.lead {
   justify-content: center;
-  background: linear-gradient(160deg, #ffffff 0%, var(--soft) 100%);
+  background: linear-gradient(135deg, #0f1c30 0%, var(--ink) 55%, #1b3357 100%);
+  color: #ffffff;
 }
-section.lead h1 { font-size: 56px; }
-section.lead h2 { border: none; color: var(--accent); font-size: 30px; }
+section.lead::before,
+section.lead::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+section.lead::before {
+  width: 620px;
+  height: 620px;
+  right: -220px;
+  top: -260px;
+  background: radial-gradient(circle at 30% 30%, rgba(31, 111, 235, 0.55), rgba(31, 111, 235, 0) 70%);
+}
+section.lead::after {
+  width: 420px;
+  height: 420px;
+  left: -160px;
+  bottom: -200px;
+  background: radial-gradient(circle at 70% 70%, rgba(31, 111, 235, 0.28), rgba(31, 111, 235, 0) 70%);
+}
+section.lead h1 {
+  font-size: 64px;
+  color: #ffffff;
+  position: relative;
+}
+section.lead h1::before {
+  content: '';
+  display: block;
+  width: 64px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--accent);
+  margin-bottom: 22px;
+}
+section.lead h2 {
+  border: none;
+  color: #7fb1ff;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  position: relative;
+}
+section.lead .muted { color: rgba(255, 255, 255, 0.62); position: relative; }
+
+/* --- slogan vurgusu: kapak ve kapanista tekrar kullanilir --- */
+.tagline {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -0.3px;
+  margin: 20px 0 0;
+}
+section.lead .tagline { color: #7fb1ff; font-size: 34px; }
 
 /* --- gorsel slaytlari: resim tam genislik --- */
 section.visual { padding: 44px 44px 54px; }

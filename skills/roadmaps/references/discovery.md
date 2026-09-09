@@ -15,6 +15,16 @@ Repo erişimin varsa soru sormadan önce şunları oku:
 
 Sonra bulgularını **doğrulatmak için** sor, sıfırdan bilgi toplamak için değil. "Auth şu an Keycloak üzerinden görünüyor, çok kiracılı yapıya geçişte bu kalacak mı?" — bu, "auth nasıl çalışıyor?" sorusundan çok daha verimlidir.
 
+## Dış dünyayı da araştır
+
+Repo içini incelemek yetmez — `business_case`, `competitive_analysis` ve `growth_projection` gerçek pazar bilgisine dayanmalı, uydurulmamalı. Kullanıcı gerçek bir ürün/şirket/sektör adı verdiğinde (ör. "X sektöründe Y'ye benzer bir ürün"), yazmadan önce **WebSearch/WebFetch ile araştır**:
+
+- Bahsedilen rakip ürünler/şirketler — ne sunuyorlar, fiyatlandırmaları ne, hangi müşteri segmentine hitap ediyorlar
+- Sektörün genel büyüklüğü, büyüme trendi, bilinen oyuncular
+- Varsa ilgili haber, rapor veya pazar analizi
+
+Bulduğun her rakamın/iddianın kaynağını `notes` alanlarına kısaca yaz (ör. "kaynak: X'in fiyatlandırma sayfası, 2026"). Araştırma sonuçsuz kalırsa ("bulamadım") bunu açıkça söyle ve kullanıcıdan doğrulama iste — uydurma rakamla doldurmaktansa "bilinmiyor, doğrulanmalı" demek daha güvenilirdir. Bu adım atlanırsa `competitive_analysis` ve `business_case` masa başında uydurulmuş gibi durur ve sunumun güvenilirliğini düşürür.
+
 ## Talebi analiz et
 
 Müşterinin söylediği şey ("bir dashboard lazım") ile aslında istediği şey ("elimde hangi müşterinin ne kadar risk taşıdığını her sabah görmek istiyorum") genelde farklıdır. İkisini ayrı ayrı yaz:
@@ -73,14 +83,27 @@ Rakam yoksa tahmin etme — "bilinmiyor" yaz ve bunu bir açık varsayım olarak
 
 Müşteri genelde "neden size, neden şimdi bu parayı vereyim" sorusunu içinden sorar ama nadiren yüksek sesle sorar. Aşağıdaki bölümler teknik olarak opsiyonel alanlardır ama pitch deck'te **varsayılan olarak beklenir** — "veri yoksa atlanır" istisnası, "sormaya üşendim" değildir. Discovery'de bunları aktif olarak araştır/tahmin et; sadece gerçekten hiçbir dayanak bulunamıyorsa alanı boş bırak.
 
-**Rakip analizi** — 1-3 benzer çözümü (rakip ürün, mevcut süreç, "hiçbir şey yapmamak" dahil) kısaca değerlendir: neyi iyi yapıyor, neyi yapamıyor. Sonra kendi farkını yaz — iddia değil, somut fark ("2 gün vs 3 hafta", "mevcut kimlik sağlayıcıyla entegre"). Rakibi kötüleme, kendi farkını göster.
+**Rakip analizi** — en az 2-3 benzer çözümü (rakip ürün, mevcut süreç, "hiçbir şey yapmamak" dahil) **detaylı** değerlendir, tek cümlelik yüzeysel değerlendirme yetmez:
+
+- **Fiyatlandırma** — bulabildiğin kadar somut (aylık/yıllık, kullanıcı başı, kurulum ücreti)
+- **Pazar konumu** — kime hitap ediyor (KOBİ mi kurumsal mı, hangi sektör), ne kadar yerleşik
+- **Güçlü yanı** — gerçekten iyi yaptığı şey, küçümsemeden
+- **Zayıf yanı** — somut, doğrulanabilir eksik (iddia değil: "SSO desteklemiyor" evet, "kötü ürün" hayır)
+
+Sonra kendi farkını yaz — iddia değil, somut fark ("2 gün vs 3 hafta", "mevcut kimlik sağlayıcıyla entegre"). Rakibi kötüleme, kendi farkını göster. Bilgi "Dış dünyayı da araştır" adımındaki WebSearch bulgularına dayanmalı; tahminse `note` alanında belirt.
 
 ```json
 "competitive_analysis": {
   "competitors": [
-    {"name": "<rakip/alternatif>", "strengths": "<iyi yaptığı>", "weaknesses": "<yapamadığı>"}
+    {
+      "name": "<rakip/alternatif>",
+      "pricing": "<bulunabildiyse somut fiyat, yoksa 'bilinmiyor'>",
+      "positioning": "<kime hitap ediyor, pazardaki yeri>",
+      "strengths": "<iyi yaptığı>",
+      "weaknesses": "<yapamadığı>"
+    }
   ],
-  "our_advantages": ["<somut fark 1>", "<somut fark 2>"]
+  "our_advantages": ["<somut fark 1>", "<somut fark 2>", "<somut fark 3>"]
 }
 ```
 

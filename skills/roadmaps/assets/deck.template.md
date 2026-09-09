@@ -55,10 +55,11 @@ footer: '{{Proje adı}} · {{tarih}}'
 
 <!-- competitive_analysis doluysa bu slayt kalır, degilse tamamen sil -->
 
-| Alternatif | İyi yaptığı | Yapamadığı |
-|---|---|---|
-| {{Rakip A}} | {{...}} | {{...}} |
-| {{Rakip B}} | {{...}} | {{...}} |
+| Alternatif | Fiyat | İyi yaptığı | Yapamadığı |
+|---|---|---|---|
+| {{Rakip A}} | {{499$/ay}} | {{...}} | {{...}} |
+| {{Rakip B}} | {{99$/ay}} | {{...}} | {{...}} |
+| {{Rakip C / statüko}} | {{...}} | {{...}} | {{...}} |
 
 <div class="callout">
 <strong>Bizim farkımız:</strong> {{somut fark 1}} · {{somut fark 2}} · {{somut fark 3}}
@@ -128,6 +129,8 @@ footer: '{{Proje adı}} · {{tarih}}'
 ---
 
 ## Sonraki adım
+
+<div class="tagline">{{Slogan — slogan.chosen, kapaktakiyle aynı}}</div>
 
 <div class="kpi">
 <div><div class="n">{{4}}</div><div class="l">Aşama sayısı</div></div>

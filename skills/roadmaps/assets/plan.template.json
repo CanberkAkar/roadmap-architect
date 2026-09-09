@@ -19,13 +19,24 @@
     "competitors": [
       {
         "name": "Rakip A",
-        "strengths": "Pazarda en bilinen isim, guclu marka bilinirligi",
+        "pricing": "499$/ay, kullanici basi ek ucret",
+        "positioning": "Kurumsal segment, pazarda en bilinen isim",
+        "strengths": "Guclu marka bilinirligi, genis entegrasyon katalogu",
         "weaknesses": "Kurumsal devreye alma 3 hafta suruyor, ozel entegrasyon desteklemiyor"
       },
       {
         "name": "Rakip B",
-        "strengths": "Giris seviyesi fiyat",
-        "weaknesses": "SSO/SCIM desteklemiyor, destek yanit suresi yavas"
+        "pricing": "99$/ay, sabit — giris seviyesi",
+        "positioning": "Kucuk ekipler ve startup'lar",
+        "strengths": "Giris seviyesi fiyat, hizli kurulum",
+        "weaknesses": "SSO/SCIM desteklemiyor, destek yanit suresi yavas, kurumsal olcekte zayif"
+      },
+      {
+        "name": "Hicbir sey yapmamak (mevcut surec)",
+        "pricing": "Dogrudan lisans yok ama 3 haftalik manuel is gucu maliyeti",
+        "positioning": "Statuko",
+        "strengths": "Ek yatirim gerekmiyor, bilinen surec",
+        "weaknesses": "Devreye alma suresi rakiplere karsi dezavantaj yaratiyor, pipeline kaybi devam ediyor"
       }
     ],
     "our_advantages": [
