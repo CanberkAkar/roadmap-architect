@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+- Skill yeniden adlandırıldı: `skills/roadmap-architect/` → `skills/roadmaps/`, `SKILL.md` frontmatter'ı `name: roadmaps`. Plugin/repo adı `roadmap-architect` olarak kalıyor.
+
 ## 0.2.0
 
 - **Ortak dil katmanı** — `plan.json` içinde `customer_outcome` / `customer_name` / `customer_text`
