@@ -11,7 +11,7 @@ Roadmap'i task listesi olarak değil, ürünün hangi aşamalardan geçerek hede
 Claude Code içinde:
 
 ```
-/plugin marketplace add GITHUB_KULLANICI/roadmap-architect
+/plugin marketplace add CanberkAkar/roadmap-architect
 /plugin install roadmap-architect@roadmap-architect
 ```
 
