@@ -1,5 +1,5 @@
 ---
-name: roadmap-architect
+name: roadmaps
 description: Bir urun veya projeyi business hedefinden baslayip fazlara, milestone'lara, sprint planina ve agent/ekip olceklendirmesine kadar planlar; sonucu hem musterinin hem teknik ekibin ayni masada okuyabilecegi gorsel bir PDF ve Markdown olarak uretir; mevcut roadmap'i yeni feedback, teknik bulgu veya oncelik degisikligine gore gunceller. Kullanici "roadmap", "yol haritasi", "faz", "milestone", "sprint plani", "kapasite", "kac agent", "kac kisi", "projeyi planla", "musteriye sunum", "teklif", "proje plani", "nereden baslayalim", "bu isi nasil boleriz" gibi seylerden bahsettiginde MUTLAKA bu skill'i kullan. Ayrica buyuk bir feature veya sifirdan bir proje icin uygulama sirasi, oncelik ya da musteriyle hizalanma soruldugunda da kullan; kullanici "roadmap" kelimesini kullanmasa bile. Sadece tek bir task'in nasil yapilacagi soruluyorsa kullanma.
 ---
 
@@ -68,7 +68,7 @@ Müşteriye gidecek her faz ve her yüksek riskli iş için `customer_outcome`, 
 Aritmetiği kafadan yapma:
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/roadmap-architect/scripts/plan_capacity.py plan.json
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/roadmaps/scripts/plan_capacity.py plan.json
 ```
 
 Toplam effort, kritik yol, paralelleşebilirlik indeksi, önerilen eşzamanlı agent sayısı, minimum sprint sayısı ve sprint dağılımı verir. Yorumlaması `references/agent-sizing.md`.
@@ -79,7 +79,7 @@ Sayıyı olduğu gibi aktarma — **neden** o sayı olduğunu ve neyin onu deği
 Müşteriyle hizalanma tabloyla değil şekille olur:
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/roadmap-architect/scripts/render_visuals.py plan.json \
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/roadmaps/scripts/render_visuals.py plan.json \
   --out docs/assets --audience customer
 ```
 
@@ -96,7 +96,7 @@ Her zaman üçü birden:
 
 ```bash
 npx --yes @marp-team/marp-cli@latest docs/roadmap-deck.md \
-  --theme ${CLAUDE_PLUGIN_ROOT}/skills/roadmap-architect/assets/theme.css \
+  --theme ${CLAUDE_PLUGIN_ROOT}/skills/roadmaps/assets/theme.css \
   --allow-local-files --pdf -o docs/roadmap-deck.pdf
 ```
 

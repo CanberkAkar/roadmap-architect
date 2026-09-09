@@ -3,7 +3,7 @@ description: Yeni bulgu, feedback veya öncelik değişikliğine göre roadmap'i
 argument-hint: <ne değişti>
 ---
 
-`roadmap-architect` skill'ini, özellikle `references/revision.md` bölümünü kullan.
+`roadmaps` skill'ini, özellikle `references/revision.md` bölümünü kullan.
 
 Değişiklik: $ARGUMENTS
 

@@ -7,7 +7,7 @@ Sprint planı roadmap'in altındaki katmandır. Roadmap "hangi aşamalardan geç
 `plan.json` + kapasite script'inin çıktısı. Script sprint dağılımını zaten yapar; senin işin onu okunur ve savunulabilir hale getirmek.
 
 ```bash
-python3 skills/roadmap-architect/scripts/plan_capacity.py plan.json --json > capacity.json
+python3 skills/roadmaps/scripts/plan_capacity.py plan.json --json > capacity.json
 ```
 
 ## Script'in kullandığı sıralama

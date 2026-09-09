@@ -7,7 +7,7 @@ argument-hint: [opsiyonel: faz adı]
 
 Kapsam: $ARGUMENTS
 
-1. `python3 ${CLAUDE_PLUGIN_ROOT}/skills/roadmap-architect/scripts/plan_capacity.py plan.json`
+1. `python3 ${CLAUDE_PLUGIN_ROOT}/skills/roadmaps/scripts/plan_capacity.py plan.json`
 2. Stream ayrımını repo'nun gerçek modül sınırlarıyla karşılaştır. Paylaşılan şema, ortak tipler ve migration'lar tek stream'e ait olmalı — ayrıysa düzelt ve yeniden hesapla.
 3. Faz bazlı tabloyu üret: paralel iş, önerilen agent, sınırlayan kısıt.
 

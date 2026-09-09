@@ -8,17 +8,17 @@ Dil kurallarını önce `references/audience.md` içinden oku. Sunumun tamamı m
 
 ```bash
 # 1. Hesap
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/roadmap-architect/scripts/plan_capacity.py plan.json
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/roadmaps/scripts/plan_capacity.py plan.json
 
 # 2. Görseller (müşteri diliyle)
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/roadmap-architect/scripts/render_visuals.py plan.json \
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/roadmaps/scripts/render_visuals.py plan.json \
   --out docs/assets --audience customer
 
 # 3. Slaytları yaz — assets/deck.template.md şablonundan, docs/roadmap-deck.md olarak
 
 # 4. PDF
 npx --yes @marp-team/marp-cli@latest docs/roadmap-deck.md \
-  --theme ${CLAUDE_PLUGIN_ROOT}/skills/roadmap-architect/assets/theme.css \
+  --theme ${CLAUDE_PLUGIN_ROOT}/skills/roadmaps/assets/theme.css \
   --allow-local-files --pdf -o docs/roadmap-deck.pdf
 ```
 

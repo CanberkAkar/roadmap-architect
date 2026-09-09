@@ -18,13 +18,13 @@ jobs:
         run: |
           python3 -c "import json; json.load(open('.claude-plugin/plugin.json'))"
           python3 -c "import json; json.load(open('.claude-plugin/marketplace.json'))"
-          python3 -c "import json; json.load(open('skills/roadmap-architect/assets/plan.template.json'))"
+          python3 -c "import json; json.load(open('skills/roadmaps/assets/plan.template.json'))"
 
       - name: SKILL.md frontmatter var mı
         run: |
-          head -1 skills/roadmap-architect/SKILL.md | grep -q '^---$'
-          grep -q '^name:' skills/roadmap-architect/SKILL.md
-          grep -q '^description:' skills/roadmap-architect/SKILL.md
+          head -1 skills/roadmaps/SKILL.md | grep -q '^---$'
+          grep -q '^name:' skills/roadmaps/SKILL.md
+          grep -q '^description:' skills/roadmaps/SKILL.md
 
       - name: Komut dosyalarının frontmatter'ı
         run: |
@@ -34,29 +34,29 @@ jobs:
 
       - name: SKILL.md'de referans edilen dosyalar mevcut mu
         run: |
-          cd skills/roadmap-architect
+          cd skills/roadmaps
           for f in $(grep -o 'references/[a-z-]*\.md' SKILL.md | sort -u); do
             test -f "$f" || { echo "eksik: $f"; exit 1; }
           done
 
       - name: Kapasite hesabı çalışıyor mu
         run: |
-          python3 skills/roadmap-architect/scripts/plan_capacity.py \
-            skills/roadmap-architect/assets/plan.template.json > /dev/null
-          python3 skills/roadmap-architect/scripts/plan_capacity.py \
-            skills/roadmap-architect/assets/plan.template.json --json | python3 -c "import json,sys; json.load(sys.stdin)"
+          python3 skills/roadmaps/scripts/plan_capacity.py \
+            skills/roadmaps/assets/plan.template.json > /dev/null
+          python3 skills/roadmaps/scripts/plan_capacity.py \
+            skills/roadmaps/assets/plan.template.json --json | python3 -c "import json,sys; json.load(sys.stdin)"
 
       - name: Görseller üretiliyor mu
         run: |
           for a in customer delivery; do
-            python3 skills/roadmap-architect/scripts/render_visuals.py \
-              skills/roadmap-architect/assets/plan.template.json --out /tmp/vis-$a --audience $a
+            python3 skills/roadmaps/scripts/render_visuals.py \
+              skills/roadmaps/assets/plan.template.json --out /tmp/vis-$a --audience $a
           done
           test $(ls /tmp/vis-customer/*.svg | wc -l) -eq 5
 
       - name: Bozuk plan reddediliyor mu
         run: |
           echo '{"phases":[{"id":"P1","items":[{"id":"A","effort":1,"deps":["B"]},{"id":"B","effort":1,"deps":["A"]}]}]}' > /tmp/cycle.json
-          if python3 skills/roadmap-architect/scripts/plan_capacity.py /tmp/cycle.json; then
+          if python3 skills/roadmaps/scripts/plan_capacity.py /tmp/cycle.json; then
             echo "döngü tespit edilmedi"; exit 1
           fi

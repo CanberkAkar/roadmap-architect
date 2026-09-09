@@ -21,7 +21,7 @@ Yerel geliştirme için repo'yu klonlayıp klasör yolunu vermek de yeterli:
 /plugin marketplace add ~/kod/roadmap-architect
 ```
 
-Sadece skill'i (komutlar olmadan, Claude.ai dahil) kullanmak isterseniz `skills/roadmap-architect/`
+Sadece skill'i (komutlar olmadan, Claude.ai dahil) kullanmak isterseniz `skills/roadmaps/`
 klasörünü `~/.claude/skills/` altına kopyalayın ya da yayınlanan `.skill` dosyasını yükleyin.
 
 ## Komutlar
@@ -48,9 +48,9 @@ Komut kullanmadan da çalışır — "şu projeyi nasıl planlarız", "bu işi k
 | `docs/sprints.md` | Sprint kartları |
 
 ```bash
-python3 skills/roadmap-architect/scripts/render_visuals.py plan.json --out docs/assets --audience customer
+python3 skills/roadmaps/scripts/render_visuals.py plan.json --out docs/assets --audience customer
 npx --yes @marp-team/marp-cli@latest docs/roadmap-deck.md \
-  --theme skills/roadmap-architect/assets/theme.css \
+  --theme skills/roadmaps/assets/theme.css \
   --allow-local-files --pdf -o docs/roadmap-deck.pdf
 ```
 
@@ -87,8 +87,8 @@ Sadeleştirme saklamak değildir: riskler, effort belirsizliği, müşteriden be
 Agent sayısı ve süre tahminleri kafadan değil, `plan.json`'daki dependency grafiğinden hesaplanır:
 
 ```bash
-python3 skills/roadmap-architect/scripts/plan_capacity.py plan.json
-python3 skills/roadmap-architect/scripts/plan_capacity.py plan.json --json --estimate p80
+python3 skills/roadmaps/scripts/plan_capacity.py plan.json
+python3 skills/roadmaps/scripts/plan_capacity.py plan.json --json --estimate p80
 ```
 
 Hesapladıkları:
@@ -122,7 +122,7 @@ Skill ölçeği effort toplamından kendi belirler ve süreç ağırlığını o
 roadmap-architect/
 ├── .claude-plugin/plugin.json
 ├── commands/            roadmap · sprint · scale · roadmap-update
-└── skills/roadmap-architect/
+└── skills/roadmaps/
     ├── SKILL.md
     ├── references/      discovery · phasing-and-risk · sprint-planning
     │                    agent-sizing · audience · deck · revision
@@ -147,8 +147,8 @@ edilen dosyaların varlığını ve iki script'in çalıştığını kontrol ede
 Test için:
 
 ```bash
-python3 skills/roadmap-architect/scripts/plan_capacity.py skills/roadmap-architect/assets/plan.template.json
-python3 skills/roadmap-architect/scripts/render_visuals.py skills/roadmap-architect/assets/plan.template.json --out /tmp/vis
+python3 skills/roadmaps/scripts/plan_capacity.py skills/roadmaps/assets/plan.template.json
+python3 skills/roadmaps/scripts/render_visuals.py skills/roadmaps/assets/plan.template.json --out /tmp/vis
 ```
 
 ## Lisans
