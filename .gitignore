@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.DS_Store
+node_modules/
+
+# calisma ciktilari — bunlar kullanicinin kendi projesinde uretilir
+docs/assets/*.svg
+docs/roadmap-deck.pdf
+docs/roadmap-deck.html
+plan.json
+capacity.json

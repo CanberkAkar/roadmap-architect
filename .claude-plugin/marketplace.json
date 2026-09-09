@@ -1,0 +1,30 @@
+{
+  "name": "roadmap-architect",
+  "owner": {
+    "name": "GITHUB_KULLANICI",
+    "url": "https://github.com/GITHUB_KULLANICI"
+  },
+  "metadata": {
+    "description": "Musteri ve teknik ekibin ayni masada baktigi yasayan yol haritasi araci",
+    "version": "0.2.0"
+  },
+  "plugins": [
+    {
+      "name": "roadmap-architect",
+      "source": "./",
+      "description": "Business hedefinden fazlara, milestone'lara, sprint planina ve agent olceklendirmesine kadar bir yol haritasi uretir. Tek plan.json'dan hem repo'da versiyonlanan Markdown hem gorsel PDF sunum cikarir; musteri ve teknik ekip ayni plandan calisir.",
+      "version": "0.2.0",
+      "keywords": [
+        "roadmap",
+        "sprint-planning",
+        "milestone",
+        "dependency",
+        "risk",
+        "capacity-planning",
+        "agent-orchestration",
+        "customer-alignment",
+        "presentation"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+# Ortak dil: müşteri ve teknik ekip aynı plana bakar
+
+Bu skill'in asıl amacı iki tarafı aynı sayfada buluşturmak. Bunun için iki ayrı doküman üretilmez — **tek bir `plan.json`** üretilir, iki dille sunulur.
+
+İki doküman üretmek en sık yapılan hatadır: birbirinden kopar, biri güncellenip diğeri unutulur ve iki taraf farklı gerçekliklerde yaşamaya başlar. Aynı veriden iki görünüm üret.
+
+## Ayrım nerede
+
+| | Müşteri görünümü | Teknik görünüm |
+|---|---|---|
+| Soru | "Ne alacağım, ne zaman, neden bu sırayla?" | "Ne yapacağım, neye bağlı, ne kadar sürer?" |
+| Faz adı | `customer_outcome` | `purpose` |
+| İş adı | `customer_name` | `name` |
+| Risk metni | `customer_text` | `text` |
+| Effort | Faz toplamı, "iş günü" | İş bazında, P50–P80 |
+| Bağımlılık | Sadece müşteriyi ilgilendirenler | Tamamı |
+
+`render_visuals.py --audience customer|delivery` aynı plandan iki görsel seti üretir. `plan.json`'a `customer_*` alanlarını yazmak zorunlu değildir; yoksa teknik ad kullanılır — ama müşteriye gidecek her faz ve her yüksek riskli iş için yazılmalıdır.
+
+## Yazım kuralı: mekanizmayı değil sonucu adlandır
+
+Müşteri, ne yaptığınızı değil ne değiştiğini anlamak ister.
+
+| Teknik ad | Müşteriye |
+|---|---|
+| Kiracı izolasyon spike (RLS vs şema-başı) | Verileri müşteri bazında ayırma yöntemini seçiyoruz |
+| İstek bağlamında kiracı çözümleme | Her kullanıcı otomatik olarak kendi şirketinin verisini görüyor |
+| Şema migration | Mevcut veriler yeni yapıya taşınıyor |
+| Sözleşme testi | Tedarikçinin vaat ettiğini gerçekten yaptığını doğruluyoruz |
+| Walking skeleton | En basit haliyle baştan sona çalışan ilk sürüm |
+| Regresyon paketi | Eski özelliklerin bozulmadığını otomatik kontrol |
+| Rollback prosedürü | Bir sorun çıkarsa eski hale dönme planı |
+| Yük testi | Kaç eşzamanlı kullanıcıyı kaldırdığını ölçüyoruz |
+| Teknik borç | Sonradan yavaşlatacak birikmiş düzeltmeler |
+| Refactor | Görünürde değişiklik yok, sonraki işleri hızlandırıyor |
+
+Bu tablo örnektir, ezber değil. Kural şu: **cümlenin öznesi kullanıcı veya sistem davranışı olsun**, kod veya araç değil.
+
+### "Ee, yani?" testi
+Her müşteri-yönlü satırı okuduktan sonra "ee, yani?" diye sor. Cevap veremiyorsan satır teknik kalmıştır.
+
+- "Kiracı veri modeli kuruluyor" → *Ee, yani?* → **"Her müşterinin verisi birbirinden ayrılıyor"**
+- "CI hattı kuruluyor" → *Ee, yani?* → **"Her değişiklik otomatik test edilip aynı gün canlıya çıkabiliyor"**
+
+### Yasak kelime listesi (müşteri görünümünde)
+`refactor`, `migration`, `endpoint`, `middleware`, `schema`, `deploy`, `pipeline`, `stack`, `sprint velocity`, `story point`, `spike` (yerine "ön çalışma"), `PoC` (yerine "küçük ölçekli deneme").
+
+Sprint kelimesi kalabilir — çoğu müşteri artık biliyor — ama ilk kullanımda bir kez açıkla: "iki haftalık çalışma dilimi".
+
+## Gizlenmeyecek şeyler
+
+Sadeleştirme, saklama değildir. Aşağıdakiler müşteri görünümünde **aynen** durmalı:
+
+- **Riskler** — en yüksek üç risk ve kötü senaryodaki etkisi
+- **Belirsizlik** — effort aralık olarak verilir; tek sayı sahte kesinliktir
+- **Müşteriden beklenenler** — SSO bilgisi, test kullanıcısı, onay, içerik. Gecikirse planın nasıl kayacağıyla birlikte.
+- **Kapsam dışı** — en çok tartışma çıkaran ve en çok atlanan bölüm
+- **Karar noktaları** — "X çıkarsa plan Y olur". Müşteri sürprizi değil, önceden anlatılmış olasılığı kabul eder.
+
+Riskleri gizleyen bir plan, ilk aksilikte tüm güvenilirliğini kaybeder. Riski önceden söylemiş olmak, gerçekleştiğinde tartışmayı "neden olmadı"dan "hangi seçeneği seçiyoruz"a çevirir.
+
+## Müşteriden beklenenleri işe dönüştür
+
+Müşteri tarafındaki işler çoğu zaman gerçek kritik yoldur ama plana yazılmadıkları için görünmezler. Her birini `plan.json`'a normal bir iş gibi gir:
+
+```json
+{
+  "id": "C01",
+  "name": "SSO metadata ve test kullanıcıları",
+  "customer_name": "Sizden: kimlik sistemi bilgileri ve 2 test kullanıcısı",
+  "effort": 1,
+  "owner": "customer",
+  "lead_time_days": 10,
+  "risk": "high",
+  "stream": "musteri"
+}
+```
+
+Böylece kritik yol hesabına dahil olurlar ve zaman şeridinde görünürler. Müşteri kendi işini planın içinde görünce sahiplenir; e-postada gördüğünde ertelenir.
+
+## Effort ve süre dili
+
+- Müşteriye **"iş günü"** de, adam/gün veya story point deme
+- Takvim tarihi verme, **sprint numarası** ver — tarihe çevirmek müşteriyle birlikte alınacak bir karardır
+- Aralık ver: "18–26 iş günü". Aralığın genişliği, belirsizliğin dürüst ölçüsüdür.
+- "Kritik yol" terimini kullanabilirsin ama bir kez tanımla: **"sırayla yapılması zorunlu işler zinciri — bu zincir kısalmadan proje daha hızlı bitmez"**
+
+## Agent ve ekip sayısını müşteriye anlatmak
+
+Müşteri "kaç agent" ile ilgilenmez, "neden daha hızlı olmuyor" ile ilgilenir. Üçlü cümleyi bu dile çevir:
+
+> Bu aşamada birbirinden bağımsız yürüyebilecek **5** iş var. Ama aynı anda **3** tanesini yürütebiliyoruz, çünkü hepsi aynı bölüme dokunuyor ve tek bir kişi kontrol ediyor. Dördüncüye çıkmak için kontrol tarafına bir kişi daha gerekiyor.
+
+Bu, "daha fazla kaynak verin" pazarlığını "şu darboğazı birlikte kaldıralım" konuşmasına çevirir.
+
+## Toplantı sırası
+
+Sunum bu sırayla ilerlemeli — bir argüman kurar:
+
+1. **Hedef ve başarı kriteri** → aynı şeyi mi konuşuyoruz?
+2. **Kapsam dışı** → itirazlar burada toplanır, sonra pahalıya mal olur
+3. **Faz yolculuğu** → müşteri ne zaman ne alıyor
+4. **Kritik yol** → neden bu sırayla, neden daha hızlı olmuyor
+5. **Riskler ve karar noktaları** → ters giderse ne yapacağız
+6. **Müşteriden beklenenler** → kim ne zaman ne verecek
+7. **Karar talebi** → toplantıdan ne çıkacak
+
+Yedinci madde olmadan toplantı bitmez, sadece durur.
+
+## Revizyonda ortak dil
+
+Güncelleme yaparken müşteri tarafına giden özet üç satırı geçmesin:
+
+```
+Ne değişti: <olgu, teknik terim olmadan>
+Plana etkisi: <hangi aşama ne kadar kaydı>
+Sizden gereken: <varsa; yoksa "yok" yaz>
+```
+
+"Sizden gereken: yok" satırını atlamayın. Müşteri her güncellemede kendisinden bir şey isteneceğini varsayar; istenmediğini söylemek güven kurar.

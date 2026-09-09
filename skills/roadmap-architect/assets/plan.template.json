@@ -1,0 +1,306 @@
+{
+  "_comment": "plan.json — roadmap'in tek veri kaynagi. roadmap.md, sunum, gorseller ve kapasite hesabi bundan turer. Iki kitleye birden hitap eder: 'customer_*' alanlari musteriye, digerleri teknik ekibe.",
+  "project": "Cok kiracili SaaS gecisi",
+  "goal": "Kurumsal musterilere ayri kurulum yapmadan satabilmek",
+  "success_metric": {
+    "name": "Yeni kurumsal musteri devreye alma suresi",
+    "baseline": "3 hafta",
+    "target": "2 gun",
+    "measured_at": "Faz 4 sonu"
+  },
+  "sprint_length_days": 10,
+  "team": {
+    "people": 4,
+    "focus_factor": 0.65,
+    "reviewers": 1,
+    "reviews_per_day": 2.5,
+    "roles": [
+      "backend x2",
+      "frontend",
+      "devops (yarim zamanli)"
+    ]
+  },
+  "constraints": [
+    "Q3 sonunda ilk kurumsal musteri sozlesmesi var",
+    "Mevcut musterilerde kesinti yapilamaz"
+  ],
+  "out_of_scope": [
+    "Kendi kendine kayit (self-serve onboarding) — Faz 5 sonrasi"
+  ],
+  "assumptions": [
+    {
+      "text": "Mevcut Postgres semasi kiraci bazli izolasyona uyarlanabilir",
+      "if_wrong": "Sema gocu gerekir, +15 gun"
+    }
+  ],
+  "phases": [
+    {
+      "id": "P1",
+      "name": "Dogrulama",
+      "customer_outcome": "Belirsizlikler kapaniyor: hangi yaklasimla ilerleyecegimiz kanitlanmis oluyor",
+      "purpose": "En yuksek riskli iki varsayim kapaniyor",
+      "milestone": "Iki teknik karar yaziyla gerekcelendirilip onaya sunulur",
+      "priority": "P0",
+      "items": [
+        {
+          "id": "T01",
+          "name": "Kiraci izolasyon spike (RLS vs sema-basi)",
+          "effort": {
+            "p50": 3,
+            "p80": 5
+          },
+          "deps": [],
+          "risk": "high",
+          "stream": "veri",
+          "type": "spike",
+          "decision_point": "RLS yetmezse Faz 2'ye sema-basi gocu eklenir (+15g)"
+        },
+        {
+          "id": "T02",
+          "name": "Kimlik saglayici SSO sozlesme testi",
+          "effort": {
+            "p50": 2,
+            "p80": 4
+          },
+          "deps": [],
+          "risk": "high",
+          "stream": "auth",
+          "type": "contract-test",
+          "decision_point": "SCIM yoksa kullanici senkronu manuel kalir"
+        }
+      ],
+      "customer_value": "Surprizleri projenin sonunda degil basinda ogreniyoruz"
+    },
+    {
+      "id": "P2",
+      "name": "Iskelet",
+      "customer_outcome": "Tek bir kurumsal musteri icin sistem bastan sona calisiyor",
+      "purpose": "Tek kiraci uctan uca calisiyor",
+      "milestone": "Canli demo: musteri kendi hesabiyla giris yapip islem tamamliyor",
+      "priority": "P0",
+      "items": [
+        {
+          "id": "T03",
+          "name": "Kiraci veri modeli ve migration",
+          "effort": {
+            "p50": 8,
+            "p80": 13
+          },
+          "deps": [
+            "T01"
+          ],
+          "risk": "medium",
+          "stream": "veri"
+        },
+        {
+          "id": "T04",
+          "name": "Istek baglaminda kiraci cozumleme",
+          "effort": {
+            "p50": 5,
+            "p80": 8
+          },
+          "deps": [
+            "T03"
+          ],
+          "risk": "medium",
+          "stream": "api"
+        },
+        {
+          "id": "T05",
+          "name": "SSO giris akisi",
+          "effort": {
+            "p50": 6,
+            "p80": 9
+          },
+          "deps": [
+            "T02"
+          ],
+          "risk": "medium",
+          "stream": "auth"
+        }
+      ],
+      "customer_value": "Ilk somut ciktiyi 2. ayda goruyorsunuz, 6. ayda degil"
+    },
+    {
+      "id": "P3",
+      "name": "Genisleme",
+      "customer_outcome": "Tum modüller kurumsal musteri ayrimiyla calisiyor",
+      "purpose": "Tum modüller cok kiracili calisiyor",
+      "milestone": "Tam regresyon testi kurumsal modda basariyla geciyor",
+      "priority": "P0",
+      "items": [
+        {
+          "id": "T06",
+          "name": "Raporlama modulu kiraci ayrimi",
+          "effort": {
+            "p50": 7,
+            "p80": 11
+          },
+          "deps": [
+            "T04"
+          ],
+          "risk": "low",
+          "stream": "api"
+        },
+        {
+          "id": "T07",
+          "name": "Yonetim paneli kiraci secici",
+          "effort": {
+            "p50": 6,
+            "p80": 9
+          },
+          "deps": [
+            "T04"
+          ],
+          "risk": "low",
+          "stream": "web"
+        },
+        {
+          "id": "T08",
+          "name": "Arka plan islerinde kiraci izolasyonu",
+          "effort": {
+            "p50": 5,
+            "p80": 8
+          },
+          "deps": [
+            "T04"
+          ],
+          "risk": "medium",
+          "stream": "worker"
+        },
+        {
+          "id": "T09",
+          "name": "Kiraci bazli kullanim olcumu",
+          "effort": {
+            "p50": 4,
+            "p80": 6
+          },
+          "deps": [
+            "T04"
+          ],
+          "risk": "low",
+          "stream": "veri"
+        }
+      ],
+      "customer_value": "Urunun tamami kurumsal kullanima aciliyor"
+    },
+    {
+      "id": "P4",
+      "name": "Sertlestirme ve devreye alma",
+      "customer_outcome": "Ilk kurumsal musteri kesintisiz devreye alinabiliyor",
+      "purpose": "Ilk kurumsal musteri canliya alinabilir",
+      "milestone": "Musteri kendi ortaminda calisiyor, mevcut musteriler etkilenmedi",
+      "priority": "P0",
+      "items": [
+        {
+          "id": "T10",
+          "name": "Capraz kiraci sizma testleri",
+          "effort": {
+            "p50": 5,
+            "p80": 8
+          },
+          "deps": [
+            "T06",
+            "T07",
+            "T08"
+          ],
+          "risk": "high",
+          "stream": "guvenlik"
+        },
+        {
+          "id": "T11",
+          "name": "Mevcut musterileri varsayilan kiraciya tasima",
+          "effort": {
+            "p50": 6,
+            "p80": 10
+          },
+          "deps": [
+            "T09"
+          ],
+          "risk": "high",
+          "stream": "veri"
+        },
+        {
+          "id": "T12",
+          "name": "Devreye alma ve geri donus prosedurleri",
+          "effort": {
+            "p50": 3,
+            "p80": 5
+          },
+          "deps": [
+            "T10",
+            "T11"
+          ],
+          "risk": "medium",
+          "stream": "devops"
+        }
+      ],
+      "customer_value": "Sozlesmedeki teslim taahhudu karsilaniyor"
+    }
+  ],
+  "external_dependencies": [
+    {
+      "what": "Kurumsal musteriden SSO metadata",
+      "owner": "Satis",
+      "lead_time_days": 10,
+      "trigger_by": "Sprint 1"
+    }
+  ],
+  "audience": {
+    "customer": "Musteri tarafindaki karar verici / sponsor",
+    "delivery": "Teknik ekip",
+    "shared_language": true
+  },
+  "risks": [
+    {
+      "id": "R1",
+      "text": "Mevcut veri yapisi musteri ayrimini kaldirmayabilir",
+      "customer_text": "Verileri musteri bazinda ayirma yontemi mevcut sistemle uyusmayabilir",
+      "impact": "yüksek",
+      "probability": "orta",
+      "when": "Asama 1, ilk 2 hafta",
+      "mitigation": "3 gunluk on calisma",
+      "decision": "Uyusmazsa veri tasima eklenir, +3 hafta"
+    },
+    {
+      "id": "R2",
+      "text": "Kimlik saglayici SCIM desteklemeyebilir",
+      "customer_text": "Kullanici listenizin otomatik senkronu mumkun olmayabilir",
+      "impact": "orta",
+      "probability": "orta",
+      "when": "Asama 1, ilk 2 hafta",
+      "mitigation": "Saglayici ile sozlesme testi",
+      "decision": "Desteklemezse kullanici ekleme manuel kalir"
+    },
+    {
+      "id": "R3",
+      "text": "Capraz musteri veri sizintisi",
+      "customer_text": "Bir musterinin verisi digerine gorunebilir",
+      "impact": "yüksek",
+      "probability": "düşük",
+      "when": "Asama 4",
+      "mitigation": "Bagimsiz sizma testi",
+      "decision": "Bulgu cikarsa devreye alma durur"
+    },
+    {
+      "id": "R4",
+      "text": "Mevcut musteri gocunde kesinti",
+      "customer_text": "Tasima sirasinda mevcut kullanicilar kisa sure erisemeyebilir",
+      "impact": "yüksek",
+      "probability": "düşük",
+      "when": "Asama 4",
+      "mitigation": "Once kopya ortamda prova",
+      "decision": "Prova basarisizsa gece bakim penceresi acilir"
+    },
+    {
+      "id": "R5",
+      "text": "Musteriden SSO bilgileri geç gelir",
+      "customer_text": "Sizden beklenen teknik bilgiler gecikirse Asama 2 kayar",
+      "impact": "orta",
+      "probability": "yüksek",
+      "when": "Sprint 1",
+      "mitigation": "Sprint 1'de resmi talep",
+      "decision": "10 gun icinde gelmezse plan 1 sprint kayar"
+    }
+  ]
+}
