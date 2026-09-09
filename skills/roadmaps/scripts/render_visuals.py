@@ -8,6 +8,8 @@ Uretilenler (docs/assets/ altina):
   depgraph.svg   Bagimlilik haritasi, kritik yol vurgulu
   riskmatrix.svg Risk matrisi (etki x olasilik)
   capacity.svg   Faz bazinda paralellik ve onerilen agent sayisi
+  deadline.svg   Teslim guvenilirligi (kritik yol vs deadline) — plan.json'da
+                 "deadline" alani varsa uretilir, yoksa atlanir
 
 Kullanim:
     python3 render_visuals.py plan.json --out docs/assets
@@ -539,6 +541,60 @@ def render_capacity(result, out_dir):
     return write(out_dir, "capacity.svg", "".join(s))
 
 
+DEADLINE_STATUS_LABEL = {"rahat": "Rahat", "sikisik": "Sıkışık", "riskli": "Riskli"}
+DEADLINE_STATUS_COLOR = {"rahat": OK, "sikisik": WARN, "riskli": CRIT}
+
+
+def render_deadline(result, out_dir):
+    """Kritik yol ile deadline'i karsilastiran tek cubuklu gauge.
+
+    result['deadline'] yoksa (plan.json'da 'deadline' alani girilmemis) hicbir
+    dosya yazmadan None doner — bu gorsel opsiyoneldir.
+    """
+    d = result.get("deadline")
+    if not d:
+        return None
+
+    W, H = 1240, 190
+    pad = 24
+    bar_x, bar_y, bar_w, bar_h = pad, 92, W - pad * 2, 30
+
+    s = [svg_open(W, H, "Teslim güvenilirliği")]
+    s.append(text_el(pad, 28, "Teslim güvenilirliği", 17, "700"))
+    s.append(text_el(pad, 49,
+                     "Kritik yolun elinizdeki süreye sığıp sığmadığını gösterir. "
+                     "Tampon büyüdükçe gecikme riski düşer.", 11.5, "400", MUTED))
+
+    color = DEADLINE_STATUS_COLOR[d["status"]]
+    total = max(d["days_available"], d["critical_path_days"], 1)
+    scale = bar_w / total
+
+    s.append(f'<rect x="{bar_x}" y="{bar_y}" width="{bar_w:.1f}" height="{bar_h}" '
+             f'rx="9" fill="{BG_SOFT}"/>')
+    crit_w = min(d["critical_path_days"] * scale, bar_w)
+    s.append(f'<rect x="{bar_x}" y="{bar_y}" width="{crit_w:.1f}" height="{bar_h}" '
+             f'rx="9" fill="{color}"/>')
+
+    dl_x = bar_x + min(d["days_available"] * scale, bar_w)
+    s.append(f'<line x1="{dl_x:.1f}" y1="{bar_y - 10}" x2="{dl_x:.1f}" '
+             f'y2="{bar_y + bar_h + 10}" stroke="{INK}" stroke-width="2" '
+             f'stroke-dasharray="4 3"/>')
+    s.append(text_el(dl_x, bar_y - 16, "elinizdeki süre", 10.5, "600", INK, anchor="end"))
+
+    s.append(text_el(bar_x, bar_y + bar_h + 28,
+                     f"Kritik yol: {d['critical_path_days']:g} gün", 12.5, "700", color))
+    sign = "+" if d["buffer_days"] >= 0 else ""
+    s.append(text_el(W - pad, bar_y + bar_h + 28,
+                     f"Tampon: {sign}{d['buffer_days']:g} gün (%{d['buffer_pct']:g}) · "
+                     f"{DEADLINE_STATUS_LABEL[d['status']]}", 12.5, "700", color, anchor="end"))
+
+    if d.get("driver"):
+        s.append(text_el(pad, H - 14, clip(f"Neden bu tarih: {d['driver']}", 110),
+                         11, "400", MUTED))
+
+    return write(out_dir, "deadline.svg", "".join(s))
+
+
 # --------------------------------------------------------------------------
 
 def main():
@@ -575,6 +631,7 @@ def main():
         render_depgraph(result, items, args.out),
         render_riskmatrix(plan, items, args.out),
         render_capacity(result, args.out),
+        render_deadline(result, args.out),
     ]
     for p in made:
         if p:

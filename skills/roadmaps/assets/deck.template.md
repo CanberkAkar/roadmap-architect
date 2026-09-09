@@ -33,6 +33,24 @@ footer: '{{Proje adı}} · yol haritası · {{tarih}}'
 
 ---
 
+## İş değeri: neden şimdi
+
+<!-- business_case doluysa bu slayt kalır, degilse tamamen sil -->
+
+<div class="callout">
+{{Problem — bugün ne oluyor ve somut maliyeti ne, tek paragraf}}
+</div>
+
+<div class="kpi">
+<div><div class="n">{{8 aday}}</div><div class="l">{{Fırsatın büyüklüğü}}</div></div>
+<div><div class="n">{{200.000$}}</div><div class="l">{{Beklenen etki}}</div></div>
+<div><div class="n">{{Bu çeyrek}}</div><div class="l">{{Ne zamana kadar}}</div></div>
+</div>
+
+<span class="muted">{{Yapılmazsa: tek cümle}}</span>
+
+---
+
 ## Bu planda YOK
 
 | Kapsam dışı | Neden |
@@ -97,6 +115,15 @@ ekibe kişi eklemek de kısaltmaz.
 ### Zinciri kısaltmanın yolları
 - {{somut seçenek 1 — kazanç ve bedeliyle}}
 - {{somut seçenek 2}}
+
+---
+
+<!-- _class: visual -->
+<!-- deadline doluysa bu slayt kalır, degilse tamamen sil -->
+
+## Teslim güvenilirliği
+
+![](assets/deadline.svg)
 
 ---
 

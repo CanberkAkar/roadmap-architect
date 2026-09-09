@@ -318,6 +318,44 @@ def phase_breakdown(items, review_capacity):
 
 
 # --------------------------------------------------------------------------
+# Teslim guvenilirligi
+# --------------------------------------------------------------------------
+
+DEADLINE_STATUS_LABEL = {"rahat": "Rahat", "sikisik": "Sıkışık", "riskli": "Riskli"}
+
+
+def deadline_confidence(plan, critical_path_days):
+    """plan.json'daki 'deadline' alanindan teslim guvenilirligini hesaplar.
+
+    plan.json'da deadline yoksa None doner — bu alan opsiyoneldir.
+    """
+    dl = plan.get("deadline")
+    if not dl or dl.get("days_available") is None:
+        return None
+
+    available = float(dl["days_available"])
+    buffer_days = available - critical_path_days
+    buffer_pct = (buffer_days / available * 100) if available else 0.0
+
+    if buffer_pct >= 20:
+        status = "rahat"
+    elif buffer_pct >= 0:
+        status = "sikisik"
+    else:
+        status = "riskli"
+
+    return {
+        "days_available": available,
+        "critical_path_days": round(critical_path_days, 1),
+        "buffer_days": round(buffer_days, 1),
+        "buffer_pct": round(buffer_pct, 1),
+        "status": status,
+        "driver": dl.get("driver"),
+        "customer_text": dl.get("customer_text"),
+    }
+
+
+# --------------------------------------------------------------------------
 # Ana hesap
 # --------------------------------------------------------------------------
 
@@ -361,6 +399,13 @@ def analyse(plan, estimate):
 
     scale = ("S" if total < 20 else "M" if total < 80 else "L" if total <= 300 else "XL")
 
+    deadline = deadline_confidence(plan, crit_len)
+    if deadline and deadline["status"] == "riskli":
+        problems.append(
+            f"Kritik yol, deadline'ı {abs(deadline['buffer_days']):g} gün aşıyor "
+            f"— kapsam, tarih veya kaynak değişmeli"
+        )
+
     return {
         "project": plan.get("project", "(isimsiz)"),
         "goal": plan.get("goal"),
@@ -394,6 +439,7 @@ def analyse(plan, estimate):
         "sprints": sprints,
         "unplaced_items": unplaced,
         "warnings": problems,
+        "deadline": deadline,
     }
 
 
@@ -438,6 +484,19 @@ def render(r, items_lookup):
         else:
             L.append("  ! Kapasite bağlıyor: kişi/agent eklemek süreyi kısaltabilir.")
     L.append("")
+
+    if r.get("deadline"):
+        d = r["deadline"]
+        sign = "+" if d["buffer_days"] >= 0 else ""
+        L.append("## Teslim güvenilirliği")
+        L.append(f"  Kritik yol              : {d['critical_path_days']:g} gün")
+        driver = f" ({d['driver']})" if d.get("driver") else ""
+        L.append(f"  Elinizdeki süre         : {d['days_available']:g} gün{driver}")
+        L.append(f"  Tampon                  : {sign}{d['buffer_days']:g} gün "
+                 f"(%{d['buffer_pct']:g}) → {DEADLINE_STATUS_LABEL[d['status']]}")
+        if d["status"] == "riskli":
+            L.append("  ! Kritik yol deadline'ı aşıyor — kapsam, tarih veya kaynak değişmeli")
+        L.append("")
 
     L.append("## Agent önerisi")
     L.append(f"  Önerilen eşzamanlı agent: {a['recommended']}")

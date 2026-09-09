@@ -1,12 +1,23 @@
 {
-  "_comment": "plan.json — roadmap'in tek veri kaynagi. roadmap.md, sunum, gorseller ve kapasite hesabi bundan turer. Iki kitleye birden hitap eder: 'customer_*' alanlari musteriye, digerleri teknik ekibe.",
+  "_comment": "plan.json — roadmap'in tek veri kaynagi. roadmap.md, sunum, gorseller ve kapasite hesabi bundan turer. Iki kitleye birden hitap eder: 'customer_*' alanlari musteriye, digerleri teknik ekibe. 'business_case' ve 'deadline' opsiyoneldir; girilirse sunumda otomatik birer slayt/gorsel acilir.",
   "project": "Cok kiracili SaaS gecisi",
   "goal": "Kurumsal musterilere ayri kurulum yapmadan satabilmek",
+  "business_case": {
+    "problem": "Kurumsal musteriler ayri kurulum istiyor; 3 haftalik devreye alma bekleyisi sirasinda adaylarin bir kismi vazgeciyor",
+    "opportunity": "Satis pipeline'inda 8 kurumsal aday var, ortalama sozlesme degeri yilda 40.000$",
+    "expected_impact": "Devreye alma suresi 2 gune inerse bu ceyrekte en az 5 sozlesme kapanabilir hale gelir (~200.000$ yillik gelir)",
+    "cost_of_inaction": "Yapilmazsa pipeline'daki adaylar daha hizli devreye giren rakip cozumlere kayabilir"
+  },
   "success_metric": {
     "name": "Yeni kurumsal musteri devreye alma suresi",
     "baseline": "3 hafta",
     "target": "2 gun",
     "measured_at": "Faz 4 sonu"
+  },
+  "deadline": {
+    "days_available": 70,
+    "driver": "Q3 sonunda imzalanacak ilk kurumsal musteri sozlesmesi",
+    "customer_text": "Q3 sonuna kadar ilk kurumsal musteri sorunsuz canlida olmali"
   },
   "sprint_length_days": 10,
   "team": {

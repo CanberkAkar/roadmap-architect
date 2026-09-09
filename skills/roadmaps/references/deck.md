@@ -39,6 +39,9 @@ npx --yes @marp-team/marp-cli@latest docs/roadmap-deck.md \
 | `depgraph.svg` | Bağımlılık haritası, kritik yol kırmızı | "Neden bu sırayla?" |
 | `riskmatrix.svg` | Etki × olasılık, karar noktalarıyla | "Ters giderse ne olur?" |
 | `capacity.svg` | Faz bazında paralellik ve darboğaz | "Neden daha hızlı olmuyor?" |
+| `deadline.svg` | Kritik yol vs elinizdeki süre, tampon | "Bu tarihe yetişir mi?" |
+
+`deadline.svg` yalnızca `plan.json`'da `deadline.days_available` doluysa üretilir; yoksa sessizce atlanır — deck'e eklenmesi de o zaman zorunlu değildir.
 
 `--audience delivery` ile teknik adları kullanan ikinci bir set üretilir; ekip içi toplantı için.
 
@@ -52,18 +55,20 @@ Görsellerin okunabilirliği `plan.json`'daki metin uzunluklarına bağlı. Faz 
 |---|---|---|
 | 1 | Kapak + tek cümlelik hedef | Aynı şeyi mi konuşuyoruz |
 | 2 | Neden bu proje (metrik kartları) | Problemi rakamla sabitle |
+| 2b | **İş değeri: neden şimdi** (`business_case` varsa) | Fırsatı ve bedelini rakamla göster |
 | 3 | **Bu planda YOK** | İtirazlar burada toplanır, sonra pahalı |
 | 4 | Faz yolculuğu (`journey.svg`) | Müşteri ne zaman ne alıyor |
 | 5..n | Faz detayları, faz başına bir slayt | Somutlaştır |
 | n+1 | Zaman şeridi (`timeline.svg`) | Sıra ve yoğunluk |
 | n+2 | Bağımlılık haritası (`depgraph.svg`) | Neden bu sırayla |
 | n+3 | Neden daha hızlı olmuyor | Kritik yolu açıkla, kısaltma seçenekleri sun |
+| n+3b | **Teslim güvenilirliği** (`deadline.svg`, `deadline` varsa) | Bu tarihe yetişir mi, tamponu ne kadar |
 | n+4 | Riskler (`riskmatrix.svg`) | Ters giderse ne olur |
 | n+5 | Paralellik (`capacity.svg`) + ekip | Kapasite tartışmasını darboğaza çevir |
 | n+6 | **Sizden beklenenler** | Müşteri tarafındaki kritik yol |
 | n+7 | **Bugün karar verilecekler** | Toplantıyı bitiren slayt |
 
-3, n+6 ve n+7 zorunlu. Karar talebi olmayan sunum toplantıyı bitirmez, sadece durdurur.
+3, n+6 ve n+7 zorunlu. 2b ve n+3b opsiyonel — sırasıyla `plan.json`'da `business_case` ve `deadline` alanları doluysa eklenir, boşsa slayt tamamen atlanır (yarım doldurulmuş slayt göstermek boş slayttan kötüdür). Karar talebi olmayan sunum toplantıyı bitirmez, sadece durdurur.
 
 ## Slayt yazım kuralları
 

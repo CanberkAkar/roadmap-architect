@@ -14,6 +14,14 @@
 |---|---|---|---|
 | {{metrik}} | {{değer}} | {{değer}} | {{faz}} |
 
+<!-- business_case plan.json'da doluysa bu bölüm kalır, degilse tamamen sil -->
+## İş değeri
+
+**Problem:** {{bugün ne oluyor ve maliyeti}}
+**Fırsat:** {{talep büyüklüğü — kaç aday, kaç kullanıcı, hangi pazar}}
+**Beklenen etki:** {{ölçülebilir, mümkünse rakamlı}}
+**Yapılmazsa:** {{maliyet}}
+
 ## Kısıtlar
 
 - {{kısıt}} → roadmap'e etkisi: {{...}}
@@ -39,6 +47,9 @@
 
 **Kritik yol:** {{T01 → T03 → T04 → ...}} · {{N}} gün
 **Paralelleşebilirlik indeksi:** {{PI}} · **Akış sayısı:** {{S}}
+
+<!-- deadline plan.json'da doluysa bu satır kalır, degilse tamamen sil -->
+**Teslim güvenilirliği:** elinizdeki süre {{M}} gün ({{driver}}) · tampon {{+/-X}} gün (%{{Y}}) → {{Rahat / Sıkışık / Riskli}}
 
 ---
 

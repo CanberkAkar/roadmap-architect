@@ -98,14 +98,23 @@ Bu, "daha fazla kaynak verin" pazarlığını "şu darboğazı birlikte kaldıra
 Sunum bu sırayla ilerlemeli — bir argüman kurar:
 
 1. **Hedef ve başarı kriteri** → aynı şeyi mi konuşuyoruz?
-2. **Kapsam dışı** → itirazlar burada toplanır, sonra pahalıya mal olur
-3. **Faz yolculuğu** → müşteri ne zaman ne alıyor
-4. **Kritik yol** → neden bu sırayla, neden daha hızlı olmuyor
-5. **Riskler ve karar noktaları** → ters giderse ne yapacağız
-6. **Müşteriden beklenenler** → kim ne zaman ne verecek
-7. **Karar talebi** → toplantıdan ne çıkacak
+2. **İş değeri** (varsa) → bu neden şimdi, yapılmazsa bedeli ne
+3. **Kapsam dışı** → itirazlar burada toplanır, sonra pahalıya mal olur
+4. **Faz yolculuğu** → müşteri ne zaman ne alıyor
+5. **Kritik yol** → neden bu sırayla, neden daha hızlı olmuyor
+6. **Teslim güvenilirliği** (varsa) → bu tarihe yetişir mi, tampon ne kadar
+7. **Riskler ve karar noktaları** → ters giderse ne yapacağız
+8. **Müşteriden beklenenler** → kim ne zaman ne verecek
+9. **Karar talebi** → toplantıdan ne çıkacak
 
-Yedinci madde olmadan toplantı bitmez, sadece durur.
+Son madde olmadan toplantı bitmez, sadece durur.
+
+## İş değeri ve teslim güvenilirliği dili
+
+`business_case` ve `deadline`, `plan.json`'a girildiğinde otomatik birer slayt/görsel açar — girilmezse o slaytlar sessizce atlanır, boş bırakılmaz.
+
+- **İş değeri** zaten müşterinin kendi işiyle ilgili olduğu için ayrıca "müşteri diline çevrilmez" — doğrudan onun terimleriyle yazılır (gelir, aday sayısı, pazar). Rakam yoksa "tahmini" ya da "bilinmiyor" de, icat etme.
+- **Teslim güvenilirliği** için "tampon" kelimesini bir kez tanımla: **"kritik yol bittiğinde elinizde kalan boş gün — büyüdükçe gecikme riski düşer"**. Durumu üç kelimeden fazla açıklama: Rahat / Sıkışık / Riskli. "Riskli" çıkarsa hemen ardından seçenek sun (kapsamı daralt / tarihi ertele / kaynak ekle) — sadece "riskli" deyip bırakmak güven kırar.
 
 ## Revizyonda ortak dil
 

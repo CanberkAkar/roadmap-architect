@@ -15,6 +15,16 @@ Repo erişimin varsa soru sormadan önce şunları oku:
 
 Sonra bulgularını **doğrulatmak için** sor, sıfırdan bilgi toplamak için değil. "Auth şu an Keycloak üzerinden görünüyor, çok kiracılı yapıya geçişte bu kalacak mı?" — bu, "auth nasıl çalışıyor?" sorusundan çok daha verimlidir.
 
+## Talebi analiz et
+
+Müşterinin söylediği şey ("bir dashboard lazım") ile aslında istediği şey ("elimde hangi müşterinin ne kadar risk taşıdığını her sabah görmek istiyorum") genelde farklıdır. İkisini ayrı ayrı yaz:
+
+- **Söylenen talep** — müşterinin kelimeleri, aynen
+- **Altında yatan ihtiyaç** — bu talebin çözdüğü asıl problem ne
+- **Neden şimdi** — bu talep neden bugün gündemde (rekabet, kayıp fırsat, regülasyon, büyüme hedefi)
+
+Bu analiz `business_case`'in (iş değeri) hammaddesidir. Müşteriye "iş değeri" slaydı göstermeyecek olsan bile bu analiz roadmap'in önceliklendirmesini değiştirir: en yüksek iş değerini taşıyan aşama erken faza gelmelidir.
+
 ## Netleşmesi gereken üç şey
 
 ### 1. Business hedefi
@@ -37,6 +47,28 @@ Sorulmazsa sonradan roadmap'i çöpe atan şeyler:
 - Uyum/regülasyon: KVKK/GDPR, PCI, sektörel denetim
 - Bütçe ve satın alma süreci — lisans/servis alımı çoğu zaman haftalar süren gizli bir dependency
 
+Sabit tarih varsa **bugünden o tarihe kaç iş günü kaldığını** say — bu sayı `plan.json`'daki `deadline.days_available` alanına gider ve kritik yolla otomatik karşılaştırılır. Tarihe bağlı gerekçeyi de yaz (`deadline.driver`): "neden bu tarih" sorusuna müşteriye karşı cevapsız kalınmaz.
+
+## İş değeri ve deadline'ı plana yaz
+
+"Talebi analiz et" bölümündeki bulgular `plan.json`'a iki alan olarak girer, ikisi de opsiyoneldir ama girilirse sunumda otomatik birer slayt/görsel açar:
+
+```json
+"business_case": {
+  "problem": "<bugün ne oluyor ve somut maliyeti>",
+  "opportunity": "<talep büyüklüğü — kaç aday, kaç kullanıcı, hangi pazar>",
+  "expected_impact": "<ölçülebilir, mümkünse rakamlı beklenen etki>",
+  "cost_of_inaction": "<yapılmazsa ne olur>"
+},
+"deadline": {
+  "days_available": <bugünden deadline'a iş günü>,
+  "driver": "<tarih neye bağlı>",
+  "customer_text": "<müşterinin kendi ifadesiyle deadline>"
+}
+```
+
+Rakam yoksa tahmin etme — "bilinmiyor" yaz ve bunu bir açık varsayım olarak kaydet. Sahte kesinlik, gerçek belirsizlikten daha kötüdür.
+
 ## Kapsam dışını da yaz
 
 Roadmap'in en çok tartışma çıkaran kısmı içine alınanlar değil, alınmayanlardır. Discovery çıktısında açık bir **"bu roadmap'te yok"** listesi tut. Ekip sunumunda buna ayrı slayt ver.
@@ -49,6 +81,15 @@ Roadmap'in en çok tartışma çıkaran kısmı içine alınanlar değil, alınm
 
 ## Başarı kriteri
 - Metrik: <ad> | Baseline: <değer veya "bilinmiyor"> | Hedef: <değer> | Ölçüm: <ne zaman, nasıl>
+
+## İş değeri
+- Problem: <bugün ne oluyor, maliyeti>
+- Fırsat: <talep büyüklüğü>
+- Beklenen etki: <ölçülebilir>
+- Yapılmazsa: <maliyet>
+
+## Deadline
+- Elinizdeki süre: <gün veya "bilinmiyor"> | Neden bu tarih: <...>
 
 ## Kısıtlar
 - <kısıt> → roadmap'e etkisi: <...>

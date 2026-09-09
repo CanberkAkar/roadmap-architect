@@ -64,6 +64,8 @@ Her doğrulama işine bir **karar noktası** yaz: sonuç negatif çıkarsa roadm
 
 Müşteriye gidecek her faz ve her yüksek riskli iş için `customer_outcome`, `customer_name`, `customer_text` alanlarını doldur. Boş bırakılırsa teknik ad kullanılır ve sunum müşteriye kapalı hale gelir.
 
+`business_case` (iş değeri: problem, fırsat, beklenen etki, yapılmazsa) ve `deadline` (elinizdeki süre, neden bu tarih) opsiyoneldir ama doldurulursa sunumda ve `roadmap.md`'de otomatik birer bölüm/slayt açar. Hammaddesi discovery'deki "talebi analiz et" adımıdır — `references/discovery.md`.
+
 ### 5. Kapasite, sprint ve agent sayısını hesapla
 Aritmetiği kafadan yapma:
 
@@ -72,6 +74,8 @@ python3 ${CLAUDE_PLUGIN_ROOT}/skills/roadmaps/scripts/plan_capacity.py plan.json
 ```
 
 Toplam effort, kritik yol, paralelleşebilirlik indeksi, önerilen eşzamanlı agent sayısı, minimum sprint sayısı ve sprint dağılımı verir. Yorumlaması `references/agent-sizing.md`.
+
+`plan.json`'da `deadline.days_available` doluysa aynı çıktı **teslim güvenilirliği** hesabını da verir: kritik yol vs elinizdeki süre, tampon gün/yüzde, Rahat/Sıkışık/Riskli durumu. "Riskli" çıkarsa bunu sunumdan gizleme — hemen bir seçenek (kapsam/tarih/kaynak) ekle.
 
 Sayıyı olduğu gibi aktarma — **neden** o sayı olduğunu ve neyin onu değiştireceğini yaz.
 
@@ -83,7 +87,7 @@ python3 ${CLAUDE_PLUGIN_ROOT}/skills/roadmaps/scripts/render_visuals.py plan.jso
   --out docs/assets --audience customer
 ```
 
-Beş SVG üretir: `journey` (faz yolculuğu), `timeline` (sprint zaman şeridi), `depgraph` (bağımlılık + kritik yol), `riskmatrix` (etki × olasılık), `capacity` (paralellik ve agent). `--audience delivery` aynı plandan teknik adlarla ikinci bir set üretir.
+Beş temel SVG üretir: `journey` (faz yolculuğu), `timeline` (sprint zaman şeridi), `depgraph` (bağımlılık + kritik yol), `riskmatrix` (etki × olasılık), `capacity` (paralellik ve agent). `plan.json`'da `deadline` doluysa altıncı bir görsel, `deadline.svg` (kritik yol vs elinizdeki süre) eklenir; doldurulmadıysa sessizce atlanır. `--audience delivery` aynı plandan teknik adlarla ikinci bir set üretir.
 
 ### 7. Çıktıları üret
 Her zaman üçü birden:

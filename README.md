@@ -44,7 +44,7 @@ Komut kullanmadan da çalışır — "şu projeyi nasıl planlarız", "bu işi k
 | `docs/roadmap.md` | Referans doküman, changelog'lu, diff'lenebilir |
 | `docs/roadmap-deck.md` | Sunum kaynağı (Marp) |
 | `docs/roadmap-deck.pdf` | Müşteri sunumu, görselli |
-| `docs/assets/*.svg` | Otomatik üretilen beş görsel |
+| `docs/assets/*.svg` | Otomatik üretilen beş görsel (+ opsiyonel `deadline.svg`) |
 | `docs/sprints.md` | Sprint kartları |
 
 ```bash
@@ -70,6 +70,14 @@ npx --yes @marp-team/marp-cli@latest docs/roadmap-deck.md \
 
 Sadeleştirme saklamak değildir: riskler, effort belirsizliği, müşteriden beklenenler ve kapsam dışı listesi müşteri görünümünde de aynen durur. Kurallar ve teknik terim → müşteri dili çeviri tablosu `references/audience.md` içinde.
 
+## İş değeri ve teslim güvenilirliği
+
+`plan.json`'a opsiyonel `business_case` (problem, fırsat, beklenen etki, yapılmazsa) ve `deadline` (elinizdeki süre, neden bu tarih) alanları eklenirse sunumda ve `roadmap.md`'de otomatik birer bölüm/slayt açılır — talebi rakamla, deadline'ı kritik yolla karşılaştırarak anlatır. İkisi de boş bırakılabilir; o zaman ilgili slayt/görsel sessizce atlanır.
+
+```bash
+python3 skills/roadmaps/scripts/plan_capacity.py plan.json   # "## Teslim güvenilirliği" bölümünü de basar
+```
+
 ## Görseller
 
 `plan.json`'dan otomatik üretilir, elle çizilmez:
@@ -81,6 +89,7 @@ Sadeleştirme saklamak değildir: riskler, effort belirsizliği, müşteriden be
 | `depgraph.svg` | Neden bu sırayla? (kritik yol kırmızı) |
 | `riskmatrix.svg` | Ters giderse ne olur? |
 | `capacity.svg` | Neden daha hızlı olmuyor? |
+| `deadline.svg` | Bu tarihe yetişir mi? (opsiyonel, `deadline` alanı girilirse) |
 
 ## Kapasite hesabı
 
