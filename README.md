@@ -44,7 +44,7 @@ Komut kullanmadan da çalışır — "şu projeyi nasıl planlarız", "bu işi k
 | `docs/roadmap.md` | Referans doküman, changelog'lu, diff'lenebilir |
 | `docs/roadmap-deck.md` | Sunum kaynağı (Marp) |
 | `docs/roadmap-deck.pdf` | Müşteri sunumu, görselli |
-| `docs/assets/*.svg` | Otomatik üretilen beş görsel (+ opsiyonel `deadline.svg`, `cost.svg`, `growth.svg`, `market_impact.svg`) |
+| `docs/assets/*.svg` | Otomatik üretilen beş görsel (+ opsiyonel `deadline.svg`, `cost.svg`, `growth.svg`, `market_impact.svg`, `swot.svg`) |
 | `docs/sprints.md` | Sprint kartları |
 
 ```bash
@@ -79,6 +79,7 @@ Sadeleştirme saklamak değildir: riskler, effort belirsizliği, müşteriden be
 | `slogan` | Seçilen slogan + alternatifler | Kapak ve kapanış slaydı |
 | `business_case` | Problem, fırsat, beklenen etki, yapılmazsa | "Fırsat" slaydı/bölümü |
 | `competitive_analysis` | Rakip başına fiyat, pazar konumu, güçlü/zayıf yanlar + bizim farkımız | "Neden biz" slaydı/bölümü |
+| `swot` | Güçlü/zayıf yönler, fırsatlar/tehditler — dürüst | `swot.svg` (2x2 panel) |
 | `market_impact` | Türkiye ve global pazar büyüklüğü, isimli örnek girişimler/şirketler | `market_impact.svg` (iki panel) |
 | `cost_estimate` | Kurulum + aylık işletme gideri (sunucu, reklam, vb.) | `cost.svg` (pasta grafik) + toplam hesabı |
 | `growth_projection` | 3/6/12 ay sonra birikmiş müşteri sayısı ve gelir | `growth.svg` (sütun grafik) |
@@ -99,6 +100,7 @@ python3 skills/roadmaps/scripts/plan_capacity.py plan.json   # Teslim güvenilir
 | `depgraph.svg` | Ağ diyagramı | Neden bu sırayla? (ekip içi) |
 | `riskmatrix.svg` | Matris + liste | Ters giderse ne olur, nasıl yönetiyoruz? |
 | `capacity.svg` | Çubuk | Neden daha hızlı olmuyor? (ekip içi) |
+| `swot.svg` | **2x2 panel** | Fikir sağlam mı, nereden vurulabilir? (opsiyonel) |
 | `market_impact.svg` | **İki panel kart** | Bu pazarın Türkiye ve global karşılığı var mı? (opsiyonel) |
 | `deadline.svg` | Gauge | Bu tarihe yetişir mi? (opsiyonel) |
 | `cost.svg` | **Pasta (donut)** | Bu sistemin işletme gideri ne? (opsiyonel) |

@@ -36,6 +36,19 @@
 
 **Bizim farkımız:** {{somut fark 1}} · {{somut fark 2}} · {{somut fark 3}}
 
+<!-- swot plan.json'da doluysa bu bölüm kalır, degilse tamamen sil -->
+## SWOT analizi
+
+| Güçlü yönler | Zayıf yönler |
+|---|---|
+| {{madde 1}} | {{madde 1}} |
+| {{madde 2}} | {{madde 2}} |
+
+| Fırsatlar | Tehditler |
+|---|---|
+| {{madde 1}} | {{madde 1}} |
+| {{madde 2}} | {{madde 2}} |
+
 <!-- market_impact plan.json'da doluysa bu bölüm kalır, degilse tamamen sil -->
 ## Türkiye ve global etki
 

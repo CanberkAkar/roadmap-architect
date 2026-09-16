@@ -26,7 +26,6 @@ footer: '{{Proje adı}} · {{tarih}}'
 <div class="kpi">
 <div><div class="n">{{3 hafta}}</div><div class="l">Bugün: yeni müşteri devreye alma süresi</div></div>
 <div><div class="n">{{2 gün}}</div><div class="l">Hedef</div></div>
-<div><div class="n">{{Aşama 4}}</div><div class="l">Bu farkı ne zaman ölçeriz</div></div>
 </div>
 
 <div class="callout">
@@ -42,7 +41,6 @@ footer: '{{Proje adı}} · {{tarih}}'
 <div class="kpi">
 <div><div class="n">{{8 aday}}</div><div class="l">{{Fırsatın büyüklüğü}}</div></div>
 <div><div class="n">{{200.000$}}</div><div class="l">{{Beklenen etki}}</div></div>
-<div><div class="n">{{Bu çeyrek}}</div><div class="l">{{Ne zamana kadar}}</div></div>
 </div>
 
 <div class="callout">
@@ -68,6 +66,15 @@ footer: '{{Proje adı}} · {{tarih}}'
 ---
 
 <!-- _class: visual -->
+<!-- swot doluysa bu slayt kalır, degilse tamamen sil -->
+
+## SWOT analizi
+
+![](assets/swot.svg)
+
+---
+
+<!-- _class: visual -->
 <!-- market_impact doluysa bu slayt kalır, degilse tamamen sil -->
 
 ## Türkiye ve global etki
@@ -81,18 +88,6 @@ footer: '{{Proje adı}} · {{tarih}}'
 ## Çözüm yol haritası
 
 ![](assets/journey.svg)
-
----
-
-## Aşama {{n}} · {{Müşteri diliyle aşama adı}}
-
-### Bu aşama bitince
-{{Müşterinin yapabildiği yeni şey — tek cümle}}
-
-### Nasıl görürüz
-{{Demo, ölçüm veya rapor — somut kanıt}}
-
-<span class="muted">Süre: {{18–26}} iş günü</span>
 
 ---
 

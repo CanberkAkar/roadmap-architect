@@ -510,6 +510,7 @@ def analyse(plan, estimate):
         "cost": cost_summary(plan),
         "growth": growth_summary(plan),
         "market_impact": plan.get("market_impact"),
+        "swot": plan.get("swot"),
     }
 
 
@@ -604,6 +605,19 @@ def render(r, items_lookup):
                 L.append(f"    {d['summary']}")
             for ex in (d.get("examples") or []):
                 L.append(f"    - {ex}")
+        L.append("")
+
+    if r.get("swot"):
+        sw = r["swot"]
+        L.append("## SWOT analizi")
+        for key, label_ in (("strengths", "Güçlü yönler"), ("weaknesses", "Zayıf yönler"),
+                            ("opportunities", "Fırsatlar"), ("threats", "Tehditler")):
+            items = sw.get(key) or []
+            if not items:
+                continue
+            L.append(f"  {label_}:")
+            for it in items:
+                L.append(f"    - {it}")
         L.append("")
 
     L.append("## Agent önerisi")

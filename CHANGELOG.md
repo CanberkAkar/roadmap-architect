@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.9.0
+
+- **SWOT analizi (`swot`)** — yeni alan: güçlü/zayıf yönler, fırsatlar/tehditler.
+  Yeni `swot.svg` (2x2 renkli panel) ve "SWOT analizi" slaydı, "Neden biz"den hemen
+  sonra. Dürüstlük vurgulanır: kozmetik zayıf yön/tehdit maddeleri güveni kırar.
+- **Faz başına ayrı slayt kaldırıldı** — `journey.svg` zaten tüm fazları (ad, "bu
+  aşama bitince", kanıt, süre) tek slaytta gösteriyordu; ayrı "Aşama N" slaytları
+  aynı bilgiyi tekrarlıyordu. Artık sadece `journey.svg` slaydı var, tam detay
+  `roadmap.md`'de duruyor.
+- **KPI kartlarından dahili zamanlama referansları kaldırıldı** — "Neden bu proje"
+  ve "Fırsat" slaytlarındaki "Faz X sonu" (`success_metric.measured_at`) ve
+  "Q1 ... penceresi" gibi iç planlama etiketleri KPI kartı olarak gösterilmiyor;
+  ikisi de artık 3 değil 2 kart kullanıyor. Deadline'ın nedeni sadece
+  "Teslim güvenilirliği" slaydında, tek yerde geçiyor.
+
 ## 0.8.0
 
 - **Türkiye ve global etki (`market_impact`)** — yeni alan: pazar büyüklüğü, özet ve

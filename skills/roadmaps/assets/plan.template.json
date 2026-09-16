@@ -1,5 +1,5 @@
 {
-  "_comment": "plan.json — roadmap'in tek veri kaynagi. roadmap.md, sunum, gorseller ve kapasite hesabi bundan turer. Iki kitleye birden hitap eder: 'customer_*' alanlari musteriye, digerleri teknik ekibe. 'business_case', 'competitive_analysis', 'market_impact', 'cost_estimate', 'deadline', 'growth_projection' ve 'slogan' teknik olarak opsiyoneldir ama pitch deck'te varsayilan olarak beklenir — discovery sirasinda aktif olarak arastirilip doldurulmalidir, sadece gercekten imkansizsa atlanir.",
+  "_comment": "plan.json — roadmap'in tek veri kaynagi. roadmap.md, sunum, gorseller ve kapasite hesabi bundan turer. Iki kitleye birden hitap eder: 'customer_*' alanlari musteriye, digerleri teknik ekibe. 'business_case', 'competitive_analysis', 'market_impact', 'swot', 'cost_estimate', 'deadline', 'growth_projection' ve 'slogan' teknik olarak opsiyoneldir ama pitch deck'te varsayilan olarak beklenir — discovery sirasinda aktif olarak arastirilip doldurulmalidir, sadece gercekten imkansizsa atlanir.",
   "project": "Cok kiracili SaaS gecisi",
   "goal": "Kurumsal musterilere ayri kurulum yapmadan satabilmek",
   "slogan": {
@@ -63,6 +63,24 @@
       ]
     },
     "notes": "Pazar buyuklugu rakamlari sektor raporlarindan yaklasik alinmistir, kesin rakam icin dogrulama onerilir"
+  },
+  "swot": {
+    "strengths": [
+      "Mevcut kimlik saglayiciyla dogrudan entegrasyon, ekstra lisans gerekmiyor",
+      "Devreye alma suresi rakiplerin cok altinda (2 gun vs 3 hafta)"
+    ],
+    "weaknesses": [
+      "Marka bilinirligi rakiplere gore dusuk, referans musteri sayisi az",
+      "Kucuk ekip — birden fazla buyuk musteriyi ayni anda devreye alma kapasitesi sinirli"
+    ],
+    "opportunities": [
+      "Pipeline'da 8 kurumsal aday, hicbiri henuz rakiple sozlesmemis",
+      "Sektorde ozellesmis yerli cozum eksikligi bir bosluk yaratiyor"
+    ],
+    "threats": [
+      "Rakip global oyuncu yerellesip fiyat rekabetine girebilir",
+      "Kurumsal musterilerin satin alma sureci beklenenden uzun surebilir"
+    ]
   },
   "success_metric": {
     "name": "Yeni kurumsal musteri devreye alma suresi",

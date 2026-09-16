@@ -119,6 +119,28 @@ Sonra kendi farkını yaz — iddia değil, somut fark ("2 gün vs 3 hafta", "me
 }
 ```
 
+## SWOT analizi — varsayılan olarak doldur
+
+Şu ana kadarki analizi (talep, iş değeri, rakipler) dört başlıkta sentezle — bu, "fikri gerçekten düşündük mü" sorusunun somut kanıtıdır. **Dürüst ol**: zayıf yön ve tehdit maddeleri kozmetik olursa ("en büyük zayıf yönümüz çok çalışkan olmamız" gibi) SWOT tüm sunumun güvenilirliğini düşürür.
+
+- **Güçlü yönler** (`strengths`) — bizim elimizdeki somut avantaj (genelde `competitive_analysis.our_advantages` ile örtüşür)
+- **Zayıf yönler** (`weaknesses`) — gerçekten eksik olduğumuz yer (küçük ekip, marka bilinirliği yok, referans müşteri yok — ne ise)
+- **Fırsatlar** (`opportunities`) — dışarıdaki, bizim lehimize olan boşluk/trend (genelde `business_case.opportunity` ve `market_impact` ile beslenir)
+- **Tehditler** (`threats`) — dışarıdaki, bize karşı işleyebilecek risk (rakip hamlesi, pazar değişimi, regülasyon)
+
+Her başlıkta en fazla 3-5 madde — uzun liste okunmaz, en çarpıcı olanı seç.
+
+```json
+"swot": {
+  "strengths": ["<madde 1>", "<madde 2>"],
+  "weaknesses": ["<madde 1>", "<madde 2>"],
+  "opportunities": ["<madde 1>", "<madde 2>"],
+  "threats": ["<madde 1>", "<madde 2>"]
+}
+```
+
+`render_visuals.py` bunu `swot.svg` (2x2 renkli panel) olarak çizer; en az bir kategori doluysa görsel üretilir.
+
 ## Türkiye ve global etki — varsayılan olarak doldur
 
 Müşteri fikrin sadece kendi ofisinde değil, gerçek bir pazarda karşılığı olduğunu görmek ister. Türkiye ve global ölçekte ayrı ayrı, örneklerle göster — soyut "büyük bir pazar" ifadesi ikna etmez, somut isim ve rakam ikna eder:
@@ -214,6 +236,9 @@ Roadmap'in en çok tartışma çıkaran kısmı içine alınanlar değil, alınm
 ## Rakip analizi
 - <rakip/alternatif> → fiyat: <...> | pazar konumu: <...> | iyi yaptığı: <...> | yapamadığı: <...>
 - Bizim farkımız: <somut, iddia değil>
+
+## SWOT
+- Güçlü: <...> | Zayıf: <...> | Fırsat: <...> | Tehdit: <...>
 
 ## Türkiye ve global etki
 - Türkiye: <pazar büyüklüğü> | özet: <...> | örnekler: <isim, isim>

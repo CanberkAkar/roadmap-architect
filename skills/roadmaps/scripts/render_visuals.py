@@ -18,6 +18,8 @@ Uretilenler (docs/assets/ altina):
   market_impact.svg  Turkiye ve global pazar etkisi, ornek girisimlerle iki
                  panel — plan.json'da "market_impact" alani varsa uretilir,
                  yoksa atlanir
+  swot.svg       SWOT analizi (guclu/zayif/firsat/tehdit), 2x2 renkli panel —
+                 plan.json'da "swot" alani varsa uretilir, yoksa atlanir
 
 Kullanim:
     python3 render_visuals.py plan.json --out docs/assets
@@ -856,6 +858,71 @@ def render_market_impact(plan, out_dir):
     return write(out_dir, "market_impact.svg", "".join(s))
 
 
+SWOT_SPECS = [
+    ("strengths", "GÜÇLÜ YÖNLER", OK),
+    ("weaknesses", "ZAYIF YÖNLER", WARN),
+    ("opportunities", "FIRSATLAR", ACCENT),
+    ("threats", "TEHDİTLER", CRIT),
+]
+
+
+def render_swot(plan, out_dir):
+    """SWOT analizini 2x2 renkli panel olarak cizer.
+
+    plan['swot'] yoksa (plan.json'da alan girilmemis) hicbir dosya yazmadan
+    None doner — bu gorsel opsiyoneldir. Panel yuksekligi, journey.svg'deki
+    dersle ayni: en uzun listeye gore dinamik hesaplanir, sabit degil.
+    """
+    swot = plan.get("swot")
+    if not swot or not any(swot.get(k) for k, _, _ in SWOT_SPECS):
+        return None
+
+    W = 1240
+    pad = 20
+    gap = 16
+    cell_w = (W - pad * 2 - gap) / 2
+    item_chars = max(10, int((cell_w - 50) / 6.6))
+
+    prepped = []
+    for key, label_, color in SWOT_SPECS:
+        items = (swot.get(key) or [])[:5]
+        wrapped = [wrap(it, item_chars, 2) for it in items]
+        prepped.append((label_, color, wrapped))
+
+    def block_height(wrapped_items):
+        y = 44
+        for lines in wrapped_items:
+            y += len(lines) * 17 + 6
+        return y + 20
+
+    cell_h = max(max(block_height(w) for _, _, w in prepped), 160)
+    H = pad * 2 + gap + cell_h * 2
+
+    s = [svg_open(W, H, "SWOT analizi")]
+
+    positions = [(pad, pad), (pad + cell_w + gap, pad),
+                 (pad, pad + cell_h + gap), (pad + cell_w + gap, pad + cell_h + gap)]
+
+    for (label_, color, wrapped), (x0, y0) in zip(prepped, positions):
+        s.append(f'<rect x="{x0:.1f}" y="{y0:.1f}" width="{cell_w:.1f}" height="{cell_h:.1f}" '
+                 f'rx="14" fill="{BG_SOFT}" stroke="{LINE}"/>')
+        s.append(f'<rect x="{x0:.1f}" y="{y0:.1f}" width="{cell_w:.1f}" height="6" '
+                 f'rx="3" fill="{color}"/>')
+        cx, cy = x0 + 22, y0 + 36
+        s.append(text_el(cx, cy, label_, 14, "700", color))
+        cy += 26
+        if not wrapped:
+            s.append(text_el(cx, cy, "—", 12.5, "400", MUTED))
+        for lines in wrapped:
+            s.append(f'<circle cx="{cx + 3}" cy="{cy - 4}" r="3" fill="{color}"/>')
+            for j, ln in enumerate(lines):
+                s.append(text_el(cx + 15, cy + j * 17, ln, 12.5,
+                                 "600" if j == 0 else "400", INK))
+            cy += len(lines) * 17 + 6
+
+    return write(out_dir, "swot.svg", "".join(s))
+
+
 # --------------------------------------------------------------------------
 
 def main():
@@ -896,6 +963,7 @@ def main():
         render_cost(result, args.out),
         render_growth(result, args.out),
         render_market_impact(plan, args.out),
+        render_swot(plan, args.out),
     ]
     for p in made:
         if p:
