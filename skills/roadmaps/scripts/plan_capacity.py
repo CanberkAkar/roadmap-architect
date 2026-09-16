@@ -511,6 +511,9 @@ def analyse(plan, estimate):
         "growth": growth_summary(plan),
         "market_impact": plan.get("market_impact"),
         "swot": plan.get("swot"),
+        "team_members": plan.get("team_members"),
+        "traction": plan.get("traction"),
+        "marketing_strategy": plan.get("marketing_strategy"),
     }
 
 
@@ -618,6 +621,37 @@ def render(r, items_lookup):
             L.append(f"  {label_}:")
             for it in items:
                 L.append(f"    - {it}")
+        L.append("")
+
+    if r.get("team_members"):
+        L.append("## Ekip")
+        for m in r["team_members"]:
+            L.append(f"  {m.get('name', '')} — {m.get('role', '')}")
+            if m.get("highlight"):
+                L.append(f"    {m['highlight']}")
+        L.append("")
+
+    if r.get("traction"):
+        tr = r["traction"]
+        L.append("## Traction")
+        for m in (tr.get("metrics") or []):
+            L.append(f"  {m.get('label', '')}: {m.get('value', '')}")
+        if tr.get("quote", {}).get("text"):
+            q = tr["quote"]
+            L.append(f'  "{q["text"]}" — {q.get("source", "")}')
+        L.append("")
+
+    if r.get("marketing_strategy"):
+        ms = r["marketing_strategy"]
+        L.append("## Pazarlama ve reklam stratejisi")
+        if ms.get("content_style"):
+            L.append(f"  Önerilen içerik tarzı: {ms['content_style']}")
+        for c in (ms.get("campaigns") or []):
+            L.append(f"  Kampanya — {c.get('channel', '')}: {c.get('angle', '')}")
+        for p in (ms.get("color_palette") or []):
+            L.append(f"  Renk — {p.get('hex', '')} {p.get('name', '')}: {p.get('meaning', '')}")
+        for t in (ms.get("ai_tools") or []):
+            L.append(f"  AI aracı — {t.get('name', '')}: {t.get('use_case', '')}")
         L.append("")
 
     L.append("## Agent önerisi")

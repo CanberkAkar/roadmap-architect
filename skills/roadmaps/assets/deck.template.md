@@ -75,6 +75,24 @@ footer: '{{Proje adı}} · {{tarih}}'
 ---
 
 <!-- _class: visual -->
+<!-- team_members doluysa bu slayt kalır, degilse tamamen sil -->
+
+## Ekip
+
+![](assets/team.svg)
+
+---
+
+<!-- _class: visual -->
+<!-- traction doluysa bu slayt kalır, degilse tamamen sil -->
+
+## Traction
+
+![](assets/traction.svg)
+
+---
+
+<!-- _class: visual -->
 <!-- market_impact doluysa bu slayt kalır, degilse tamamen sil -->
 
 ## Türkiye ve global etki
@@ -110,6 +128,24 @@ footer: '{{Proje adı}} · {{tarih}}'
 ## Büyüme projeksiyonu
 
 ![](assets/growth.svg)
+
+---
+
+<!-- _class: visual -->
+<!-- marketing_strategy doluysa bu slayt kalır, degilse tamamen sil -->
+
+## Pazarlama ve reklam stratejisi
+
+![](assets/marketing.svg)
+
+---
+
+<!-- _class: visual -->
+<!-- marketing_strategy.color_palette doluysa bu slayt kalır, degilse tamamen sil -->
+
+## Örnek reklam içeriği
+
+![](assets/ad_creative.svg)
 
 ---
 

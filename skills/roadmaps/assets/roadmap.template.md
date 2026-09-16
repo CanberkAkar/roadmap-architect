@@ -64,6 +64,44 @@
 
 **Kaynak/varsayım:** {{market_impact.notes}}
 
+<!-- team_members plan.json'da doluysa bu bölüm kalır, degilse tamamen sil -->
+## Ekip
+
+| İsim | Rol | Neden güvenilir |
+|---|---|---|
+| {{isim}} | {{rol}} | {{deneyim/başarı}} |
+
+<!-- traction plan.json'da doluysa bu bölüm kalır, degilse tamamen sil -->
+## Traction
+
+| Metrik | Değer |
+|---|---|
+| {{Pilot müşteri}} | {{3}} |
+| {{Bekleme listesi}} | {{18}} |
+
+> "{{traction.quote.text}}" — {{traction.quote.source}}
+
+<!-- marketing_strategy plan.json'da doluysa bu bölüm kalır, degilse tamamen sil -->
+## Pazarlama ve reklam stratejisi
+
+**Önerilen içerik tarzı:** {{marketing_strategy.content_style}}
+
+| Kanal | Yaklaşım | Neden |
+|---|---|---|
+| {{kanal}} | {{yaklaşım}} | {{gerekçe}} |
+
+**Renk paleti**
+
+| Renk | Ad | Anlamı/tetiklediği |
+|---|---|---|
+| {{#hex}} | {{ad}} | {{anlam}} |
+
+**Önerilen AI içerik araçları** *(zamanla eskir — plan güncellenirken WebSearch ile yeniden doğrulanmalı, {{tarih}} itibarıyla)*
+
+| Araç | Kullanım alanı | Neden |
+|---|---|---|
+| {{araç adı}} | {{ne için}} | {{gerekçe}} |
+
 <!-- cost_estimate plan.json'da doluysa bu bölüm kalır, degilse tamamen sil -->
 ## İşletme gideri
 

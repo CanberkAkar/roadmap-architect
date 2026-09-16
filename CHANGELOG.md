@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.10.0
+
+- **Ekip (`team_members`)** — yeni alan: ekip üyeleri, rol, doğrulanabilir deneyim/başarı
+  cümlesi. Yeni `team.svg` (kart dizisi, baş harfli avatar) ve "Ekip" slaydı.
+- **Traction (`traction`)** — yeni alan: gerçekleşmiş kanıt — pilot/LOI/bekleme listesi
+  sayıları ve gerçek kullanıcı alıntısı. `growth_projection`'dan farklı olarak **tahmin
+  değil, şu anki veridir**. Yeni `traction.svg` (stat kartları + alıntı kutusu).
+- **Pazarlama ve reklam stratejisi (`marketing_strategy`)** — yeni alan: kampanya fikirleri,
+  marka renk paleti (her rengin pazarlama-psikolojisi anlamıyla), önerilen AI içerik
+  araçları. Yeni `marketing.svg` (üç kolon) ve `ad_creative.svg` (palet+sloganla üretilmiş
+  somut bir örnek reklam kartı mockup'ı — soyut açıklama değil, gerçek görsel).
+- `marketing_strategy.ai_tools` için discovery'ye açık kural: bu alan çok hızlı eskir,
+  her üretimde WebSearch ile yeniden araştırılmalı, önceki bir üretimden kopyalanmamalı.
+- Toplam görsel sayısı 10'dan 14'e çıktı; hepsi opsiyonel, veri yoksa sessizce atlanır.
+
 ## 0.9.0
 
 - **SWOT analizi (`swot`)** — yeni alan: güçlü/zayıf yönler, fırsatlar/tehditler.

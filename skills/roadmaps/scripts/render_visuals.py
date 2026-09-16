@@ -20,6 +20,15 @@ Uretilenler (docs/assets/ altina):
                  yoksa atlanir
   swot.svg       SWOT analizi (guclu/zayif/firsat/tehdit), 2x2 renkli panel —
                  plan.json'da "swot" alani varsa uretilir, yoksa atlanir
+  team.svg       Ekip kartlari (isim, rol, guven verici bilgi) — plan.json'da
+                 "team_members" alani varsa uretilir, yoksa atlanir
+  traction.svg   Mevcut kanit: pilot/LOI/bekleme listesi sayilari + alinti —
+                 plan.json'da "traction" alani varsa uretilir, yoksa atlanir
+  marketing.svg  Kampanya fikirleri + renk paleti (psikolojik anlamiyla) +
+                 onerilen AI icerik araclari, uc kolon — plan.json'da
+                 "marketing_strategy" alani varsa uretilir, yoksa atlanir
+  ad_creative.svg  Onerilen renk/tarzla ornek reklam karti (mockup) —
+                 marketing_strategy.color_palette varsa uretilir, yoksa atlanir
 
 Kullanim:
     python3 render_visuals.py plan.json --out docs/assets
@@ -923,6 +932,269 @@ def render_swot(plan, out_dir):
     return write(out_dir, "swot.svg", "".join(s))
 
 
+def render_team(plan, out_dir):
+    """Ekip uyelerini kart dizisi olarak cizer (avatar-baslangic harfi, rol,
+    tek satirlik guven verici bilgi).
+
+    plan['team_members'] yoksa hicbir dosya yazmadan None doner — opsiyonel.
+    """
+    members = plan.get("team_members")
+    if not members:
+        return None
+
+    n = max(1, len(members))
+    W = 1240
+    pad, gap = 20, 18
+    bw = (W - 2 * pad - (n - 1) * gap) / n
+    top = 20
+    body_chars = max(10, int(bw / 6.8))
+
+    prepped = [wrap(m.get("highlight", ""), body_chars, 4) for m in members]
+
+    def card_height(lines):
+        return 150 + len(lines) * 16
+
+    bh = max(max(card_height(l) for l in prepped), 190)
+    H = top + bh + 20
+
+    s = [svg_open(W, H, "Ekip")]
+
+    for i, (m, lines) in enumerate(zip(members, prepped)):
+        x = pad + i * (bw + gap)
+        color = STREAM_COLORS[i % len(STREAM_COLORS)]
+        cx = x + bw / 2
+
+        s.append(f'<rect x="{x:.1f}" y="{top}" width="{bw:.1f}" height="{bh}" '
+                 f'rx="12" fill="{BG_SOFT}" stroke="{LINE}"/>')
+
+        initials = "".join(p[0] for p in m.get("name", "?").split()[:2]).upper()
+        s.append(f'<circle cx="{cx:.1f}" cy="{top + 46}" r="28" fill="{color}"/>')
+        s.append(text_el(cx, top + 53, initials, 18, "700", "#ffffff", anchor="middle"))
+
+        s.append(text_el(cx, top + 96, clip(m.get("name", ""), int(bw / 8)),
+                         14.5, "700", INK, anchor="middle"))
+        s.append(text_el(cx, top + 116, clip(m.get("role", ""), int(bw / 7)),
+                         11.5, "600", color, anchor="middle"))
+
+        ty = top + 142
+        for ln in lines:
+            s.append(text_el(cx, ty, ln, 11, "400", MUTED, anchor="middle"))
+            ty += 16
+
+    return write(out_dir, "team.svg", "".join(s))
+
+
+def render_traction(plan, out_dir):
+    """Mevcut (varsayim degil, gerceklesmis) kanit noktalarini stat kartlari +
+    opsiyonel bir alinti kutusu olarak cizer.
+
+    plan['traction'] yoksa hicbir dosya yazmadan None doner — opsiyonel.
+    """
+    tr = plan.get("traction")
+    if not tr or not (tr.get("metrics") or tr.get("quote")):
+        return None
+
+    metrics = tr.get("metrics") or []
+    quote = tr.get("quote") or {}
+    W = 1240
+    pad = 24
+    n = max(1, len(metrics))
+    card_w = (W - pad * 2 - (n - 1) * 16) / n if metrics else 0
+    card_h = 96
+
+    quote_text = quote.get("text", "")
+    quote_lines = wrap(quote_text, 92, 3) if quote_text else []
+    quote_box_h = (34 + len(quote_lines) * 24 + (20 if quote.get("source") else 0) + 20) \
+        if quote_lines else 0
+
+    H = 24 + (card_h + 30 if metrics else 0) + (quote_box_h + 24 if quote_lines else 0) + 24
+
+    s = [svg_open(W, H, "Traction")]
+
+    y = 24
+    if metrics:
+        for i, m in enumerate(metrics):
+            x = pad + i * (card_w + 16)
+            s.append(f'<rect x="{x:.1f}" y="{y}" width="{card_w:.1f}" height="{card_h}" '
+                     f'rx="12" fill="{BG_SOFT}" stroke="{LINE}"/>')
+            s.append(f'<rect x="{x:.1f}" y="{y}" width="{card_w:.1f}" height="5" '
+                     f'rx="2.5" fill="{ACCENT}"/>')
+            s.append(text_el(x + 20, y + 50, str(m.get("value", "")), 30, "700", INK))
+            s.append(text_el(x + 20, y + 76, clip(m.get("label", ""), int(card_w / 6.5)),
+                             12.5, "600", MUTED))
+        y += card_h + 30
+
+    if quote_lines:
+        s.append(f'<rect x="{pad}" y="{y}" width="{W - pad * 2:.1f}" height="{quote_box_h:.1f}" '
+                 f'rx="12" fill="{BG_SOFT}" stroke="{LINE}"/>')
+        s.append(text_el(pad + 24, y + 40, "“", 40, "700", ACCENT))
+        qy = y + 34
+        for ln in quote_lines:
+            s.append(text_el(pad + 58, qy, ln, 15, "600", INK))
+            qy += 24
+        if quote.get("source"):
+            s.append(text_el(pad + 58, qy + 4, f"— {quote['source']}", 12, "400", MUTED))
+
+    return write(out_dir, "traction.svg", "".join(s))
+
+
+def render_marketing(plan, out_dir):
+    """Kampanya fikirleri, marka renk paleti (psikolojik anlamiyla) ve
+    onerilen AI icerik araclarini uc kolonda cizer.
+
+    plan['marketing_strategy'] yoksa hicbir dosya yazmadan None doner —
+    opsiyonel.
+    """
+    ms = plan.get("marketing_strategy")
+    if not ms:
+        return None
+    campaigns = (ms.get("campaigns") or [])[:3]
+    palette = (ms.get("color_palette") or [])[:5]
+    tools = (ms.get("ai_tools") or [])[:4]
+    if not (campaigns or palette or tools):
+        return None
+
+    W = 1240
+    pad, gap = 20, 16
+    col_w = (W - pad * 2 - gap * 2) / 3
+    text_chars = max(10, int((col_w - 24) / 6.4))
+
+    camp_prepped = [(c.get("channel", ""), wrap(c.get("angle", ""), text_chars, 3))
+                     for c in campaigns]
+    tool_prepped = [(t.get("name", ""), wrap(t.get("use_case", ""), text_chars, 2))
+                     for t in tools]
+
+    def campaigns_h():
+        y = 46
+        for _, lines in camp_prepped:
+            y += 18 + len(lines) * 15 + 10
+        return y
+
+    def palette_h():
+        return 46 + len(palette) * 56
+
+    def tools_h():
+        y = 46
+        for _, lines in tool_prepped:
+            y += 16 + len(lines) * 14 + 10
+        return y
+
+    col_h = max(campaigns_h(), palette_h(), tools_h(), 200)
+    H = col_h + 40 + (14 if ms.get("notes") else 0)
+
+    s = [svg_open(W, H, "Pazarlama ve reklam stratejisi")]
+
+    x0 = pad
+    s.append(f'<rect x="{x0}" y="20" width="{col_w:.1f}" height="{col_h:.1f}" '
+             f'rx="14" fill="{BG_SOFT}" stroke="{LINE}"/>')
+    s.append(f'<rect x="{x0}" y="20" width="{col_w:.1f}" height="6" rx="3" fill="{ACCENT}"/>')
+    cy = 60
+    s.append(text_el(x0 + 20, cy, "KAMPANYA FİKİRLERİ", 12.5, "700", ACCENT))
+    cy += 24
+    for ch, lines in camp_prepped:
+        s.append(text_el(x0 + 20, cy, clip(ch, text_chars), 12.5, "700", INK))
+        cy += 17
+        for ln in lines:
+            s.append(text_el(x0 + 20, cy, ln, 11, "400", MUTED))
+            cy += 15
+        cy += 10
+
+    x1 = pad + col_w + gap
+    s.append(f'<rect x="{x1:.1f}" y="20" width="{col_w:.1f}" height="{col_h:.1f}" '
+             f'rx="14" fill="{BG_SOFT}" stroke="{LINE}"/>')
+    s.append(f'<rect x="{x1:.1f}" y="20" width="{col_w:.1f}" height="6" rx="3" fill="{OK}"/>')
+    cy = 60
+    s.append(text_el(x1 + 20, cy, "RENK PALETİ", 12.5, "700", OK))
+    cy += 28
+    for p in palette:
+        hexv = p.get("hex", "#999999")
+        s.append(f'<circle cx="{x1 + 32:.1f}" cy="{cy - 5:.1f}" r="14" fill="{hexv}"/>')
+        s.append(text_el(x1 + 56, cy - 8, p.get("name", ""), 12, "700", INK))
+        for j, ln in enumerate(wrap(p.get("meaning", ""), text_chars - 6, 2)):
+            s.append(text_el(x1 + 56, cy + 8 + j * 13, ln, 10, "400", MUTED))
+        cy += 56
+
+    x2 = pad + (col_w + gap) * 2
+    s.append(f'<rect x="{x2:.1f}" y="20" width="{col_w:.1f}" height="{col_h:.1f}" '
+             f'rx="14" fill="{BG_SOFT}" stroke="{LINE}"/>')
+    s.append(f'<rect x="{x2:.1f}" y="20" width="{col_w:.1f}" height="6" rx="3" fill="{WARN}"/>')
+    cy = 60
+    s.append(text_el(x2 + 20, cy, "AI İÇERİK ARAÇLARI", 12.5, "700", WARN))
+    cy += 24
+    for name, lines in tool_prepped:
+        s.append(text_el(x2 + 20, cy, clip(name, text_chars), 12.5, "700", INK))
+        cy += 16
+        for ln in lines:
+            s.append(text_el(x2 + 20, cy, ln, 11, "400", MUTED))
+            cy += 14
+        cy += 10
+
+    if ms.get("notes"):
+        s.append(text_el(pad, H - 12, clip(ms["notes"], 160), 10.5, "400", MUTED))
+
+    return write(out_dir, "marketing.svg", "".join(s))
+
+
+def render_ad_creative(plan, out_dir):
+    """Onerilen renk paleti ve icerik tarziyla ornek bir reklam karti
+    (mockup) cizer — soyut aciklama degil, somut bir gorsel.
+
+    plan['marketing_strategy']['color_palette'] yoksa hicbir dosya yazmadan
+    None doner — opsiyonel.
+    """
+    ms = plan.get("marketing_strategy") or {}
+    palette = ms.get("color_palette")
+    if not palette:
+        return None
+
+    slogan = (plan.get("slogan") or {}).get("chosen") or plan.get("goal", "")
+    primary = palette[0]
+
+    W, H = 1240, 440
+    card_w, card_h = 420, 400
+    cx0, cy0 = 24, 20
+
+    s = [svg_open(W, H, "Örnek reklam içeriği")]
+
+    s.append(f'<rect x="{cx0}" y="{cy0}" width="{card_w}" height="{card_h}" '
+             f'rx="18" fill="{primary.get("hex", ACCENT)}"/>')
+
+    ty = cy0 + 56
+    for ln in wrap(slogan, 21, 3):
+        s.append(text_el(cx0 + 28, ty, ln, 25, "800", "#ffffff"))
+        ty += 33
+
+    s.append(f'<rect x="{cx0 + 28}" y="{cy0 + card_h - 66}" width="152" height="42" '
+             f'rx="21" fill="#ffffff"/>')
+    s.append(text_el(cx0 + 104, cy0 + card_h - 40, "Hemen Dene", 13, "700",
+                     primary.get("hex", ACCENT), anchor="middle"))
+    s.append(text_el(cx0 + 28, cy0 + card_h - 16, "reklam görseli önizlemesi",
+                     10.5, "400", "rgba(255,255,255,0.75)"))
+
+    rx = cx0 + card_w + 44
+    rw = W - rx - 24
+    rchars = max(10, int(rw / 6.6))
+
+    s.append(text_el(rx, 50, "ÖNERİLEN İÇERİK TARZI", 12.5, "700", MUTED))
+    style_text = ms.get("content_style") or "Kısa video / gerçek kullanıcı hikayesi formatında görsel"
+    ry = 78
+    for ln in wrap(style_text, rchars, 3):
+        s.append(text_el(rx, ry, ln, 15, "600", INK))
+        ry += 21
+
+    ry += 26
+    s.append(text_el(rx, ry, "NEDEN BU RENK", 12.5, "700", MUTED))
+    ry += 26
+    s.append(f'<circle cx="{rx + 8}" cy="{ry - 5}" r="8" fill="{primary.get("hex", ACCENT)}"/>')
+    s.append(text_el(rx + 24, ry, primary.get("name", ""), 13, "700", INK))
+    ry += 20
+    for ln in wrap(primary.get("meaning", ""), rchars, 3):
+        s.append(text_el(rx, ry, ln, 11.5, "400", MUTED))
+        ry += 15
+
+    return write(out_dir, "ad_creative.svg", "".join(s))
+
+
 # --------------------------------------------------------------------------
 
 def main():
@@ -964,6 +1236,10 @@ def main():
         render_growth(result, args.out),
         render_market_impact(plan, args.out),
         render_swot(plan, args.out),
+        render_team(plan, args.out),
+        render_traction(plan, args.out),
+        render_marketing(plan, args.out),
+        render_ad_creative(plan, args.out),
     ]
     for p in made:
         if p:

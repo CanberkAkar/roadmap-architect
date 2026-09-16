@@ -36,15 +36,19 @@ npx --yes @marp-team/marp-cli@latest docs/roadmap-deck.md \
 |---|---|---|---|
 | `journey.svg` | Kart dizisi | Faz yolculuğu, her aşamanın müşteri çıktısı ve kanıtı | "Ne zaman ne alıyorum?" |
 | `swot.svg` | **2x2 panel** | Güçlü/zayıf yönler, fırsatlar/tehditler | "Fikir sağlam mı, nereden vurulabilir?" |
+| `team.svg` | **Kart dizisi** | Ekip üyeleri, rol, güven verici deneyim | "Bunu kim yapacak, neden başarabilirler?" |
+| `traction.svg` | **Stat + alıntı** | Pilot/LOI/bekleme listesi sayıları, gerçek kullanıcı sözü | "Bu iş zaten çalıştığını kanıtladı mı?" |
 | `riskmatrix.svg` | Matris + liste | Etki × olasılık, azaltma planıyla | "Riskleri nasıl yönetiyorsunuz?" |
 | `market_impact.svg` | **İki panel kart** | Türkiye ve global pazar büyüklüğü, örnek girişimlerle | "Bu pazarın gerçek karşılığı var mı?" |
 | `deadline.svg` | Gauge (tek çubuk) | Kritik yol vs elinizdeki süre, tampon | "Bu tarihe yetişir mi?" |
 | `cost.svg` | **Pasta (donut)** | Aylık işletme gideri, kalem kalem, yüzde | "Yatırım ve işletme maliyeti ne?" |
 | `growth.svg` | **Sütun (çift panel)** | Hayata geçtikten sonra 3/6/12 ay birikmiş müşteri ve gelir | "Bu iş büyür mü, ne kadar?" |
+| `marketing.svg` | **Üç kolon** | Kampanya fikirleri, renk paleti (anlamıyla), AI içerik araçları | "Büyümeyi nasıl tetikleyeceğiz?" |
+| `ad_creative.svg` | **Mockup kart** | Önerilen palet/sloganla somut bir örnek reklam görseli | "Bu nasıl görünecek?" |
 
-Grafik türleri kasıtlı olarak çeşitli tutulur (kart, 2x2 panel, matris, kart-panel, gauge, pasta, sütun) — art arda aynı çubuk grafiği tekrarlamak sunumu monoton gösterir.
+Grafik türleri kasıtlı olarak çeşitli tutulur (kart, 2x2 panel, stat+alıntı, matris, kart-panel, gauge, pasta, sütun, üç kolon, mockup) — art arda aynı çubuk grafiği tekrarlamak sunumu monoton gösterir.
 
-`swot.svg` yalnızca `swot`'un en az bir alt alanı, `deadline.svg` yalnızca `deadline.days_available`, `cost.svg` yalnızca `cost_estimate.recurring_monthly`, `growth.svg` yalnızca `growth_projection.milestones`, `market_impact.svg` yalnızca `market_impact.turkey` veya `market_impact.global` doluysa üretilir; yoksa sessizce atlanır ve deck'teki karşılık gelen slayt tamamen silinir. Bu beşi ve `competitive_analysis` teknik olarak opsiyoneldir ama **varsayılan olarak beklenir** — discovery'de aktif olarak doldurulmalı, sadece gerçekten imkansızsa atlanır (`references/discovery.md`).
+`swot.svg` yalnızca `swot`'un en az bir alt alanı, `team.svg` yalnızca `team_members`, `traction.svg` yalnızca `traction.metrics` veya `traction.quote`, `deadline.svg` yalnızca `deadline.days_available`, `cost.svg` yalnızca `cost_estimate.recurring_monthly`, `growth.svg` yalnızca `growth_projection.milestones`, `market_impact.svg` yalnızca `market_impact.turkey` veya `market_impact.global`, `marketing.svg` yalnızca `marketing_strategy`'nin bir alt alanı, `ad_creative.svg` yalnızca `marketing_strategy.color_palette` doluysa üretilir; yoksa sessizce atlanır ve deck'teki karşılık gelen slayt tamamen silinir. Bunların hepsi ve `competitive_analysis` teknik olarak opsiyoneldir ama **varsayılan olarak beklenir** — discovery'de aktif olarak doldurulmalı, sadece gerçekten imkansızsa atlanır (`references/discovery.md`).
 
 `--audience delivery` ile teknik adları kullanan ikinci bir set üretilir; ekip içi çalışma için (timeline/depgraph/capacity dahil tüm görseller).
 
@@ -52,7 +56,7 @@ Görsellerin okunabilirliği `plan.json`'daki metin uzunluklarına bağlı. Faz 
 
 ## Slayt yapısı
 
-Ölçeğe göre 10–14 slayt — ölçek büyüdükçe faz sayısı artmaz, çünkü faz detayı ayrı slaytlara yayılmaz (aşağıya bak). Sıra bir argüman kurar — fırsat, çözüm, getiri, güven, kapanış:
+Ölçeğe göre 12–18 slayt — ölçek büyüdükçe faz sayısı artmaz, çünkü faz detayı ayrı slaytlara yayılmaz (aşağıya bak). Sıra bir argüman kurar — fırsat, kanıt, çözüm, getiri, büyüme, güven, kapanış:
 
 | # | Slayt | Neden burada |
 |---|---|---|
@@ -61,15 +65,19 @@ Görsellerin okunabilirliği `plan.json`'daki metin uzunluklarına bağlı. Faz 
 | 2b | **Fırsat** (`business_case` varsa) | Fırsatın büyüklüğünü rakamla göster |
 | 2c | **Neden biz** (`competitive_analysis` varsa) | Alternatiflere karşı somut farkı göster |
 | 2d | **SWOT analizi** (`swot.svg`, `swot` varsa) | Fikri dört yönden dürüstçe sınayan tek görsel |
-| 2e | **Türkiye ve global etki** (`market_impact.svg`, `market_impact` varsa) | Pazarın gerçek/somut olduğunu örneklerle göster |
+| 2e | **Ekip** (`team.svg`, `team_members` varsa) | Bunu kim yapacak, neden güvenilir |
+| 2f | **Traction** (`traction.svg`, `traction` varsa) | Bu iş zaten çalıştığını kanıtladı |
+| 2g | **Türkiye ve global etki** (`market_impact.svg`, `market_impact` varsa) | Pazarın gerçek/somut olduğunu örneklerle göster |
 | 3 | Çözüm yol haritası (`journey.svg`) — tek slayt, tüm fazlar | Müşteri ne zaman ne alıyor, hepsi bir bakışta |
 | n+1 | **Yatırım ve getiri** (`cost.svg`, `cost_estimate` varsa) | Maliyeti şeffaf koy, beklenen getiriyle yan yana göster |
 | n+2 | **Büyüme projeksiyonu** (`growth.svg`, `growth_projection` varsa) | 3/6/12 ayda iş ne kadar büyüyor |
-| n+3 | Riskler ve yönetimi (`riskmatrix.svg`) | Riskleri gizlemeden, kontrol altında olduğunu göster |
-| n+4 | **Teslim güvenilirliği** (`deadline.svg`, `deadline` varsa) | Bu tarihe yetişir mi, tamponu ne kadar |
-| n+5 | Sonraki adım | Kapanış — vizyonu ve sloganı tekrar bağla |
+| n+3 | **Pazarlama ve reklam stratejisi** (`marketing.svg`, `marketing_strategy` varsa) | Büyümeyi nasıl tetikleyeceğiz |
+| n+4 | **Örnek reklam içeriği** (`ad_creative.svg`, `marketing_strategy.color_palette` varsa) | Somut bir görselle "böyle görünecek" de |
+| n+5 | Riskler ve yönetimi (`riskmatrix.svg`) | Riskleri gizlemeden, kontrol altında olduğunu göster |
+| n+6 | **Teslim güvenilirliği** (`deadline.svg`, `deadline` varsa) | Bu tarihe yetişir mi, tamponu ne kadar |
+| n+7 | Sonraki adım | Kapanış — vizyonu ve sloganı tekrar bağla |
 
-1, 2, 3, n+3 ve son slayt zorunlu. 2b, 2c, 2d, 2e, n+1, n+2 ve n+4 opsiyonel — sırasıyla `plan.json`'da `business_case`, `competitive_analysis`, `swot`, `market_impact`, `cost_estimate`, `growth_projection` ve `deadline` alanları doluysa eklenir, boşsa slayt tamamen silinir (yarım doldurulmuş slayt göstermek boş slayttan kötüdür). Ama bu altısı **varsayılan olarak doldurulması beklenen** alanlardır — "opsiyonel" demek "atla" demek değildir, discovery'de aktif olarak araştır.
+1, 2, 3, n+5 ve son slayt zorunlu. Geri kalanların hepsi opsiyonel — sırasıyla `plan.json`'da `business_case`, `competitive_analysis`, `swot`, `team_members`, `traction`, `market_impact`, `cost_estimate`, `growth_projection`, `marketing_strategy` ve `deadline` alanları doluysa eklenir, boşsa slayt tamamen silinir (yarım doldurulmuş slayt göstermek boş slayttan kötüdür). Ama bunların hepsi **varsayılan olarak doldurulması beklenen** alanlardır — "opsiyonel" demek "atla" demek değildir, discovery'de aktif olarak araştır.
 
 **Faz başına ayrı slayt yok.** `journey.svg` zaten her fazın adını, "bu aşama bitince ne oluyor"unu, kanıtını ve süresini tek bir görselde, tüm fazlar yan yana gösteriyor — bunu tekrar her faz için ayrı bir slaytta anlatmak hem yer kaplar hem de aynı bilgiyi iki kere sunar. Faz başına tam detay (bağımlılıklar, iş listesi, risk) zaten `roadmap.md`'de var; deck'e ikinci kez taşınmaz.
 
@@ -127,6 +135,9 @@ Renkleri değiştirmen gerekirse `theme.css` içindeki `:root` değişkenlerini 
 | Büyüme projeksiyonu | Tablo, varsayımlarla | `growth.svg`, tek slayt |
 | Türkiye ve global etki | Tam metin, kaynak notuyla | `market_impact.svg`, tek slayt |
 | SWOT analizi | Tam liste (4 madde/kategori) | `swot.svg`, tek slayt (en fazla 5 madde/kategori) |
+| Ekip | Tam liste | `team.svg`, tek slayt |
+| Traction | Tam liste + alıntı | `traction.svg`, tek slayt |
+| Pazarlama ve reklam stratejisi | Tam liste, araç kaynak tarihiyle | `marketing.svg` + `ad_creative.svg`, iki slayt |
 | Changelog | Var | Yok |
 
 Sunumu `roadmap.md`'nin kısaltılmış hâli olarak üretme. Farklı işe hizmet ediyorlar: biri kanıt, biri ikna.

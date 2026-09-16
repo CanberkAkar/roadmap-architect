@@ -1,5 +1,5 @@
 {
-  "_comment": "plan.json — roadmap'in tek veri kaynagi. roadmap.md, sunum, gorseller ve kapasite hesabi bundan turer. Iki kitleye birden hitap eder: 'customer_*' alanlari musteriye, digerleri teknik ekibe. 'business_case', 'competitive_analysis', 'market_impact', 'swot', 'cost_estimate', 'deadline', 'growth_projection' ve 'slogan' teknik olarak opsiyoneldir ama pitch deck'te varsayilan olarak beklenir — discovery sirasinda aktif olarak arastirilip doldurulmalidir, sadece gercekten imkansizsa atlanir.",
+  "_comment": "plan.json — roadmap'in tek veri kaynagi. roadmap.md, sunum, gorseller ve kapasite hesabi bundan turer. Iki kitleye birden hitap eder: 'customer_*' alanlari musteriye, digerleri teknik ekibe. 'business_case', 'competitive_analysis', 'market_impact', 'swot', 'team_members', 'traction', 'marketing_strategy', 'cost_estimate', 'deadline', 'growth_projection' ve 'slogan' teknik olarak opsiyoneldir ama pitch deck'te varsayilan olarak beklenir — discovery sirasinda aktif olarak arastirilip doldurulmalidir, sadece gercekten imkansizsa atlanir. 'marketing_strategy.ai_tools' ozellikle cabuk eskir — plan.json'daki ornek deger degil, uretim aninda WebSearch ile taze arastirma esas alinmalidir.",
   "project": "Cok kiracili SaaS gecisi",
   "goal": "Kurumsal musterilere ayri kurulum yapmadan satabilmek",
   "slogan": {
@@ -81,6 +81,55 @@
       "Rakip global oyuncu yerellesip fiyat rekabetine girebilir",
       "Kurumsal musterilerin satin alma sureci beklenenden uzun surebilir"
     ]
+  },
+  "team_members": [
+    {
+      "name": "Ada Yilmaz",
+      "role": "Kurucu Ortak / Urun",
+      "highlight": "5 yil kurumsal SaaS deneyimi, onceki girisiminde 50+ kurumsal musteriyle calisti"
+    },
+    {
+      "name": "Baris Kaya",
+      "role": "Kurucu Ortak / Muhendislik",
+      "highlight": "Cok kiracili mimarilerde 6 yil backend deneyimi"
+    }
+  ],
+  "traction": {
+    "metrics": [
+      {"label": "Pilot kurumsal musteri", "value": "3"},
+      {"label": "Beta bekleme listesi", "value": "18"},
+      {"label": "Niyet mektubu (LOI)", "value": "2"}
+    ],
+    "quote": {
+      "text": "Devreye alma suremiz 3 haftadan 2 gune indi, IT ekibimiz artik baska islere odaklanabiliyor.",
+      "source": "Pilot musteri, IT direktoru"
+    }
+  },
+  "marketing_strategy": {
+    "content_style": "Kisa demo videosu — gercek kurulum surecini 30 saniyede gosteren ekran kaydi",
+    "campaigns": [
+      {
+        "channel": "LinkedIn — IT karar vericilere hedefli reklam",
+        "angle": "\"3 hafta yerine 2 gun\" basligiyla once/sonra karsilastirmasi",
+        "why": "Kurumsal IT karar vericileri LinkedIn'de yogun, somut sayi dikkat cekiyor"
+      },
+      {
+        "channel": "Sektor webinari + ortak icerik",
+        "angle": "Pilot musteriyle birlikte canli demo",
+        "why": "Referans musterinin sesi, satis ekibinden daha ikna edici"
+      }
+    ],
+    "color_palette": [
+      {"hex": "#1f6feb", "name": "Guven Mavisi", "meaning": "Teknoloji ve guvenilirlik cagristirir; entegrasyon gibi riskli bir aksiyonda guven tetikler"},
+      {"hex": "#2f7d55", "name": "Buyume Yesili", "meaning": "Olumlu sonuc ve verimlilik cagristirir, 'zaman kazandirir' mesajini pekistirir"},
+      {"hex": "#d98324", "name": "Harekete Gecirme Turuncusu", "meaning": "Aciliyet ve sicaklik tetikler, CTA butonlarinda tiklama oranini artirir"}
+    ],
+    "ai_tools": [
+      {"name": "Canva Magic Studio", "use_case": "Hizli sosyal medya gorseli ve metin taslagi", "why": "Butceye uygun, tasarimci gerektirmiyor"},
+      {"name": "AdCreative.ai", "use_case": "Donusum odakli reklam gorseli varyasyonlari", "why": "Yuksek performansli reklamlardan ogrenilen kaliplarla optimize ediyor"},
+      {"name": "Runway Gen-4", "use_case": "Kisa demo/urun videosu icin B-roll ve gorsel yon calismasi", "why": "Prodüksiyon kalitesinde video, dusuk maliyetle prototipleme"}
+    ],
+    "notes": "Arac onerileri Eylul 2026 itibariyla guncel; bu alan zamanla degisir, plan guncellenirken WebSearch ile yeniden arastirilmali"
   },
   "success_metric": {
     "name": "Yeni kurumsal musteri devreye alma suresi",

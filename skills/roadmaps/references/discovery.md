@@ -167,6 +167,27 @@ Müşteri fikrin sadece kendi ofisinde değil, gerçek bir pazarda karşılığ�
 
 `render_visuals.py` bunu `market_impact.svg` (iki panelli, örnekli kart görseli) olarak çizer; yalnızca `turkey` veya `global` alanlarından biri bile doluysa görsel üretilir.
 
+## Ekip ve Traction — varsayılan olarak doldur
+
+**Ekip** — özellikle SWOT'ta "küçük ekip" veya "referans yok" gibi bir zayıf yön çıktıysa, bunu dengeleyen somut bir karşı ağırlıktır. Her üye için gerçek bir deneyim/başarı cümlesi yaz — "yetenekli ekip" gibi boş sıfatlar değil, "X yıl Y alanında, önceki işinde Z'yi yaptı" gibi doğrulanabilir bir cümle.
+
+```json
+"team_members": [
+  {"name": "<isim>", "role": "<rol>", "highlight": "<somut deneyim/başarı cümlesi>"}
+]
+```
+
+**Traction** — `growth_projection` **gelecek tahminidir**; traction **şu anki gerçek kanıttır** — ikisi farklı işe hizmet eder, biri diğerinin yerine geçmez. Pilot kullanıcı sayısı, bekleme listesi, niyet mektubu (LOI), varsa gerçek bir kullanıcı alıntısı. Veri yoksa alan tamamen boş kalır — "henüz traction yok" diye bir kart uydurma, sadece atla.
+
+```json
+"traction": {
+  "metrics": [{"label": "<ne>", "value": "<sayı>"}],
+  "quote": {"text": "<gerçek bir kullanıcı ifadesi, varsa>", "source": "<kim>"}
+}
+```
+
+`render_visuals.py` bunları `team.svg` (kart dizisi) ve `traction.svg` (stat kartları + alıntı) olarak çizer.
+
 **İşletme gideri** — proje bittikten sonra sistemin **çalışır tutulmasının** aylık maliyeti: sunucu/hosting, üçüncü parti servisler (e-posta, SMS, izleme), reklam/pazarlama, lisans ücretleri. Tek seferlik kurulum maliyeti ayrı bir kalemdir (`one_time`), aylık işletme gideri ayrı (`recurring_monthly`). Kaba tahmindir demekten çekinme — rakam vermemekten daha güvenilirdir.
 
 ```json
@@ -197,6 +218,51 @@ Hayata geçtikten sonra 3/6/12 ay içinde ne kadar müşteri ve gelire ulaşıla
 ```
 
 `plan_capacity.py` dönemler arası net artışı (`customers_added`, `revenue_added`) otomatik hesaplar; `render_visuals.py` bunu `growth.svg` (iki panelli sütun grafik) olarak çizer.
+
+## Pazarlama ve reklam stratejisi — varsayılan olarak doldur, araçları güncel araştır
+
+`growth_projection`'daki sayılara nasıl ulaşılacağının somut karşılığıdır — "büyüyeceğiz" demek yetmez, nasıl büyüneceğini göster.
+
+**Kampanya fikirleri** — 2-3 tane, her biri için kanal + mesaj açısı + neden bu kanal:
+
+```json
+"campaigns": [
+  {"channel": "<nerede>", "angle": "<hangi mesajla>", "why": "<bu kitleye neden uygun>"}
+]
+```
+
+**Renk paleti** — markanın/kampanyanın kullanacağı renkler ve **her birinin psikolojik anlamı** (ne tetiklediği). Bilinen pazarlama renk psikolojisi kalıplarını kullan, icat etme:
+
+| Renk ailesi | Genelde tetiklediği |
+|---|---|
+| Mavi | Güven, teknoloji, güvenilirlik — kurumsal/finansal ürünlerde güçlü |
+| Yeşil | Büyüme, olumluluk, sağlık/sürdürülebilirlik |
+| Turuncu/Sarı | Aciliyet, sıcaklık, harekete geçirme (CTA'larda etkili) |
+| Kırmızı | Enerji, aciliyet, dikkat çekme — aşırı kullanımda ucuzluk hissi verebilir |
+| Mor | Premium, yaratıcılık, farklılık |
+| Siyah/Lacivert | Lüks, ciddiyet, otorite |
+
+Seçtiğin paleti deck'in kendi temasıyla (`theme.css`/`render_visuals.py` paleti) tutarlı tut — genelde aynı renkleri kullanmak markayı sunumla bütünleştirir:
+
+```json
+"color_palette": [
+  {"hex": "<#renk>", "name": "<ad>", "meaning": "<ne tetikliyor, bu projeyle neden uyumlu>"}
+]
+```
+
+**AI içerik araçları — WebSearch ile güncel araştır, ezbere yazma.** Bu alan çok hızlı eskir; plan yazarken **her seferinde** "en iyi AI reklam/içerik araçları [bu yıl]" gibi bir WebSearch yap ve konuya uygun 2-4 aracı gerekçesiyle yaz. Aracın ne için kullanılacağını (görsel, video, metin, sosyal gönderi) ve bu projeye neden uygun olduğunu belirt:
+
+```json
+"marketing_strategy": {
+  "content_style": "<önerilen içerik tarzı/formatı — kısa video, kullanıcı hikayesi, vb.>",
+  "campaigns": [...],
+  "color_palette": [...],
+  "ai_tools": [{"name": "<araç>", "use_case": "<ne için>", "why": "<neden bu projeye uygun>"}],
+  "notes": "<araştırma tarihi — bu alan ne zaman güncellendi>"
+}
+```
+
+`render_visuals.py` bunu iki görsele döker: `marketing.svg` (kampanya + palet + araçlar, üç kolon) ve `ad_creative.svg` (paletle ve sloganla üretilmiş **somut bir örnek reklam kartı mockup'ı** — soyut açıklama değil, gerçek bir görsel).
 
 ## Slogan — birkaç öneriyle gel
 
@@ -244,11 +310,22 @@ Roadmap'in en çok tartışma çıkaran kısmı içine alınanlar değil, alınm
 - Türkiye: <pazar büyüklüğü> | özet: <...> | örnekler: <isim, isim>
 - Global: <pazar büyüklüğü> | özet: <...> | örnekler: <isim, isim>
 
+## Ekip
+- <isim> → <rol> | <somut deneyim/başarı>
+
+## Traction
+- <metrik>: <değer> | ... | alıntı: "<...>" — <kaynak>
+
 ## İşletme gideri (aylık)
 - <kalem> → <tahmini tutar> | <varsayım>
 
 ## Büyüme projeksiyonu (birikmiş)
 - 3. ay: <müşteri> müşteri, <gelir> | 6. ay: <...> | 12. ay: <...>
+
+## Pazarlama ve reklam stratejisi
+- Kampanya: <kanal> → <mesaj açısı>
+- Renk paleti: <renk/anlam çiftleri>
+- AI araçları (WebSearch ile güncel): <araç> → <kullanım>
 
 ## Slogan
 - Seçilen: <...>

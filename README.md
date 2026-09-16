@@ -44,7 +44,7 @@ Komut kullanmadan da çalışır — "şu projeyi nasıl planlarız", "bu işi k
 | `docs/roadmap.md` | Referans doküman, changelog'lu, diff'lenebilir |
 | `docs/roadmap-deck.md` | Sunum kaynağı (Marp) |
 | `docs/roadmap-deck.pdf` | Müşteri sunumu, görselli |
-| `docs/assets/*.svg` | Otomatik üretilen beş görsel (+ opsiyonel `deadline.svg`, `cost.svg`, `growth.svg`, `market_impact.svg`, `swot.svg`) |
+| `docs/assets/*.svg` | Otomatik üretilen beş görsel (+ opsiyonel `deadline.svg`, `cost.svg`, `growth.svg`, `market_impact.svg`, `swot.svg`, `team.svg`, `traction.svg`, `marketing.svg`, `ad_creative.svg`) |
 | `docs/sprints.md` | Sprint kartları |
 
 ```bash
@@ -80,9 +80,12 @@ Sadeleştirme saklamak değildir: riskler, effort belirsizliği, müşteriden be
 | `business_case` | Problem, fırsat, beklenen etki, yapılmazsa | "Fırsat" slaydı/bölümü |
 | `competitive_analysis` | Rakip başına fiyat, pazar konumu, güçlü/zayıf yanlar + bizim farkımız | "Neden biz" slaydı/bölümü |
 | `swot` | Güçlü/zayıf yönler, fırsatlar/tehditler — dürüst | `swot.svg` (2x2 panel) |
+| `team_members` | Ekip, rol, doğrulanabilir deneyim | `team.svg` (kart dizisi) |
+| `traction` | Gerçekleşmiş kanıt: pilot/LOI/bekleme listesi/alıntı | `traction.svg` (stat + alıntı) |
 | `market_impact` | Türkiye ve global pazar büyüklüğü, isimli örnek girişimler/şirketler | `market_impact.svg` (iki panel) |
 | `cost_estimate` | Kurulum + aylık işletme gideri (sunucu, reklam, vb.) | `cost.svg` (pasta grafik) + toplam hesabı |
 | `growth_projection` | 3/6/12 ay sonra birikmiş müşteri sayısı ve gelir | `growth.svg` (sütun grafik) |
+| `marketing_strategy` | Kampanya fikirleri, renk paleti (anlamıyla), güncel AI içerik araçları | `marketing.svg` (üç kolon) + `ad_creative.svg` (örnek mockup) |
 | `deadline` | Elinizdeki süre, neden bu tarih | `deadline.svg` + teslim güvenilirliği hesabı |
 
 ```bash
@@ -101,10 +104,14 @@ python3 skills/roadmaps/scripts/plan_capacity.py plan.json   # Teslim güvenilir
 | `riskmatrix.svg` | Matris + liste | Ters giderse ne olur, nasıl yönetiyoruz? |
 | `capacity.svg` | Çubuk | Neden daha hızlı olmuyor? (ekip içi) |
 | `swot.svg` | **2x2 panel** | Fikir sağlam mı, nereden vurulabilir? (opsiyonel) |
+| `team.svg` | **Kart dizisi** | Bunu kim yapacak, neden güvenilir? (opsiyonel) |
+| `traction.svg` | **Stat + alıntı** | Bu iş zaten çalıştığını kanıtladı mı? (opsiyonel) |
 | `market_impact.svg` | **İki panel kart** | Bu pazarın Türkiye ve global karşılığı var mı? (opsiyonel) |
 | `deadline.svg` | Gauge | Bu tarihe yetişir mi? (opsiyonel) |
 | `cost.svg` | **Pasta (donut)** | Bu sistemin işletme gideri ne? (opsiyonel) |
 | `growth.svg` | **Sütun (çift panel)** | Bu iş büyür mü, ne kadar? (opsiyonel) |
+| `marketing.svg` | **Üç kolon** | Büyümeyi nasıl tetikleyeceğiz? (opsiyonel) |
+| `ad_creative.svg` | **Mockup kart** | Reklam görseli nasıl görünecek? (opsiyonel) |
 
 `timeline.svg`, `depgraph.svg`, `capacity.svg` sadece `roadmap.md` ve ekip içi (`--audience delivery`) kullanım için üretilir; müşteri pitch deck'ine girmez (`skills/roadmaps/references/deck.md`).
 
