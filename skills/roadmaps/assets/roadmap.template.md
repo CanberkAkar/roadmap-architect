@@ -64,8 +64,20 @@
 
 **Kaynak/varsayım:** {{market_impact.notes}}
 
-<!-- team_members plan.json'da doluysa bu bölüm kalır, degilse tamamen sil -->
-## Ekip
+## Ekip büyüklüğü önerisi
+
+*İsim gerektirmez — toplam iş yükü ve kritik yoldan otomatik hesaplanır.*
+
+| Ekip büyüklüğü | Süre | Sınırlayan |
+|---|---|---|
+| 1-3 kişi | {{N}} gün ({{N}} sprint) | {{kapasite / kritik yol}} |
+| 3-5 kişi | {{N}} gün ({{N}} sprint) | {{kapasite / kritik yol}} |
+| 5+ kişi | {{N}} gün ({{N}} sprint) | {{kapasite / kritik yol}} |
+
+**Öneri:** {{en kısa süreye ulaşan en küçük ekip}} — daha büyük ekip kritik yolu kısaltmıyorsa sadece maliyeti artırır.
+
+<!-- team_members plan.json'da doluysa bu bölüm kalır (SADECE gerçek, kullanıcının verdiği isimlerle — asla uydurma), degilse tamamen sil -->
+## Ekip (isimli)
 
 | İsim | Rol | Neden güvenilir |
 |---|---|---|

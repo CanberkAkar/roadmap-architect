@@ -1,5 +1,5 @@
 {
-  "_comment": "plan.json — roadmap'in tek veri kaynagi. roadmap.md, sunum, gorseller ve kapasite hesabi bundan turer. Iki kitleye birden hitap eder: 'customer_*' alanlari musteriye, digerleri teknik ekibe. 'business_case', 'competitive_analysis', 'market_impact', 'swot', 'team_members', 'traction', 'marketing_strategy', 'cost_estimate', 'deadline', 'growth_projection' ve 'slogan' teknik olarak opsiyoneldir ama pitch deck'te varsayilan olarak beklenir — discovery sirasinda aktif olarak arastirilip doldurulmalidir, sadece gercekten imkansizsa atlanir. 'marketing_strategy.ai_tools' ozellikle cabuk eskir — plan.json'daki ornek deger degil, uretim aninda WebSearch ile taze arastirma esas alinmalidir.",
+  "_comment": "plan.json — roadmap'in tek veri kaynagi. roadmap.md, sunum, gorseller ve kapasite hesabi bundan turer. Iki kitleye birden hitap eder: 'customer_*' alanlari musteriye, digerleri teknik ekibe. 'business_case', 'competitive_analysis', 'market_impact', 'swot', 'traction', 'marketing_strategy', 'cost_estimate', 'deadline', 'growth_projection' ve 'slogan' teknik olarak opsiyoneldir ama pitch deck'te varsayilan olarak beklenir — discovery sirasinda aktif olarak arastirilip doldurulmalidir, sadece gercekten imkansizsa atlanir. 'marketing_strategy.ai_tools' ozellikle cabuk eskir — plan.json'daki ornek deger degil, uretim aninda WebSearch ile taze arastirma esas alinmalidir. 'team_members' bunlardan FARKLI: varsayilan degildir, SADECE gercek/dogrulanmis kisi bilgisi varsa doldurulur — yoksa 'Ekip' slaydi otomatik hesaplanan ekip buyuklugu onerisini (team_size_scenarios) kullanir, isim gerekmez.",
   "project": "Cok kiracili SaaS gecisi",
   "goal": "Kurumsal musterilere ayri kurulum yapmadan satabilmek",
   "slogan": {
@@ -82,18 +82,7 @@
       "Kurumsal musterilerin satin alma sureci beklenenden uzun surebilir"
     ]
   },
-  "team_members": [
-    {
-      "name": "Ada Yilmaz",
-      "role": "Kurucu Ortak / Urun",
-      "highlight": "5 yil kurumsal SaaS deneyimi, onceki girisiminde 50+ kurumsal musteriyle calisti"
-    },
-    {
-      "name": "Baris Kaya",
-      "role": "Kurucu Ortak / Muhendislik",
-      "highlight": "Cok kiracili mimarilerde 6 yil backend deneyimi"
-    }
-  ],
+  "_comment_team_members": "team_members SADECE gercek, dogrulanmis kisiler icin doldurulur — isim uydurmak yasak. Bu yuzden template'te ornek deger YOK. Isimli kisi bilgisi yoksa 'Ekip' slaydi otomatik olarak team_size_scenarios'tan (asagida, plan_capacity.py hesaplar) turer — bkz. references/discovery.md.",
   "traction": {
     "metrics": [
       {"label": "Pilot kurumsal musteri", "value": "3"},

@@ -75,11 +75,13 @@ footer: '{{Proje adı}} · {{tarih}}'
 ---
 
 <!-- _class: visual -->
-<!-- team_members doluysa bu slayt kalır, degilse tamamen sil -->
+<!-- VARSAYILAN: team_size.svg (isim gerektirmez, her zaman uretilir).
+     SADECE gercek/dogrulanmis kisiler varsa team_members doldurulur ve
+     bu gorsel team.svg ile degistirilir (asla isim uydurma). -->
 
 ## Ekip
 
-![](assets/team.svg)
+![](assets/team_size.svg)
 
 ---
 

@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.11.0
+
+- **"Ekip" slaydı artık isim uydurmuyor.** `team_members` yalnızca kullanıcının verdiği
+  gerçek isimlerle doldurulur — hiçbir zaman otomatik/uydurma isim yazılmaz. Bu alan
+  boşken "Ekip" slaydı boş kalmaz: `plan_capacity.py`'nin toplam effort ve kritik yoldan
+  hesapladığı, **isim gerektirmeyen** bir ekip büyüklüğü önerisi (1-3 / 3-5 / 5+ kişi
+  karşılaştırması, süre ve sınırlayan faktörle) devreye girer — yeni `team_size.svg`,
+  her zaman üretilir. `team.svg` (isimli kart dizisi) artık sadece gerçek isim varsa
+  ek olarak üretilir.
+- **`ad_creative.svg` tamamen yeniden tasarlandı** — düz renkli bir kutu yerine gerçek
+  bir sosyal medya reklamı gibi: profil başlığı (avatar + marka adı + "Sponsorlu"),
+  gradyanlı görsel alanı (doku + rozet ikonu + başlık), CTA çubuğu, etkileşim satırı
+  (sahte sayı yok, sadece arayüz) ve alt yazı. Artık "tasarlanmamış" değil, gerçek bir
+  reklam kartı hissi veriyor.
+- `plan.template.json`'daki uydurma ekip isimleri (Ada Yılmaz, Barış Kaya) kaldırıldı.
+
 ## 0.10.0
 
 - **Ekip (`team_members`)** — yeni alan: ekip üyeleri, rol, doğrulanabilir deneyim/başarı

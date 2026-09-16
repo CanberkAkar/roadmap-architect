@@ -167,17 +167,23 @@ Müşteri fikrin sadece kendi ofisinde değil, gerçek bir pazarda karşılığ�
 
 `render_visuals.py` bunu `market_impact.svg` (iki panelli, örnekli kart görseli) olarak çizer; yalnızca `turkey` veya `global` alanlarından biri bile doluysa görsel üretilir.
 
-## Ekip ve Traction — varsayılan olarak doldur
+## Ekip ve Traction
 
-**Ekip** — özellikle SWOT'ta "küçük ekip" veya "referans yok" gibi bir zayıf yön çıktıysa, bunu dengeleyen somut bir karşı ağırlıktır. Her üye için gerçek bir deneyim/başarı cümlesi yaz — "yetenekli ekip" gibi boş sıfatlar değil, "X yıl Y alanında, önceki işinde Z'yi yaptı" gibi doğrulanabilir bir cümle.
+**Ekip — isim uydurmak kesinlikle yasak.** Kullanıcı sana gerçek, doğrulanmış kişi isimleri vermediyse `team_members` alanını **doldurma**. "Ada Yılmaz, 5 yıl deneyim" gibi inandırıcı görünen bir örnek bile olsa, gerçek olmayan bir isim yazmak müşteriye/yatırımcıya yalan söylemektir — bu skill'in tüm güvenilirlik ilkesine (WebSearch ile doğrulanmış rakip/pazar verisi, dürüst SWOT, vb.) aykırıdır.
+
+Bunun yerine **varsayılan olan**, isim gerektirmeyen bir analizdir: proje kaç kişilik bir ekiple en verimli yürür? Bu, `plan_capacity.py`'nin zaten hesapladığı toplam effort ve kritik yoldan **otomatik türetilir** — sen hiçbir şey yazmazsın, doldurman gereken bir alan yoktur. 1-3 / 3-5 / 5+ kişi senaryolarını karşılaştırıp süresi en kısa olan en küçük ekibi önerir (daha büyük ekip kritik yolu kısaltmıyorsa sadece maliyet demektir — bu skill'in "kişi eklemek süreyi kısaltmaz" ilkesiyle birebir tutarlı). `render_visuals.py` bunu her zaman `team_size.svg` olarak çizer, "Ekip" slaydının varsayılan içeriği budur.
+
+`team_members` sadece şu durumda doldurulur: kullanıcı sana **gerçek kurucu/ekip isimlerini kendi ağzıyla verdiyse**. O zaman her üye için doğrulanabilir bir deneyim cümlesi yaz ("yetenekli ekip" gibi boş sıfat değil, "X yıl Y alanında, önceki işinde Z'yi yaptı"):
 
 ```json
 "team_members": [
-  {"name": "<isim>", "role": "<rol>", "highlight": "<somut deneyim/başarı cümlesi>"}
+  {"name": "<kullanıcının verdiği gerçek isim>", "role": "<rol>", "highlight": "<somut deneyim/başarı cümlesi>"}
 ]
 ```
 
-**Traction** — `growth_projection` **gelecek tahminidir**; traction **şu anki gerçek kanıttır** — ikisi farklı işe hizmet eder, biri diğerinin yerine geçmez. Pilot kullanıcı sayısı, bekleme listesi, niyet mektubu (LOI), varsa gerçek bir kullanıcı alıntısı. Veri yoksa alan tamamen boş kalır — "henüz traction yok" diye bir kart uydurma, sadece atla.
+Bu alan doluysa `team.svg` (isimli kart dizisi) üretilir ve deck'teki "Ekip" slaydı `team_size.svg` yerine bunu kullanır.
+
+**Traction** — `growth_projection` **gelecek tahminidir**; traction **şu anki gerçek kanıttır** — ikisi farklı işe hizmet eder, biri diğerinin yerine geçmez. Pilot kullanıcı sayısı, bekleme listesi, niyet mektubu (LOI), varsa gerçek bir kullanıcı alıntısı — bunlar da kullanıcının sana verdiği gerçek verilerdir, uydurma. Veri yoksa alan tamamen boş kalır — "henüz traction yok" diye bir kart uydurma, sadece atla.
 
 ```json
 "traction": {
@@ -186,7 +192,7 @@ Müşteri fikrin sadece kendi ofisinde değil, gerçek bir pazarda karşılığ�
 }
 ```
 
-`render_visuals.py` bunları `team.svg` (kart dizisi) ve `traction.svg` (stat kartları + alıntı) olarak çizer.
+`render_visuals.py` bunu `traction.svg` (stat kartları + alıntı) olarak çizer.
 
 **İşletme gideri** — proje bittikten sonra sistemin **çalışır tutulmasının** aylık maliyeti: sunucu/hosting, üçüncü parti servisler (e-posta, SMS, izleme), reklam/pazarlama, lisans ücretleri. Tek seferlik kurulum maliyeti ayrı bir kalemdir (`one_time`), aylık işletme gideri ayrı (`recurring_monthly`). Kaba tahmindir demekten çekinme — rakam vermemekten daha güvenilirdir.
 
@@ -311,7 +317,8 @@ Roadmap'in en çok tartışma çıkaran kısmı içine alınanlar değil, alınm
 - Global: <pazar büyüklüğü> | özet: <...> | örnekler: <isim, isim>
 
 ## Ekip
-- <isim> → <rol> | <somut deneyim/başarı>
+- Kullanıcı gerçek isim verdiyse: <isim> → <rol> | <somut deneyim/başarı>
+- Vermediyse: ekip büyüklüğü önerisi otomatik hesaplanır, burada yazılacak bir şey yok
 
 ## Traction
 - <metrik>: <değer> | ... | alıntı: "<...>" — <kaynak>

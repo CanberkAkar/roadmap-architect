@@ -20,8 +20,11 @@ Uretilenler (docs/assets/ altina):
                  yoksa atlanir
   swot.svg       SWOT analizi (guclu/zayif/firsat/tehdit), 2x2 renkli panel —
                  plan.json'da "swot" alani varsa uretilir, yoksa atlanir
-  team.svg       Ekip kartlari (isim, rol, guven verici bilgi) — plan.json'da
-                 "team_members" alani varsa uretilir, yoksa atlanir
+  team_size.svg  Ekip buyuklugu onerisi (1-3/3-5/5+ kisi, sure karsilastirmasi)
+                 — isim gerektirmez, is yukunden hesaplanir, her zaman uretilir
+  team.svg       Ekip kartlari (isim, rol, guven verici bilgi) — SADECE gercek
+                 kisiler icin, plan.json'da "team_members" alani varsa uretilir,
+                 yoksa atlanir. Isim uydurmak yasak.
   traction.svg   Mevcut kanit: pilot/LOI/bekleme listesi sayilari + alinti —
                  plan.json'da "traction" alani varsa uretilir, yoksa atlanir
   marketing.svg  Kampanya fikirleri + renk paleti (psikolojik anlamiyla) +
@@ -936,7 +939,9 @@ def render_team(plan, out_dir):
     """Ekip uyelerini kart dizisi olarak cizer (avatar-baslangic harfi, rol,
     tek satirlik guven verici bilgi).
 
-    plan['team_members'] yoksa hicbir dosya yazmadan None doner — opsiyonel.
+    SADECE gercek, dogrulanmis kisiler icin kullanilir — isim uydurmak yasak.
+    plan['team_members'] yoksa hicbir dosya yazmadan None doner — opsiyonel
+    ve varsayilan degil; varsayilan "Ekip" gorseli render_team_size'dir.
     """
     members = plan.get("team_members")
     if not members:
@@ -982,6 +987,68 @@ def render_team(plan, out_dir):
             ty += 16
 
     return write(out_dir, "team.svg", "".join(s))
+
+
+def render_team_size(result, out_dir):
+    """Farkli ekip buyuklugu secenekleri (1-3 / 3-5 / 5+ kisi) icin sureyi
+    karsilastiran sutun grafik — isimli kisi degil, plan.json'daki is
+    yukunden hesaplanan bir oneri. Bu yuzden bu, "Ekip" slaydinin
+    VARSAYILAN gorselidir; uydurma isim riski tasimaz.
+
+    result['team_size_scenarios'] yoksa (plan bos) None doner.
+    """
+    rows = result.get("team_size_scenarios")
+    if not rows:
+        return None
+
+    W = 1240
+    pad, gap = 24, 20
+    n = len(rows)
+    col_w = (W - pad * 2 - (n - 1) * gap) / n
+    bar_max_h = 170
+    top = 84
+    H = top + bar_max_h + 110
+
+    peak = max(r["duration_days"] for r in rows) or 1
+
+    s = [svg_open(W, H, "Ekip büyüklüğü önerisi")]
+    s.append(text_el(pad, 28, "Kaç kişilik ekip bu projeye uygun?", 16, "700", INK))
+    s.append(text_el(pad, 50, "Süre, toplam iş yükü ve kritik yoldan hesaplanır — tahmin değil.",
+                     12, "400", MUTED))
+
+    for i, r in enumerate(rows):
+        x = pad + i * (col_w + gap)
+        color = OK if r["recommended"] else ACCENT
+        bx = x + col_w / 2 - 30
+
+        s.append(f'<rect x="{x:.1f}" y="{top}" width="{col_w:.1f}" height="{bar_max_h + 26}" '
+                 f'rx="12" fill="{BG_SOFT}" stroke="{LINE}"/>')
+
+        badge_y = top + 16
+        if r["recommended"]:
+            s.append(text_el(x + col_w / 2, badge_y, "ÖNERİLEN", 10.5, "700", OK, anchor="middle"))
+        else:
+            s.append(text_el(x + col_w / 2, badge_y, " ", 10.5, "700", MUTED, anchor="middle"))
+
+        base_y = top + bar_max_h + 4
+        bar_h = bar_max_h * 0.7 * (r["duration_days"] / peak)
+        by = base_y - bar_h
+        s.append(f'<rect x="{bx:.1f}" y="{by:.1f}" width="60" height="{bar_h:.1f}" '
+                 f'rx="8" fill="{color}"/>')
+        s.append(text_el(x + col_w / 2, by - 10, f"{r['duration_days']:g} gün",
+                         13.5, "700", color, anchor="middle"))
+
+        s.append(text_el(x + col_w / 2, top + bar_max_h + 46, r["label"],
+                         14.5, "700", INK, anchor="middle"))
+        s.append(text_el(x + col_w / 2, top + bar_max_h + 66,
+                         f"{r['min_sprints']} sprint · {r['binding']} sınırlıyor",
+                         10.5, "400", MUTED, anchor="middle"))
+
+    s.append(text_el(pad, H - 10,
+                     "Kritik yol sınırlıyorsa daha büyük ekip süreyi kısaltmaz — sadece maliyeti artırır.",
+                     11, "400", MUTED))
+
+    return write(out_dir, "team_size.svg", "".join(s))
 
 
 def render_traction(plan, out_dir):
@@ -1136,8 +1203,10 @@ def render_marketing(plan, out_dir):
 
 
 def render_ad_creative(plan, out_dir):
-    """Onerilen renk paleti ve icerik tarziyla ornek bir reklam karti
-    (mockup) cizer — soyut aciklama degil, somut bir gorsel.
+    """Onerilen renk paleti ve icerik tarziyla, gercek bir sosyal medya
+    reklami gibi tasarlanmis bir mockup cizer (profil basligi, gradyanli
+    gorsel alani, rozet ikonu, CTA cubugu, etkilesim satiri) — duz renkli
+    bir kutu degil, somut ve "tasarlanmis" hissettiren bir gorsel.
 
     plan['marketing_strategy']['color_palette'] yoksa hicbir dosya yazmadan
     None doner — opsiyonel.
@@ -1147,30 +1216,88 @@ def render_ad_creative(plan, out_dir):
     if not palette:
         return None
 
+    project = plan.get("project", "Proje")
+    brand = project.split("—")[0].split("-")[0].strip()[:24]
     slogan = (plan.get("slogan") or {}).get("chosen") or plan.get("goal", "")
+    caption = (plan.get("business_case") or {}).get("expected_impact") or slogan
     primary = palette[0]
+    secondary = palette[1] if len(palette) > 1 else {"hex": INK}
+    p_hex = primary.get("hex", ACCENT)
+    s_hex = secondary.get("hex", INK)
 
-    W, H = 1240, 440
-    card_w, card_h = 420, 400
+    card_w = 400
+    header_h = 54
+    img_h = 300
+    cta_h = 46
+    action_h = 34
+    cap_chars = max(10, int((card_w - 40) / 6.2))
+    cap_lines = wrap(caption, cap_chars, 2)
+    cap_h = len(cap_lines) * 17 + 20
+    card_h = header_h + img_h + cta_h + action_h + cap_h
+
+    W = 1240
+    H = max(card_h + 40, 460)
     cx0, cy0 = 24, 20
+    gid = "adGrad"
 
     s = [svg_open(W, H, "Örnek reklam içeriği")]
+    s.append(f'<defs><linearGradient id="{gid}" x1="0" y1="0" x2="1" y2="1">'
+             f'<stop offset="0%" stop-color="{p_hex}"/>'
+             f'<stop offset="100%" stop-color="{s_hex}"/>'
+             f'</linearGradient></defs>')
 
+    # kart govdesi
     s.append(f'<rect x="{cx0}" y="{cy0}" width="{card_w}" height="{card_h}" '
-             f'rx="18" fill="{primary.get("hex", ACCENT)}"/>')
+             f'rx="20" fill="#ffffff" stroke="{LINE}"/>')
 
-    ty = cy0 + 56
-    for ln in wrap(slogan, 21, 3):
-        s.append(text_el(cx0 + 28, ty, ln, 25, "800", "#ffffff"))
-        ty += 33
+    # profil basligi
+    hx, hy = cx0 + 18, cy0 + header_h / 2
+    s.append(f'<circle cx="{hx + 16:.1f}" cy="{hy:.1f}" r="16" fill="{p_hex}"/>')
+    s.append(text_el(hx + 16, hy + 5, brand[:1].upper(), 13, "700", "#ffffff", anchor="middle"))
+    s.append(text_el(hx + 42, hy - 3, clip(brand, 22), 12.5, "700", INK))
+    s.append(text_el(hx + 42, hy + 13, "Sponsorlu", 10, "400", MUTED))
+    for k in range(3):
+        s.append(f'<circle cx="{cx0 + card_w - 22 - k * 8:.1f}" cy="{hy:.1f}" r="2" fill="{MUTED}"/>')
 
-    s.append(f'<rect x="{cx0 + 28}" y="{cy0 + card_h - 66}" width="152" height="42" '
-             f'rx="21" fill="#ffffff"/>')
-    s.append(text_el(cx0 + 104, cy0 + card_h - 40, "Hemen Dene", 13, "700",
-                     primary.get("hex", ACCENT), anchor="middle"))
-    s.append(text_el(cx0 + 28, cy0 + card_h - 16, "reklam görseli önizlemesi",
-                     10.5, "400", "rgba(255,255,255,0.75)"))
+    # gorsel alani (gradyan + doku + rozet + baslik)
+    iy = cy0 + header_h
+    s.append(f'<rect x="{cx0}" y="{iy}" width="{card_w}" height="{img_h}" fill="url(#{gid})"/>')
+    s.append(f'<circle cx="{cx0 + card_w - 40}" cy="{iy + 40}" r="70" fill="rgba(255,255,255,0.10)"/>')
+    s.append(f'<circle cx="{cx0 + 30}" cy="{iy + img_h - 30}" r="90" fill="rgba(255,255,255,0.08)"/>')
 
+    bx, by = cx0 + card_w / 2, iy + 92
+    s.append(f'<circle cx="{bx:.1f}" cy="{by:.1f}" r="34" fill="rgba(255,255,255,0.22)"/>')
+    s.append(f'<circle cx="{bx:.1f}" cy="{by:.1f}" r="24" fill="#ffffff"/>')
+    s.append(f'<path d="M {bx - 11:.1f} {by + 1:.1f} l 8 8 l 16 -17" stroke="{p_hex}" '
+             f'stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>')
+
+    ty = iy + 168
+    for ln in wrap(slogan, 24, 3):
+        s.append(text_el(cx0 + 24, ty, ln, 22, "800", "#ffffff"))
+        ty += 29
+
+    # CTA cubugu
+    cy1 = iy + img_h
+    s.append(f'<rect x="{cx0}" y="{cy1}" width="{card_w}" height="{cta_h}" fill="{INK}"/>')
+    s.append(text_el(cx0 + card_w / 2 - 10, cy1 + cta_h / 2 + 5, "Hemen Dene", 14, "700",
+                     "#ffffff", anchor="middle"))
+    s.append(f'<path d="M {cx0 + card_w / 2 + 62:.1f} {cy1 + cta_h / 2 - 5:.1f} '
+             f'l 7 5 l -7 5" stroke="#ffffff" stroke-width="2.5" fill="none" '
+             f'stroke-linecap="round" stroke-linejoin="round"/>')
+
+    # etkilesim satiri (sahte sayi yok, sadece arayuz)
+    ay = cy1 + cta_h + action_h / 2 + 5
+    s.append(text_el(cx0 + 20, ay, "♥ Beğen", 11.5, "600", MUTED))
+    s.append(text_el(cx0 + 110, ay, "Yorum yap", 11.5, "600", MUTED))
+    s.append(text_el(cx0 + 210, ay, "↗ Paylaş", 11.5, "600", MUTED))
+
+    # alt yazi (caption)
+    cap_y = cy1 + cta_h + action_h + 18
+    for ln in cap_lines:
+        s.append(text_el(cx0 + 20, cap_y, ln, 12, "400", INK))
+        cap_y += 17
+
+    # sag panel: icerik tarzi + palet gerekcesi
     rx = cx0 + card_w + 44
     rw = W - rx - 24
     rchars = max(10, int(rw / 6.6))
@@ -1183,14 +1310,16 @@ def render_ad_creative(plan, out_dir):
         ry += 21
 
     ry += 26
-    s.append(text_el(rx, ry, "NEDEN BU RENK", 12.5, "700", MUTED))
+    s.append(text_el(rx, ry, "RENK PALETİ VE GEREKÇESİ", 12.5, "700", MUTED))
     ry += 26
-    s.append(f'<circle cx="{rx + 8}" cy="{ry - 5}" r="8" fill="{primary.get("hex", ACCENT)}"/>')
-    s.append(text_el(rx + 24, ry, primary.get("name", ""), 13, "700", INK))
-    ry += 20
-    for ln in wrap(primary.get("meaning", ""), rchars, 3):
-        s.append(text_el(rx, ry, ln, 11.5, "400", MUTED))
-        ry += 15
+    for p in palette[:3]:
+        s.append(f'<circle cx="{rx + 8}" cy="{ry - 5}" r="8" fill="{p.get("hex", ACCENT)}"/>')
+        s.append(text_el(rx + 24, ry, p.get("name", ""), 13, "700", INK))
+        ry += 18
+        for ln in wrap(p.get("meaning", ""), rchars - 4, 2):
+            s.append(text_el(rx + 24, ry, ln, 11, "400", MUTED))
+            ry += 15
+        ry += 12
 
     return write(out_dir, "ad_creative.svg", "".join(s))
 
@@ -1236,6 +1365,7 @@ def main():
         render_growth(result, args.out),
         render_market_impact(plan, args.out),
         render_swot(plan, args.out),
+        render_team_size(result, args.out),
         render_team(plan, args.out),
         render_traction(plan, args.out),
         render_marketing(plan, args.out),

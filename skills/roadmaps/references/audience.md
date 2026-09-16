@@ -103,7 +103,7 @@ Pitch bu sırayla ilerlemeli — bir argüman kurar, karar istemeden ikna eder (
 2. **Fırsat** (varsa) → bu neden şimdi, büyüklüğü ne
 3. **Neden biz** (varsa) → alternatiflere karşı somut fark
 4. **SWOT analizi** (varsa) → fikri dört yönden dürüstçe sınıyoruz
-5. **Ekip** (varsa) → bunu kim yapacak, neden güvenilir
+5. **Ekip** → kaç kişilik ekip yeter (varsayılan, her zaman) veya bunu kim yapacak (sadece gerçek isim varsa)
 6. **Traction** (varsa) → bu iş zaten çalıştığını kanıtladı
 7. **Türkiye ve global etki** (varsa) → bu pazarın gerçek karşılığı var, işte örnekler
 8. **Çözüm yol haritası** → müşteri ne zaman ne alıyor (tüm fazlar tek slaytta)
@@ -118,11 +118,12 @@ Kapanışta karar/onay listesi yok — bu bir onay toplama seansı değil, bir i
 
 ## Fırsat, getiri ve teslim güvenilirliği dili
 
-`business_case`, `competitive_analysis`, `swot`, `team_members`, `traction`, `market_impact`, `cost_estimate`, `growth_projection`, `marketing_strategy` ve `deadline`, `plan.json`'a girildiğinde otomatik birer slayt/görsel açar — girilmezse o slaytlar sessizce atlanır, boş bırakılmaz. Bunlar teknik olarak opsiyonel ama pitch'te varsayılan olarak beklenir (`references/discovery.md`).
+`business_case`, `competitive_analysis`, `swot`, `traction`, `market_impact`, `cost_estimate`, `growth_projection`, `marketing_strategy` ve `deadline`, `plan.json`'a girildiğinde otomatik birer slayt/görsel açar — girilmezse o slaytlar sessizce atlanır, boş bırakılmaz. Bunlar teknik olarak opsiyonel ama pitch'te varsayılan olarak beklenir (`references/discovery.md`). `team_members` bunlardan farklı: varsayılan değildir, SADECE gerçek isim varsa doldurulur — "Ekip" slaydı bu alan boşken de hiç boş kalmaz, otomatik hesaplanan ekip büyüklüğü önerisini (`team_size.svg`) gösterir.
 
 - **Fırsat** slaydı zaten müşterinin kendi işiyle ilgili olduğu için ayrıca "müşteri diline çevrilmez" — doğrudan onun terimleriyle yazılır (gelir, aday sayısı, pazar). Rakam yoksa slayttan o kartı çıkar; "bilinmiyor" yazma, icat etme.
 - **SWOT** dürüst olmalı — özellikle "zayıf yönler" ve "tehditler" gerçek olmalı, kozmetik/sahte-mütevazı maddelerle doldurulmamalı ("en büyük zayıf yönümüz çok hızlı büyümemiz" gibi). Zayıf bir SWOT güven kırmaz, sahte bir SWOT kırar — yatırımcı/müşteri gerçek riski görmeden karar veremez.
-- **Ekip** için "yetenekli/tutkulu ekip" gibi boş sıfat yazma — doğrulanabilir bir cümle yaz ("X yıl Y'de çalıştı", "önceki işinde Z'yi yaptı"). Doğrulanamayan bir iddia, hiç yazılmamasından kötüdür.
+- **Ekip büyüklüğü önerisi** ("kaç kişilik ekip yeter") tamamen hesaplanmış veridir, iddia değil — "3-5 kişi öneriyoruz" derken dayanağı kritik yol ve toplam iş yüküdür, kafadan atılmış bir sayı değil.
+- **İsimli ekip** (`team_members` doluysa) için "yetenekli/tutkulu ekip" gibi boş sıfat yazma — doğrulanabilir bir cümle yaz ("X yıl Y'de çalıştı", "önceki işinde Z'yi yaptı"). Doğrulanamayan bir iddia, hiç yazılmamasından kötüdür. Kullanıcı gerçek isim vermediyse bu alanı **asla** kendin uydurma — "Ekip" slaydı isim olmadan da (`team_size.svg` ile) tam ve anlamlı kalır.
 - **Traction** sadece gerçekleşmiş veriyi taşır — hedefi/tahmini traction gibi sunma, o zaten `growth_projection`'ın işi. Veri yoksa slayt tamamen kalkar, "henüz yok" yazan bir kart bırakılmaz.
 - **Türkiye ve global etki**'deki örnek isimler gerçek olmalı — WebSearch ile bulunamayan bir şirket/girişim adını icat etme. Bulamazsan o bölümü örneksiz bırak ("pazar büyüklüğü" ve "özet" yine de kalabilir), yoksa sunumun tamamının güvenilirliği sorgulanır.
 - **Pazarlama stratejisi**'ndeki AI araç isimleri çabuk eskir — WebSearch ile o an güncel olanı bul, önceki bir üretimden kopyalama. Renk paleti açıklamaları ("bu renk neyi tetikler") iddialı değil, yerleşik pazarlama psikolojisi kalıplarına dayanmalı.

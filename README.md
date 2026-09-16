@@ -44,7 +44,7 @@ Komut kullanmadan da çalışır — "şu projeyi nasıl planlarız", "bu işi k
 | `docs/roadmap.md` | Referans doküman, changelog'lu, diff'lenebilir |
 | `docs/roadmap-deck.md` | Sunum kaynağı (Marp) |
 | `docs/roadmap-deck.pdf` | Müşteri sunumu, görselli |
-| `docs/assets/*.svg` | Otomatik üretilen beş görsel (+ opsiyonel `deadline.svg`, `cost.svg`, `growth.svg`, `market_impact.svg`, `swot.svg`, `team.svg`, `traction.svg`, `marketing.svg`, `ad_creative.svg`) |
+| `docs/assets/*.svg` | Otomatik üretilen altı görsel (`team_size.svg` dahil, isim gerekmez) + opsiyonel `deadline.svg`, `cost.svg`, `growth.svg`, `market_impact.svg`, `swot.svg`, `traction.svg`, `marketing.svg`, `ad_creative.svg`, `team.svg` (sadece gerçek isim varsa) |
 | `docs/sprints.md` | Sprint kartları |
 
 ```bash
@@ -80,7 +80,7 @@ Sadeleştirme saklamak değildir: riskler, effort belirsizliği, müşteriden be
 | `business_case` | Problem, fırsat, beklenen etki, yapılmazsa | "Fırsat" slaydı/bölümü |
 | `competitive_analysis` | Rakip başına fiyat, pazar konumu, güçlü/zayıf yanlar + bizim farkımız | "Neden biz" slaydı/bölümü |
 | `swot` | Güçlü/zayıf yönler, fırsatlar/tehditler — dürüst | `swot.svg` (2x2 panel) |
-| `team_members` | Ekip, rol, doğrulanabilir deneyim | `team.svg` (kart dizisi) |
+| `team_members` *(sadece gerçek isim varsa — asla uydurma)* | Ekip, rol, doğrulanabilir deneyim | `team.svg` (kart dizisi) |
 | `traction` | Gerçekleşmiş kanıt: pilot/LOI/bekleme listesi/alıntı | `traction.svg` (stat + alıntı) |
 | `market_impact` | Türkiye ve global pazar büyüklüğü, isimli örnek girişimler/şirketler | `market_impact.svg` (iki panel) |
 | `cost_estimate` | Kurulum + aylık işletme gideri (sunucu, reklam, vb.) | `cost.svg` (pasta grafik) + toplam hesabı |
@@ -104,7 +104,8 @@ python3 skills/roadmaps/scripts/plan_capacity.py plan.json   # Teslim güvenilir
 | `riskmatrix.svg` | Matris + liste | Ters giderse ne olur, nasıl yönetiyoruz? |
 | `capacity.svg` | Çubuk | Neden daha hızlı olmuyor? (ekip içi) |
 | `swot.svg` | **2x2 panel** | Fikir sağlam mı, nereden vurulabilir? (opsiyonel) |
-| `team.svg` | **Kart dizisi** | Bunu kim yapacak, neden güvenilir? (opsiyonel) |
+| `team_size.svg` | **Sütun (3 senaryo)** | Kaç kişilik ekip yeter? (isim gerekmez, her zaman üretilir) |
+| `team.svg` | **Kart dizisi** | Bunu kim yapacak, neden güvenilir? (opsiyonel, sadece gerçek isim varsa) |
 | `traction.svg` | **Stat + alıntı** | Bu iş zaten çalıştığını kanıtladı mı? (opsiyonel) |
 | `market_impact.svg` | **İki panel kart** | Bu pazarın Türkiye ve global karşılığı var mı? (opsiyonel) |
 | `deadline.svg` | Gauge | Bu tarihe yetişir mi? (opsiyonel) |

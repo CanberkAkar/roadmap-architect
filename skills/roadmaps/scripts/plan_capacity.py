@@ -423,6 +423,53 @@ def growth_summary(plan):
 
 
 # --------------------------------------------------------------------------
+# Ekip buyuklugu onerisi
+# --------------------------------------------------------------------------
+
+TEAM_SIZE_BUCKETS = [("1-3 kişi", 2), ("3-5 kişi", 4), ("5+ kişi", 7)]
+
+
+def team_size_scenarios(plan, total_effort, crit_len, sprint_days):
+    """Farkli ekip buyuklugu secenekleri icin sureyi karsilastirir.
+
+    Isimli kisi bilgisi GEREKTIRMEZ — sadece plan.json'daki toplam effort ve
+    kritik yoldan turetilir, bu yuzden asla uydurma veri icermez. "Ekip"
+    slaydinin varsayilan icerigi budur; isimli roster (team_members) sadece
+    gercek, dogrulanmis kisiler varsa ayrica eklenir.
+    """
+    if not sprint_days or total_effort <= 0:
+        return None
+
+    focus = float((plan.get("team") or {}).get("focus_factor", DEFAULT_FOCUS))
+    min_by_critical = math.ceil(crit_len / sprint_days) if sprint_days else 0
+
+    rows = []
+    for label_, people in TEAM_SIZE_BUCKETS:
+        capacity = people * sprint_days * focus
+        min_by_capacity = math.ceil(total_effort / capacity) if capacity else 0
+        min_sprints = max(min_by_capacity, min_by_critical)
+        rows.append({
+            "label": label_,
+            "people": people,
+            "min_sprints": min_sprints,
+            "duration_days": round(min_sprints * sprint_days, 1),
+            "binding": "kritik yol" if min_by_critical >= min_by_capacity else "kapasite",
+        })
+
+    floor_duration = min(r["duration_days"] for r in rows)
+    recommended_set = False
+    for r in rows:
+        r["at_floor"] = r["duration_days"] <= floor_duration
+        if r["at_floor"] and not recommended_set:
+            r["recommended"] = True
+            recommended_set = True
+        else:
+            r["recommended"] = False
+
+    return rows
+
+
+# --------------------------------------------------------------------------
 # Ana hesap
 # --------------------------------------------------------------------------
 
@@ -511,6 +558,7 @@ def analyse(plan, estimate):
         "growth": growth_summary(plan),
         "market_impact": plan.get("market_impact"),
         "swot": plan.get("swot"),
+        "team_size_scenarios": team_size_scenarios(plan, total, crit_len, sprint_days),
         "team_members": plan.get("team_members"),
         "traction": plan.get("traction"),
         "marketing_strategy": plan.get("marketing_strategy"),
@@ -623,8 +671,16 @@ def render(r, items_lookup):
                 L.append(f"    - {it}")
         L.append("")
 
+    if r.get("team_size_scenarios"):
+        L.append("## Ekip büyüklüğü önerisi")
+        for row in r["team_size_scenarios"]:
+            mark = " <<< ÖNERİLEN" if row["recommended"] else ""
+            L.append(f"  {row['label']:<10} {row['duration_days']:>6g} gün "
+                     f"({row['min_sprints']} sprint) — {row['binding']} sınırlıyor{mark}")
+        L.append("")
+
     if r.get("team_members"):
-        L.append("## Ekip")
+        L.append("## Ekip (isimli)")
         for m in r["team_members"]:
             L.append(f"  {m.get('name', '')} — {m.get('role', '')}")
             if m.get("highlight"):
