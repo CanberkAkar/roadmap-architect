@@ -36,6 +36,21 @@
 
 **Bizim farkımız:** {{somut fark 1}} · {{somut fark 2}} · {{somut fark 3}}
 
+<!-- market_impact plan.json'da doluysa bu bölüm kalır, degilse tamamen sil -->
+## Türkiye ve global etki
+
+**Türkiye** — {{pazar büyüklüğü}}
+{{özet: bugün pazarda ne durumda}}
+- {{örnek girişim/şirket 1}}
+- {{örnek girişim/şirket 2}}
+
+**Global** — {{pazar büyüklüğü}}
+{{özet: global pazarda ne durumda}}
+- {{örnek şirket 1}}
+- {{örnek şirket 2}}
+
+**Kaynak/varsayım:** {{market_impact.notes}}
+
 <!-- cost_estimate plan.json'da doluysa bu bölüm kalır, degilse tamamen sil -->
 ## İşletme gideri
 

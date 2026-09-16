@@ -15,6 +15,9 @@ Uretilenler (docs/assets/ altina):
   growth.svg     Hayata gectikten sonra 3/6/12 aylik birikmis musteri ve gelir,
                  sutun grafik — plan.json'da "growth_projection" alani varsa
                  uretilir, yoksa atlanir
+  market_impact.svg  Turkiye ve global pazar etkisi, ornek girisimlerle iki
+                 panel — plan.json'da "market_impact" alani varsa uretilir,
+                 yoksa atlanir
 
 Kullanim:
     python3 render_visuals.py plan.json --out docs/assets
@@ -772,6 +775,87 @@ def render_growth(result, out_dir):
     return write(out_dir, "growth.svg", "".join(s))
 
 
+def render_market_impact(plan, out_dir):
+    """Turkiye ve global pazar etkisini iki panelde, ornek girisimlerle cizer.
+
+    plan['market_impact'] yoksa (plan.json'da alan girilmemis) hicbir dosya
+    yazmadan None doner — bu gorsel opsiyoneldir. Panel yuksekligi, journey.svg
+    ile ayni derste: sabit y-koordinati degil, gercek icerige gore hesaplanir —
+    yoksa uzun ornek listeleri alt alta binebilir.
+    """
+    mi = plan.get("market_impact")
+    if not mi or not (mi.get("turkey") or mi.get("global")):
+        return None
+
+    W = 1240
+    pad = 24
+    panel_w = (W - pad * 3) / 2
+    body_chars = max(10, int(panel_w / 6.6))
+    size_chars = max(10, int(panel_w / 13.5))
+    ex_chars = max(10, int((panel_w - 40) / 6.8))
+
+    def prep(data):
+        size_lines = wrap(data.get("market_size", ""), size_chars, 2) if data.get("market_size") else []
+        summary_lines = wrap(data.get("summary", ""), body_chars, 3) if data.get("summary") else []
+        examples = [wrap(ex, ex_chars, 2) for ex in (data.get("examples") or [])[:3]]
+        return size_lines, summary_lines, examples
+
+    tr = mi.get("turkey") or {}
+    gl = mi.get("global") or {}
+    tr_size, tr_summary, tr_examples = prep(tr)
+    gl_size, gl_summary, gl_examples = prep(gl)
+
+    def panel_height(size_lines, summary_lines, examples):
+        y = 44 + len(size_lines) * 30  # baslik + market_size (varsa cok satirli)
+        y += len(summary_lines) * 18 + (10 if summary_lines else 0)
+        if examples:
+            y += 20
+            for ex_lines in examples:
+                y += len(ex_lines) * 15 + 6
+        return y + 24
+
+    H = max(panel_height(tr_size, tr_summary, tr_examples),
+            panel_height(gl_size, gl_summary, gl_examples),
+            200) + 40
+
+    s = [svg_open(W, H, "Türkiye ve global etki")]
+
+    def panel(x0, title, data, size_lines, summary_lines, examples, color):
+        s.append(f'<rect x="{x0}" y="20" width="{panel_w:.1f}" height="{H - 40}" '
+                 f'rx="14" fill="{BG_SOFT}" stroke="{LINE}"/>')
+        s.append(f'<rect x="{x0}" y="20" width="{panel_w:.1f}" height="6" '
+                 f'rx="3" fill="{color}"/>')
+        cx = x0 + 24
+        cy = 58
+        s.append(text_el(cx, cy, title, 16, "700", color))
+        for ln in size_lines:
+            cy += 30
+            s.append(text_el(cx, cy, ln, 22, "700", INK))
+        cy += 26
+        for ln in summary_lines:
+            s.append(text_el(cx, cy, ln, 13, "400", INK))
+            cy += 18
+        if examples:
+            cy += 10
+            s.append(text_el(cx, cy, "ÖRNEKLER", 10, "700", MUTED))
+            cy += 20
+            raw_examples = (data.get("examples") or [])[:3]
+            for ex_lines in examples:
+                s.append(f'<circle cx="{cx + 3}" cy="{cy - 4}" r="3" fill="{color}"/>')
+                for j, ln in enumerate(ex_lines):
+                    s.append(text_el(cx + 15, cy + j * 15, ln, 12,
+                                     "600" if j == 0 else "400", INK))
+                cy += len(ex_lines) * 15 + 6
+
+    panel(pad, "Türkiye", tr, tr_size, tr_summary, tr_examples, ACCENT)
+    panel(pad * 2 + panel_w, "Global", gl, gl_size, gl_summary, gl_examples, OK)
+
+    if mi.get("notes"):
+        s.append(text_el(pad, H - 12, clip(mi["notes"], 140), 11, "400", MUTED))
+
+    return write(out_dir, "market_impact.svg", "".join(s))
+
+
 # --------------------------------------------------------------------------
 
 def main():
@@ -811,6 +895,7 @@ def main():
         render_deadline(result, args.out),
         render_cost(result, args.out),
         render_growth(result, args.out),
+        render_market_impact(plan, args.out),
     ]
     for p in made:
         if p:

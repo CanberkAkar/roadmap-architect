@@ -44,7 +44,7 @@ Komut kullanmadan da çalışır — "şu projeyi nasıl planlarız", "bu işi k
 | `docs/roadmap.md` | Referans doküman, changelog'lu, diff'lenebilir |
 | `docs/roadmap-deck.md` | Sunum kaynağı (Marp) |
 | `docs/roadmap-deck.pdf` | Müşteri sunumu, görselli |
-| `docs/assets/*.svg` | Otomatik üretilen beş görsel (+ opsiyonel `deadline.svg`, `cost.svg`, `growth.svg`) |
+| `docs/assets/*.svg` | Otomatik üretilen beş görsel (+ opsiyonel `deadline.svg`, `cost.svg`, `growth.svg`, `market_impact.svg`) |
 | `docs/sprints.md` | Sprint kartları |
 
 ```bash
@@ -70,15 +70,16 @@ npx --yes @marp-team/marp-cli@latest docs/roadmap-deck.md \
 
 Sadeleştirme saklamak değildir: riskler, effort belirsizliği, müşteriden beklenenler ve kapsam dışı listesi müşteri görünümünde de aynen durur. Kurallar ve teknik terim → müşteri dili çeviri tablosu `references/audience.md` içinde.
 
-## İş değeri, rakip analizi, deadline, maliyet ve büyüme
+## İş değeri, rakip analizi, pazar etkisi, deadline, maliyet ve büyüme
 
-`plan.json`'a bu alanlar eklenirse sunumda ve `roadmap.md`'de otomatik birer bölüm/slayt açılır. Teknik olarak opsiyoneldir ama pitch deck'te **varsayılan olarak beklenir** — discovery sırasında aktif olarak doldurulur, sadece gerçekten imkansızsa boş kalır ve o zaman ilgili slayt/görsel sessizce atlanır:
+`plan.json`'a bu alanlar eklenirse sunumda ve `roadmap.md`'de otomatik birer bölüm/slayt açılır. Teknik olarak opsiyoneldir ama pitch deck'te **varsayılan olarak beklenir** — discovery sırasında aktif olarak (gerekirse WebSearch ile) doldurulur, sadece gerçekten imkansızsa boş kalır ve o zaman ilgili slayt/görsel sessizce atlanır:
 
 | Alan | Ne anlatır | Otomatik çıktı |
 |---|---|---|
-| `slogan` | Seçilen slogan + alternatifler | Kapak slaydı |
+| `slogan` | Seçilen slogan + alternatifler | Kapak ve kapanış slaydı |
 | `business_case` | Problem, fırsat, beklenen etki, yapılmazsa | "Fırsat" slaydı/bölümü |
-| `competitive_analysis` | Benzer ürünler/alternatifler + bizim farkımız | "Neden biz" slaydı/bölümü |
+| `competitive_analysis` | Rakip başına fiyat, pazar konumu, güçlü/zayıf yanlar + bizim farkımız | "Neden biz" slaydı/bölümü |
+| `market_impact` | Türkiye ve global pazar büyüklüğü, isimli örnek girişimler/şirketler | `market_impact.svg` (iki panel) |
 | `cost_estimate` | Kurulum + aylık işletme gideri (sunucu, reklam, vb.) | `cost.svg` (pasta grafik) + toplam hesabı |
 | `growth_projection` | 3/6/12 ay sonra birikmiş müşteri sayısı ve gelir | `growth.svg` (sütun grafik) |
 | `deadline` | Elinizdeki süre, neden bu tarih | `deadline.svg` + teslim güvenilirliği hesabı |
@@ -98,6 +99,7 @@ python3 skills/roadmaps/scripts/plan_capacity.py plan.json   # Teslim güvenilir
 | `depgraph.svg` | Ağ diyagramı | Neden bu sırayla? (ekip içi) |
 | `riskmatrix.svg` | Matris + liste | Ters giderse ne olur, nasıl yönetiyoruz? |
 | `capacity.svg` | Çubuk | Neden daha hızlı olmuyor? (ekip içi) |
+| `market_impact.svg` | **İki panel kart** | Bu pazarın Türkiye ve global karşılığı var mı? (opsiyonel) |
 | `deadline.svg` | Gauge | Bu tarihe yetişir mi? (opsiyonel) |
 | `cost.svg` | **Pasta (donut)** | Bu sistemin işletme gideri ne? (opsiyonel) |
 | `growth.svg` | **Sütun (çift panel)** | Bu iş büyür mü, ne kadar? (opsiyonel) |

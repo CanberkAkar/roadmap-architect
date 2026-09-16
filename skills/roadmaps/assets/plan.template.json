@@ -1,5 +1,5 @@
 {
-  "_comment": "plan.json — roadmap'in tek veri kaynagi. roadmap.md, sunum, gorseller ve kapasite hesabi bundan turer. Iki kitleye birden hitap eder: 'customer_*' alanlari musteriye, digerleri teknik ekibe. 'business_case', 'competitive_analysis', 'cost_estimate', 'deadline', 'growth_projection' ve 'slogan' teknik olarak opsiyoneldir ama pitch deck'te varsayilan olarak beklenir — discovery sirasinda aktif olarak arastirilip doldurulmalidir, sadece gercekten imkansizsa atlanir.",
+  "_comment": "plan.json — roadmap'in tek veri kaynagi. roadmap.md, sunum, gorseller ve kapasite hesabi bundan turer. Iki kitleye birden hitap eder: 'customer_*' alanlari musteriye, digerleri teknik ekibe. 'business_case', 'competitive_analysis', 'market_impact', 'cost_estimate', 'deadline', 'growth_projection' ve 'slogan' teknik olarak opsiyoneldir ama pitch deck'te varsayilan olarak beklenir — discovery sirasinda aktif olarak arastirilip doldurulmalidir, sadece gercekten imkansizsa atlanir.",
   "project": "Cok kiracili SaaS gecisi",
   "goal": "Kurumsal musterilere ayri kurulum yapmadan satabilmek",
   "slogan": {
@@ -44,6 +44,25 @@
       "Musterinin mevcut kimlik saglayicisiyla dogrudan entegre, ekstra lisans gerekmiyor",
       "Ozel entegrasyon ve raporlama esnekligi"
     ]
+  },
+  "market_impact": {
+    "turkey": {
+      "market_size": "~2,1 Milyar TL (2026, kurumsal SaaS segmenti)",
+      "summary": "Turkiye'de kurumsal musterilere ozel kurulum yapan az sayida yerel oyuncu var; cogu global cozumu yerlestirmekte zorlaniyor",
+      "examples": [
+        "Yerel Girisim A — Istanbul merkezli, seri A sonrasi kurumsal segmente aciliyor",
+        "Yerel Girisim B — bankacilik sektorune ozel benzer bir cozum sunuyor"
+      ]
+    },
+    "global": {
+      "market_size": "~4,2 Milyar $ (2026, global cok kiracili SaaS altyapi pazari)",
+      "summary": "ABD ve Avrupa'da olgunlasmis bir kategori; Asya-Pasifik'te yillik %18 buyume ile hizlanan bir talep var",
+      "examples": [
+        "Global Oyuncu A (ABD, halka acik) — kategori lideri, kurumsal odakli",
+        "Global Oyuncu B (Avrupa, unicorn) — KOBI segmentinden kurumsala yeni geciyor"
+      ]
+    },
+    "notes": "Pazar buyuklugu rakamlari sektor raporlarindan yaklasik alinmistir, kesin rakam icin dogrulama onerilir"
   },
   "success_metric": {
     "name": "Yeni kurumsal musteri devreye alma suresi",

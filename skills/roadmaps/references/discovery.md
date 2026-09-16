@@ -35,6 +35,18 @@ Müşterinin söylediği şey ("bir dashboard lazım") ile aslında istediği ş
 
 Bu analiz `business_case`'in (iş değeri) hammaddesidir. Müşteriye "iş değeri" slaydı göstermeyecek olsan bile bu analiz roadmap'in önceliklendirmesini değiştirir: en yüksek iş değerini taşıyan aşama erken faza gelmelidir.
 
+### İş fikrini derinlemesine analiz etmeden faza geçme
+
+Roadmap üretimi bir faz listesi çıkarmaktan ibaret değildir — önce fikrin kendisini sorgula. Aşağıdakileri cevapsız bırakıp faza geçme:
+
+- **Problem gerçek mi, kim hissediyor, ne sıklıkla?** — "birinin işine yarar" yetmez, somut bir kişi/rol ve somut bir an tarif et
+- **Hedef kitle/segment net mi?** — "herkes" bir segment değildir; kim önce, kim sonra
+- **Neden şimdi, neden bu şekilde işe yarayacak?** — zamanlamayı ve yaklaşımı haklı çıkaran ne (teknolojik olgunluk, regülasyon, rakip boşluğu, maliyet düşüşü)
+- **Pazar bağlamı araştırıldı mı?** — Türkiye ve global ölçekte bu fikrin karşılığı var mı (bkz. "Dış dünyayı da araştır" ve aşağıdaki "Türkiye ve global etki")
+- **Alternatifler/rakipler incelendi mi?** — kimse bunu hiç denememişse bu bir bulgudur, nedenini sorgula (pazar yok mu, yoksa henüz kimse denemedi mi)
+
+Bu sorulardan biri cevapsızsa roadmap kağıt üstünde iyi görünüp gerçekte temelsiz kalır. Cevapsız kalan soruyu "açık varsayım" olarak yaz, tahmin ederek kapatma.
+
 ## Netleşmesi gereken üç şey
 
 ### 1. Business hedefi
@@ -107,6 +119,32 @@ Sonra kendi farkını yaz — iddia değil, somut fark ("2 gün vs 3 hafta", "me
 }
 ```
 
+## Türkiye ve global etki — varsayılan olarak doldur
+
+Müşteri fikrin sadece kendi ofisinde değil, gerçek bir pazarda karşılığı olduğunu görmek ister. Türkiye ve global ölçekte ayrı ayrı, örneklerle göster — soyut "büyük bir pazar" ifadesi ikna etmez, somut isim ve rakam ikna eder:
+
+- **Pazar büyüklüğü** — bulabildiğin kadar somut rakam (WebSearch ile), yoksa "bilinmiyor, tahmini yaklaşım: ..." de
+- **Özet** — o pazarda bugün durum ne (oyuncu sayısı, doygunluk, büyüme trendi)
+- **Örnekler** — en az 1-2 isimli girişim/şirket her bölge için (Türkiye'de benzer bir şey yapan, global ölçekte kategori lideri/öne çıkan oyuncu). İsim bulamazsan "bilinen bir örnek bulunamadı" yaz, icat etme.
+
+```json
+"market_impact": {
+  "turkey": {
+    "market_size": "<rakam, kaynağıyla>",
+    "summary": "<Türkiye'de bugün durum>",
+    "examples": ["<isimli girişim/şirket 1>", "<isimli girişim/şirket 2>"]
+  },
+  "global": {
+    "market_size": "<rakam, kaynağıyla>",
+    "summary": "<global pazarda bugün durum>",
+    "examples": ["<isimli şirket 1>", "<isimli şirket 2>"]
+  },
+  "notes": "<rakamların kaynağı/güvenilirlik derecesi>"
+}
+```
+
+`render_visuals.py` bunu `market_impact.svg` (iki panelli, örnekli kart görseli) olarak çizer; yalnızca `turkey` veya `global` alanlarından biri bile doluysa görsel üretilir.
+
 **İşletme gideri** — proje bittikten sonra sistemin **çalışır tutulmasının** aylık maliyeti: sunucu/hosting, üçüncü parti servisler (e-posta, SMS, izleme), reklam/pazarlama, lisans ücretleri. Tek seferlik kurulum maliyeti ayrı bir kalemdir (`one_time`), aylık işletme gideri ayrı (`recurring_monthly`). Kaba tahmindir demekten çekinme — rakam vermemekten daha güvenilirdir.
 
 ```json
@@ -174,8 +212,12 @@ Roadmap'in en çok tartışma çıkaran kısmı içine alınanlar değil, alınm
 - Elinizdeki süre: <gün veya "bilinmiyor"> | Neden bu tarih: <...>
 
 ## Rakip analizi
-- <rakip/alternatif> → iyi yaptığı: <...> | yapamadığı: <...>
+- <rakip/alternatif> → fiyat: <...> | pazar konumu: <...> | iyi yaptığı: <...> | yapamadığı: <...>
 - Bizim farkımız: <somut, iddia değil>
+
+## Türkiye ve global etki
+- Türkiye: <pazar büyüklüğü> | özet: <...> | örnekler: <isim, isim>
+- Global: <pazar büyüklüğü> | özet: <...> | örnekler: <isim, isim>
 
 ## İşletme gideri (aylık)
 - <kalem> → <tahmini tutar> | <varsayım>

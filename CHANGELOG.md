@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.8.0
+
+- **Türkiye ve global etki (`market_impact`)** — yeni alan: pazar büyüklüğü, özet ve
+  isimli örnek girişimler/şirketler, Türkiye ve global için ayrı ayrı. Yeni
+  `market_impact.svg` (iki panelli kart görseli) ve "Türkiye ve global etki" slaydı,
+  "Neden biz"den hemen sonra.
+- **Discovery'ye "İş fikrini derinlemesine analiz et" kontrol listesi eklendi** —
+  faza geçmeden önce problem/hedef kitle/zamanlama/pazar bağlamı/rakip analizi
+  cevaplanmış olmalı; cevapsız kalan açık varsayım olarak yazılır.
+- **"Dış dünyayı da araştır" pekiştirildi** — gerçek bir ürün/şirket söz konusu
+  olduğunda `market_impact` ve `competitive_analysis`'teki örnek isimler WebSearch
+  ile doğrulanmış olmalı, icat edilmemeli.
+- `plan_capacity.py` `market_impact`'i text rapora da basar (hesaplama gerektirmez,
+  düz aktarım).
+
 ## 0.7.0
 
 - **journey.svg metin taşması düzeltildi** — faz kartlarındaki sabit y-koordinatları

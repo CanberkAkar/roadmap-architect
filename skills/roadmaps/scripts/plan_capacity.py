@@ -509,6 +509,7 @@ def analyse(plan, estimate):
         "deadline": deadline,
         "cost": cost_summary(plan),
         "growth": growth_summary(plan),
+        "market_impact": plan.get("market_impact"),
     }
 
 
@@ -588,6 +589,21 @@ def render(r, items_lookup):
             L.append(f"    {m['months_after_launch']:>2g}. ay : "
                      f"{m['customers']:g} müşteri (+{m['customers_added']:g}) · "
                      f"{m['revenue']:g} {cur} (+{m['revenue_added']:g} {cur})")
+        L.append("")
+
+    if r.get("market_impact"):
+        mi = r["market_impact"]
+        L.append("## Türkiye ve global etki")
+        for key, label_ in (("turkey", "Türkiye"), ("global", "Global")):
+            d = mi.get(key)
+            if not d:
+                continue
+            size = f" — {d['market_size']}" if d.get("market_size") else ""
+            L.append(f"  {label_}{size}")
+            if d.get("summary"):
+                L.append(f"    {d['summary']}")
+            for ex in (d.get("examples") or []):
+                L.append(f"    - {ex}")
         L.append("")
 
     L.append("## Agent önerisi")

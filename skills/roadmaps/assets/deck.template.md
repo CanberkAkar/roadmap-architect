@@ -68,6 +68,15 @@ footer: '{{Proje adı}} · {{tarih}}'
 ---
 
 <!-- _class: visual -->
+<!-- market_impact doluysa bu slayt kalır, degilse tamamen sil -->
+
+## Türkiye ve global etki
+
+![](assets/market_impact.svg)
+
+---
+
+<!-- _class: visual -->
 
 ## Çözüm yol haritası
 

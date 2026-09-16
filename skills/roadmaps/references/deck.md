@@ -36,13 +36,14 @@ npx --yes @marp-team/marp-cli@latest docs/roadmap-deck.md \
 |---|---|---|---|
 | `journey.svg` | Kart dizisi | Faz yolculuğu, her aşamanın müşteri çıktısı ve kanıtı | "Ne zaman ne alıyorum?" |
 | `riskmatrix.svg` | Matris + liste | Etki × olasılık, azaltma planıyla | "Riskleri nasıl yönetiyorsunuz?" |
+| `market_impact.svg` | **İki panel kart** | Türkiye ve global pazar büyüklüğü, örnek girişimlerle | "Bu pazarın gerçek karşılığı var mı?" |
 | `deadline.svg` | Gauge (tek çubuk) | Kritik yol vs elinizdeki süre, tampon | "Bu tarihe yetişir mi?" |
 | `cost.svg` | **Pasta (donut)** | Aylık işletme gideri, kalem kalem, yüzde | "Yatırım ve işletme maliyeti ne?" |
 | `growth.svg` | **Sütun (çift panel)** | Hayata geçtikten sonra 3/6/12 ay birikmiş müşteri ve gelir | "Bu iş büyür mü, ne kadar?" |
 
-Grafik türleri kasıtlı olarak çeşitli tutulur (kart, matris, gauge, pasta, sütun) — art arda aynı çubuk grafiği tekrarlamak sunumu monoton gösterir.
+Grafik türleri kasıtlı olarak çeşitli tutulur (kart, matris, kart-panel, gauge, pasta, sütun) — art arda aynı çubuk grafiği tekrarlamak sunumu monoton gösterir.
 
-`deadline.svg` yalnızca `deadline.days_available`, `cost.svg` yalnızca `cost_estimate.recurring_monthly`, `growth.svg` yalnızca `growth_projection.milestones` doluysa üretilir; yoksa sessizce atlanır ve deck'teki karşılık gelen slayt tamamen silinir. Bu üçü ve `competitive_analysis` teknik olarak opsiyoneldir ama **varsayılan olarak beklenir** — discovery'de aktif olarak doldurulmalı, sadece gerçekten imkansızsa atlanır (`references/discovery.md`).
+`deadline.svg` yalnızca `deadline.days_available`, `cost.svg` yalnızca `cost_estimate.recurring_monthly`, `growth.svg` yalnızca `growth_projection.milestones`, `market_impact.svg` yalnızca `market_impact.turkey` veya `market_impact.global` doluysa üretilir; yoksa sessizce atlanır ve deck'teki karşılık gelen slayt tamamen silinir. Bu dördü ve `competitive_analysis` teknik olarak opsiyoneldir ama **varsayılan olarak beklenir** — discovery'de aktif olarak doldurulmalı, sadece gerçekten imkansızsa atlanır (`references/discovery.md`).
 
 `--audience delivery` ile teknik adları kullanan ikinci bir set üretilir; ekip içi çalışma için (timeline/depgraph/capacity dahil tüm görseller).
 
@@ -50,7 +51,7 @@ Görsellerin okunabilirliği `plan.json`'daki metin uzunluklarına bağlı. Faz 
 
 ## Slayt yapısı
 
-Ölçeğe göre 9–14 slayt. Sıra bir argüman kurar — fırsat, çözüm, getiri, güven, kapanış:
+Ölçeğe göre 10–15 slayt. Sıra bir argüman kurar — fırsat, çözüm, getiri, güven, kapanış:
 
 | # | Slayt | Neden burada |
 |---|---|---|
@@ -58,6 +59,7 @@ Görsellerin okunabilirliği `plan.json`'daki metin uzunluklarına bağlı. Faz 
 | 2 | Neden bu proje (metrik kartları) | Problemi rakamla sabitle |
 | 2b | **Fırsat** (`business_case` varsa) | Fırsatın büyüklüğünü ve zamanlamasını rakamla göster |
 | 2c | **Neden biz** (`competitive_analysis` varsa) | Alternatiflere karşı somut farkı göster |
+| 2d | **Türkiye ve global etki** (`market_impact.svg`, `market_impact` varsa) | Pazarın gerçek/somut olduğunu örneklerle göster |
 | 3 | Çözüm yol haritası (`journey.svg`) | Müşteri ne zaman ne alıyor |
 | 4..n | Faz detayları, faz başına bir slayt | Somutlaştır, güven ver |
 | n+1 | **Yatırım ve getiri** (`cost.svg`, `cost_estimate` varsa) | Maliyeti şeffaf koy, beklenen getiriyle yan yana göster |
@@ -66,7 +68,7 @@ Görsellerin okunabilirliği `plan.json`'daki metin uzunluklarına bağlı. Faz 
 | n+4 | **Teslim güvenilirliği** (`deadline.svg`, `deadline` varsa) | Bu tarihe yetişir mi, tamponu ne kadar |
 | n+5 | Sonraki adım | Kapanış — vizyonu ve sloganı tekrar bağla |
 
-1, 2, 3, n+3 ve son slayt zorunlu. 2b, 2c, n+1, n+2 ve n+4 opsiyonel — sırasıyla `plan.json`'da `business_case`, `competitive_analysis`, `cost_estimate`, `growth_projection` ve `deadline` alanları doluysa eklenir, boşsa slayt tamamen silinir (yarım doldurulmuş slayt göstermek boş slayttan kötüdür). Ama bu dördü **varsayılan olarak doldurulması beklenen** alanlardır — "opsiyonel" demek "atla" demek değildir, discovery'de aktif olarak araştır.
+1, 2, 3, n+3 ve son slayt zorunlu. 2b, 2c, 2d, n+1, n+2 ve n+4 opsiyonel — sırasıyla `plan.json`'da `business_case`, `competitive_analysis`, `market_impact`, `cost_estimate`, `growth_projection` ve `deadline` alanları doluysa eklenir, boşsa slayt tamamen silinir (yarım doldurulmuş slayt göstermek boş slayttan kötüdür). Ama bu beşi **varsayılan olarak doldurulması beklenen** alanlardır — "opsiyonel" demek "atla" demek değildir, discovery'de aktif olarak araştır.
 
 Bu deck'te **olmaması gerekenler**: "Bu planda YOK" (kapsam dışı listesi), "Sizden beklenenler" (müşteriden istenen işler listesi), "Bugün karar verilecekler" (karar/onay listesi). Bunların hiçbiri pitch'in işi değil — üçü de `roadmap.md`'de tam olarak durur ve toplantıda soru gelirse oradan sözlü cevaplanır. Deck'e bunlardan birini eklemek istersen önce kendine sor: bu bir onay/itiraz toplama slaytı mı? Öyleyse `roadmap.md`'ye yaz, deck'e koyma.
 
@@ -118,6 +120,7 @@ Renkleri değiştirmen gerekirse `theme.css` içindeki `:root` değişkenlerini 
 | Kapsam dışı / Sizden beklenenler / Kararlar | Tam liste | Yok |
 | Slogan | Seçilen + alternatifler | Sadece seçilen, kapak slaydında |
 | Büyüme projeksiyonu | Tablo, varsayımlarla | `growth.svg`, tek slayt |
+| Türkiye ve global etki | Tam metin, kaynak notuyla | `market_impact.svg`, tek slayt |
 | Changelog | Var | Yok |
 
 Sunumu `roadmap.md`'nin kısaltılmış hâli olarak üretme. Farklı işe hizmet ediyorlar: biri kanıt, biri ikna.
